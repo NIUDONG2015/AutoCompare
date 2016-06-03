@@ -3,10 +3,13 @@ package cn.edu.zufe.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.*;
 import cn.edu.zufe.io.*;
 public class FrameMain extends JFrame implements ActionListener {
+	public LinkedList wellList;
 	static JMenuBar menubar;
 	JMenu menu;
 	JMenuItem miOpen, miSave, miExport, miExit;
@@ -36,11 +39,9 @@ public class FrameMain extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		Data.loadData("data\\数据表.xlsx");
 		// 设置为 windows 的界面风格
 		try {
-			UIManager
-					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -48,19 +49,25 @@ public class FrameMain extends JFrame implements ActionListener {
 		FrameMain fMain = new FrameMain("AutoCompare", 260, 80, 800, 620);
 		fMain.setLayout(null);
 		fMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		SwingUtilities.updateComponentTreeUI(fMain);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == miOpen) {
-			openFile();
+			try {
+				openFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		} else if (e.getSource() == miSave) {
 			System.out.println("Save");
 		}
 	}
 
-	private void openFile() {
+	private void openFile() throws IOException {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
@@ -70,7 +77,7 @@ public class FrameMain extends JFrame implements ActionListener {
 				// 打开文件后的处理
 				System.out.println("文件:" + file.getAbsolutePath());
 				System.out.println(jfc.getSelectedFile().getName());
-				Data.loadData(file.getAbsolutePath());
+				wellList = Data.loadData(file.getAbsolutePath());
 			}
 		}
 	}
