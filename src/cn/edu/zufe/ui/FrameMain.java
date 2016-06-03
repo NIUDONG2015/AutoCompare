@@ -13,20 +13,26 @@ import javax.swing.*;
 
 import processing.core.PApplet;
 import cn.edu.zufe.io.*;
+import cn.edu.zufe.model.*;
+import cn.edu.zufe.drawable.*;
 
 public class FrameMain extends JFrame implements ActionListener {
-	public LinkedList wellList;
-	static JMenuBar menubar;
-	JMenu menu;
-	JMenuItem miOpen, miSave, miExport, miExit;
-	PAppletWellView pWellView;
-	PAppletSC psc;
+	// private LinkedList<Well> wellList;
+	private JMenuBar menubar;
+	private JMenu menu;
+	private JMenuItem miOpen, miSave, miExport, miExit; // 菜单项
+	private PAppletWellView pwv; // 油井视图
+	private PAppletSC psc; // 地层对比图
 
-	public FrameMain(String s, int x, int y, int width, int height) {
+	public FrameMain(String s, int width, int height) {
 		super(s);
-		this.setSize(width, height);
-		this.setLocation(x, y);
-		this.setVisible(true);
+		this.setSize(width, height); // 设置大小
+		this.setLocationRelativeTo(null); // 中央显示窗口
+		// this.setLocation(x, y); // 设置位置
+		this.setVisible(true); // 可见
+		this.setLayout(new FlowLayout()); // 流布局
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 退出时关闭后台进程
+		this.setResizable(false); // 禁用大小缩放
 
 		// 添加菜单项
 		menubar = new JMenuBar();
@@ -44,13 +50,20 @@ public class FrameMain extends JFrame implements ActionListener {
 		miOpen.addActionListener(this);
 		miSave.addActionListener(this);
 		this.setJMenuBar(menubar);
+
+		// 添加两个 PApplet 窗口
+		pwv = new PAppletWellView(height - 75, height - 75, psc);
+		psc = new PAppletSC(width - height + 30, height - 75);
+		addPApplet(this, pwv);
+		addPApplet(this, psc);
 	}
-	
-//	private void addPApplet(FrameMain f, PApplet p) {
-//		PAppletWellView p1 = new PAppletWellView(100,100,new PAppletSC(100,100));
-//		p1.setPreferredSize(new Dimension(575, 625));
-//		f.add((Component)p1);
-//	}
+
+	private void addPApplet(FrameMain f, PApplet p) {
+		p.setPreferredSize(new Dimension(p.width, p.height));
+		p.init();
+		p.start();
+		f.add(p);
+	}
 
 	public static void main(String[] args) {
 		// 设置为 windows 的界面风格
@@ -60,9 +73,8 @@ public class FrameMain extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 		// 实例化主窗体
-		FrameMain fMain = new FrameMain("AutoCompare", 260, 80, 800, 620);
-		fMain.setLayout(new FlowLayout());
-		fMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		FrameMain fMain = new FrameMain("AutoCompare", 1200, 475);
+		// 刷新界面风格
 		SwingUtilities.updateComponentTreeUI(fMain);
 	}
 
@@ -86,10 +98,11 @@ public class FrameMain extends JFrame implements ActionListener {
 		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "选择")) {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {
-				// 打开文件后的处理
-				System.out.println("文件:" + file.getAbsolutePath());
-				System.out.println(jfc.getSelectedFile().getName());
-				wellList = Data.loadData(file.getAbsolutePath());
+				// 打开文件
+				LinkedList<Well> wellList = Data.loadData(file.getAbsolutePath());
+				// Well to PWell
+				LinkedList<PWell> pwList = Generator.toPWells(wellList);
+				pwv.setPWells(pwList);
 			}
 		}
 	}

@@ -7,6 +7,8 @@ import processing.core.PApplet;
  */
 public class PAppletSC extends PApplet {
 	
+	private int width, height;
+	
 	public PAppletSC(int width, int height) {
 		this.width = width;
 		this.height = height;
