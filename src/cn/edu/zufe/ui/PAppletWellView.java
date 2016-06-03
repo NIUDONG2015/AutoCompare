@@ -23,6 +23,9 @@ public class PAppletWellView extends PApplet {
 		this.pwList = pwList;
 	}
 
+	/**
+	 * 画出 pgBottom
+	 */
 	public void drawPG() {
 		if (pwList != null) {
 			pgBottom.beginDraw();
@@ -37,26 +40,36 @@ public class PAppletWellView extends PApplet {
 
 	public void setup() {
 		this.size(width, height);
+		// 最底端缓存图初始化
 		pgBottom = createGraphics(width, height);
 		pgBottom.beginDraw();
 		pgBottom.colorMode(HSB, 360, 100, 100); // 色彩模式HSB
 		pgBottom.endDraw();
+		// 高亮缓存图初始化
 		pgHighlight = createGraphics(width, height);
 		pgHighlight.beginDraw();
 		pgHighlight.endDraw();
+		// 加载 SVG 矢量图
 		iconOrigin = loadShape("res//oil_field.svg");
 		iconClicked = loadShape("res//oil_field_clicked.svg");
 	}
 
 	public void draw() {
 		image(pgBottom, 0, 0);
-
+		highlight();
+		image(pgHighlight, 0, 0);
+	}
+	
+	/**
+	 * 鼠标悬浮时高亮
+	 */
+	private void highlight() {
 		if (pwList != null) {
 			for (PWell pw : pwList) {
 				if (pw.collisionDetection(mouseX, mouseY)) {
 					pgHighlight.beginDraw();
 					pgHighlight.clear();
-					pw.highlight(pgHighlight, iconOrigin,iconClicked);
+					pw.highlight(pgHighlight, iconOrigin, iconClicked);
 					pgHighlight.endDraw();
 					break;
 				} else {
@@ -66,7 +79,6 @@ public class PAppletWellView extends PApplet {
 				}
 			}
 		}
-		image(pgHighlight, 0, 0);
 	}
 
 	public void mousePressed() {
