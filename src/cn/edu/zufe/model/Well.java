@@ -40,4 +40,6 @@ public class Well {
 	public void setBigLayers(LinkedList<BigLayer> bigLayers) {
 		this.bigLayers = bigLayers;
 	}
+	
+	
 }

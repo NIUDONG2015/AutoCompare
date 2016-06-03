@@ -31,7 +31,7 @@ public class Data {
 			XSSFSheet sheetBigLayer = xssfWorkbook.getSheetAt(1);	//大层数据表
 			XSSFSheet sheetSmallLayer = xssfWorkbook.getSheetAt(3);	//小层数据表
 
-			//将三张表的数据读入自定义的数据结构中
+			//读钻井数据表
 			for(int sheetWellRowsNum = sheetWell.getFirstRowNum() + 2; 
 					sheetWellRowsNum <= sheetWell.getLastRowNum(); ++sheetWellRowsNum){
 				
@@ -50,13 +50,19 @@ public class Data {
 				well.setName(t_wellName);
 				well.setX(t_wellPosX);
 				well.setY(t_wellPosY);
-				
-				//获取油井大层信息
-				for(int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2;
-						sheetBigLayerNum <= sheetBigLayer.getLastRowNum(); ++sheetBigLayerNum){
-					
-					XSSFRow bigLayerInfo = sheetBigLayer.getRow(sheetWellRowsNum);	
-					if(getValue(wellName) != getValue(bigLayerInfo.getCell(0))){
+				wellList.add(well);
+			}
+			
+			//获取油井大层信息
+			for(int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2;
+					sheetBigLayerNum <= sheetBigLayer.getLastRowNum(); ++sheetBigLayerNum){
+				//获得当前行
+				XSSFRow bigLayerInfo = sheetBigLayer.getRow(sheetBigLayerNum);	
+				//遍历油井链表
+				for(int wellNum = 0; wellNum < wellList.size(); ++wellNum){
+
+					Well well = wellList.get(wellNum);
+					if(well.getName() != getValue(bigLayerInfo.getCell(0))){
 						continue;
 					}
 					XSSFCell bigLayerName = bigLayerInfo.getCell(1);
@@ -77,20 +83,23 @@ public class Data {
 					bigLayer.setName(getValue(bigLayerName));
 					bigLayer.setDepth(bigLayerDepth);
 					
-					//获取小层信息
-					for(int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2;
-							sheetSmallLayerNum <= sheetSmallLayer.getLastRowNum(); ++sheetSmallLayerNum){
-						
-						XSSFRow smallLayerInfo = sheetSmallLayer.getRow(sheetSmallLayerNum);
-						if(getValue(wellName) != getValue(smallLayerInfo.getCell(0))){
-							continue;
-						}
-					}
-					
 					well.getBigLayers().add(bigLayer);
 				}
-				
-				wellList.add(well);
+			}
+			
+			//获取小层信息
+			for(int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2;
+					sheetSmallLayerNum <= sheetSmallLayer.getLastRowNum(); ++sheetSmallLayerNum){
+				//获得当前行
+				XSSFRow smallLayerInfo = sheetSmallLayer.getRow(sheetSmallLayerNum);
+				//遍历油井链表
+				for(int wellNum = 0; wellNum < wellList.size(); ++wellNum){
+					Well well = wellList.get(wellNum);
+					if(well.getName() != getValue(smallLayerInfo.getCell(0))){
+						continue;
+					}
+					//XSSFCell small
+				}
 			}
 		}
 		catch(Exception e){
