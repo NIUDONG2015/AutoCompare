@@ -102,7 +102,9 @@ public class FrameMain extends JFrame implements ActionListener {
 				LinkedList<Well> wellList = Data.loadData(file.getAbsolutePath());
 				// Well to PWell
 				LinkedList<PWell> pwList = Generator.toPWells(wellList);
+				// set and draw
 				pwv.setPWells(pwList);
+				pwv.drawPG();
 			}
 		}
 	}
