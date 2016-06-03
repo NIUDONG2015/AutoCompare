@@ -5,8 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
-
+import cn.edu.zufe.io.*;
 public class FrameMain extends JFrame implements ActionListener {
+	public Data data;
 	static JMenuBar menubar;
 	JMenu menu;
 	JMenuItem miOpen, miSave, miExport, miExit;
@@ -65,9 +66,10 @@ public class FrameMain extends JFrame implements ActionListener {
 		File file = jfc.getSelectedFile();
 		if (file.isDirectory()) {
 			System.out.println("文件夹:" + file.getAbsolutePath());
-			{
-
-			}
+			
+			//data = new Data();
+			//data.loadData(file.getAbsolutePath());
+			
 		} else if (file.isFile()) {
 			System.out.println("文件:" + file.getAbsolutePath());
 
