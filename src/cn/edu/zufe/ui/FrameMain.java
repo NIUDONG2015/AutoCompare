@@ -1,5 +1,8 @@
 package cn.edu.zufe.ui;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -7,12 +10,17 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.*;
+
+import processing.core.PApplet;
 import cn.edu.zufe.io.*;
+
 public class FrameMain extends JFrame implements ActionListener {
 	public LinkedList wellList;
 	static JMenuBar menubar;
 	JMenu menu;
 	JMenuItem miOpen, miSave, miExport, miExit;
+	PAppletWellView pWellView;
+	PAppletSC psc;
 
 	public FrameMain(String s, int x, int y, int width, int height) {
 		super(s);
@@ -37,6 +45,12 @@ public class FrameMain extends JFrame implements ActionListener {
 		miSave.addActionListener(this);
 		this.setJMenuBar(menubar);
 	}
+	
+//	private void addPApplet(FrameMain f, PApplet p) {
+//		PAppletWellView p1 = new PAppletWellView(100,100,new PAppletSC(100,100));
+//		p1.setPreferredSize(new Dimension(575, 625));
+//		f.add((Component)p1);
+//	}
 
 	public static void main(String[] args) {
 		// 设置为 windows 的界面风格
@@ -47,20 +61,18 @@ public class FrameMain extends JFrame implements ActionListener {
 		}
 		// 实例化主窗体
 		FrameMain fMain = new FrameMain("AutoCompare", 260, 80, 800, 620);
-		fMain.setLayout(null);
+		fMain.setLayout(new FlowLayout());
 		fMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		SwingUtilities.updateComponentTreeUI(fMain);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == miOpen) {
 			try {
 				openFile();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException ex) {
+				ex.printStackTrace();
 			}
 		} else if (e.getSource() == miSave) {
 			System.out.println("Save");
@@ -70,7 +82,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	private void openFile() throws IOException {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
+		jfc.setCurrentDirectory(new File("."));
 		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "选择")) {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {
