@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Well {
 
-	private String name;
+	private String name;	//¾®ºÅ
 	private double x;
 	private double y;
 	private LinkedList<BigLayer> bigLayers = new LinkedList<BigLayer>();

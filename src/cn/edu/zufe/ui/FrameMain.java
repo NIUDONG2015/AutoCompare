@@ -7,7 +7,6 @@ import java.io.File;
 import javax.swing.*;
 import cn.edu.zufe.io.*;
 public class FrameMain extends JFrame implements ActionListener {
-	public Data data;
 	static JMenuBar menubar;
 	JMenu menu;
 	JMenuItem miOpen, miSave, miExport, miExit;
@@ -37,6 +36,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
+		Data.loadData("data\\数据表.xlsx");
 		// 设置为 windows 的界面风格
 		try {
 			UIManager
@@ -63,12 +63,14 @@ public class FrameMain extends JFrame implements ActionListener {
 	private void openFile() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+
 		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "选择")) {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {
 				// 打开文件后的处理
 				System.out.println("文件:" + file.getAbsolutePath());
 				System.out.println(jfc.getSelectedFile().getName());
+				Data.loadData(file.getAbsolutePath());
 			}
 		}
 	}
