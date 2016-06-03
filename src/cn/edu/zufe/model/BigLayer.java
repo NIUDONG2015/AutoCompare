@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 public class BigLayer {
 
-	private String name;	//大层位
-	private double[] depth;	//底深
+	private String name = null;	//大层位
+	private double[] depth = null;	//底深
 	private LinkedList<SmallLayer> smallLayers = new LinkedList<SmallLayer>();
 
 	public String getName() {

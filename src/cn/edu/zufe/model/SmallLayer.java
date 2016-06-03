@@ -2,11 +2,11 @@ package cn.edu.zufe.model;
 
 public class SmallLayer {
 
-	private String name;		//小层位
+	private String name = null;		//小层位
 	private double[] depth;
 	private double nor;			
-	private String eleResult;	//电测解释结果
-	private String matchResName;	
+	private String eleResult = null;	//电测解释结果
+	private String matchResName = null;	
 
 	public String getName() {
 		return name;
