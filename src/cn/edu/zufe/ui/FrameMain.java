@@ -23,7 +23,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	private JMenuItem miOpen, miSave, miExport, miExit; // 菜单项
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
-
+	private static LinkedList<Well> wellList;
 	public FrameMain(String s, int width, int height) {
 		super(s);
 		this.setSize(width, height); // 设置大小
@@ -99,7 +99,7 @@ public class FrameMain extends JFrame implements ActionListener {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {
 				// 打开文件
-				LinkedList<Well> wellList = Data.loadData(file.getAbsolutePath());
+				wellList = Data.loadData(file.getAbsolutePath());
 				// Well to PWell
 				LinkedList<PWell> pwList = Generator.toPWells(wellList);
 				// set and draw
