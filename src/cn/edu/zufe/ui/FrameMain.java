@@ -17,7 +17,7 @@ public class FrameMain extends JFrame implements ActionListener {
 		this.setSize(width, height);
 		this.setLocation(x, y);
 		this.setVisible(true);
-		
+
 		// 添加菜单项
 		menubar = new JMenuBar();
 		menu = new JMenu("File");
@@ -39,7 +39,8 @@ public class FrameMain extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		// 设置为 windows 的界面风格
 		try {
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			UIManager
+					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,25 +56,20 @@ public class FrameMain extends JFrame implements ActionListener {
 		if (e.getSource() == miOpen) {
 			openFile();
 		} else if (e.getSource() == miSave) {
-			System.out.println("121212");
+			System.out.println("Save");
 		}
 	}
 
-	public void openFile() {
+	private void openFile() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		jfc.showDialog(new JLabel(), "选择");
-		File file = jfc.getSelectedFile();
-		if (file.isDirectory()) {
-			System.out.println("文件夹:" + file.getAbsolutePath());
-			
-			//data = new Data();
-			//data.loadData(file.getAbsolutePath());
-			
-		} else if (file.isFile()) {
-			System.out.println("文件:" + file.getAbsolutePath());
-
+		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "选择")) {
+			File file = jfc.getSelectedFile();
+			if (file != null && file.isFile()) {
+				// 打开文件后的处理
+				System.out.println("文件:" + file.getAbsolutePath());
+				System.out.println(jfc.getSelectedFile().getName());
+			}
 		}
-		System.out.println(jfc.getSelectedFile().getName());
 	}
 }
