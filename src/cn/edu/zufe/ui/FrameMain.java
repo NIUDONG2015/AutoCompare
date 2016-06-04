@@ -13,6 +13,7 @@ import javax.swing.*;
 
 import processing.core.PApplet;
 import cn.edu.zufe.io.*;
+import cn.edu.zufe.match.MatchFactory;
 import cn.edu.zufe.model.*;
 import cn.edu.zufe.drawable.*;
 
@@ -24,6 +25,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
 	private static LinkedList<Well> wellList;
+	private MatchFactory matchFactory;
 	public FrameMain(String s, int width, int height) {
 		super(s);
 		this.setSize(width, height); // 设置大小
@@ -100,6 +102,9 @@ public class FrameMain extends JFrame implements ActionListener {
 			if (file != null && file.isFile()) {
 				// 打开文件
 				wellList = Data.loadData(file.getAbsolutePath());
+				
+				matchFactory = new MatchFactory(wellList.get(1),wellList);
+				matchFactory.doMatch(1);
 				// Well to PWell
 				LinkedList<PWell> pwList = Generator.toPWells(wellList);
 				// set and draw
