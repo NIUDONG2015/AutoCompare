@@ -86,7 +86,7 @@ public class Match1 {
 			}
 		}
 		// out
-		/*for (int i = 0; i < wellList.size(); ++i) {
+		for (int i = 0; i < wellList.size(); ++i) {
 			Well well = wellList.get(i);
 			System.out.println("¾®ºÅ:" + well.getName());
 			for (int j = 0; j < well.getBigLayers().size(); ++j) {
@@ -100,6 +100,6 @@ public class Match1 {
 				System.out.println("");
 			}
 			System.out.println("");
-		}*/
+		}
 	}
 }
