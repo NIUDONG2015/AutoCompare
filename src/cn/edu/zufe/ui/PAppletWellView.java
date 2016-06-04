@@ -57,9 +57,10 @@ public class PAppletWellView extends PApplet {
 			pgBottom.endDraw();
 		}
 	}
-	
+
 	/**
 	 * »­³ö pgHighlight
+	 * 
 	 * @param pw
 	 */
 	public void drawPGHighlight(PWell pw) {
@@ -88,18 +89,20 @@ public class PAppletWellView extends PApplet {
 	}
 
 	public void mousePressed() {
-		for (PWell pw : pwList) {
-			pw.setClicked(false);
-		}
-
-		if (mouseButton == LEFT) {
+		if (pwList != null) {
 			for (PWell pw : pwList) {
-				if (pw.collisionDetection(mouseX, mouseY)) {
-					pw.setClicked(true);
-					break;
+				pw.setClicked(false);
+			}
+
+			if (mouseButton == LEFT) {
+				for (PWell pw : pwList) {
+					if (pw.collisionDetection(mouseX, mouseY)) {
+						pw.setClicked(true);
+						break;
+					}
 				}
 			}
+			drawPGBottom();
 		}
-		drawPGBottom();
 	}
 }
