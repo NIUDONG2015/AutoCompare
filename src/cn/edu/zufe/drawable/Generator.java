@@ -24,8 +24,7 @@ public class Generator {
 
 		LinkedList<PWell> pwList = new LinkedList<PWell>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			String name = wellList.get(i).getName();
-			pwList.add(new PWell(name, (float)norX[i], (float)norY[i]));
+			pwList.add(new PWell(wellList.get(i), (float)norX[i], (float)norY[i]));
 		}
 		return pwList;
 	}

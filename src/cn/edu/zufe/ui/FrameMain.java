@@ -109,7 +109,7 @@ public class FrameMain extends JFrame implements ActionListener {
 				LinkedList<PWell> pwList = Generator.toPWells(wellList);
 				// set and draw
 				pwv.setPWells(pwList);
-				pwv.drawPG();
+				pwv.drawPGBottom();
 			}
 		}
 	}

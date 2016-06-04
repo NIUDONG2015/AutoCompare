@@ -23,27 +23,11 @@ public class PAppletWellView extends PApplet {
 		this.pwList = pwList;
 	}
 
-	/**
-	 * 画出 pgBottom
-	 */
-	public void drawPG() {
-		if (pwList != null) {
-			pgBottom.beginDraw();
-			pgBottom.clear();
-			pgBottom.background(0, 0, 100);
-			for (PWell pw : pwList) {
-				pw.draw(pgBottom, iconOrigin, iconClicked);
-			}
-			pgBottom.endDraw();
-		}
-	}
-
 	public void setup() {
 		this.size(width, height);
 		// 最底端缓存图初始化
 		pgBottom = createGraphics(width, height);
 		pgBottom.beginDraw();
-		pgBottom.colorMode(HSB, 360, 100, 100); // 色彩模式HSB
 		pgBottom.endDraw();
 		// 高亮缓存图初始化
 		pgHighlight = createGraphics(width, height);
@@ -57,25 +41,47 @@ public class PAppletWellView extends PApplet {
 	public void draw() {
 		image(pgBottom, 0, 0);
 		highlight();
-		image(pgHighlight, 0, 0);
+	}
+
+	/**
+	 * 画出 pgBottom
+	 */
+	public void drawPGBottom() {
+		if (pwList != null) {
+			pgBottom.beginDraw();
+			pgBottom.clear();
+			pgBottom.background(255);
+			for (PWell pw : pwList) {
+				pw.draw(pgBottom, iconOrigin, iconClicked);
+			}
+			pgBottom.endDraw();
+		}
 	}
 	
+	/**
+	 * 画出 pgHighlight
+	 * @param pw
+	 */
+	public void drawPGHighlight(PWell pw) {
+		if (pw != null) {
+			pgHighlight.beginDraw();
+			pgHighlight.clear();
+			pw.highlight(pgHighlight, iconOrigin, iconClicked);
+			pgHighlight.endDraw();
+		}
+	}
+
 	/**
 	 * 鼠标悬浮时高亮
 	 */
 	private void highlight() {
 		if (pwList != null) {
 			for (PWell pw : pwList) {
+				// 鼠标与图标碰撞
 				if (pw.collisionDetection(mouseX, mouseY)) {
-					pgHighlight.beginDraw();
-					pgHighlight.clear();
-					pw.highlight(pgHighlight, iconOrigin, iconClicked);
-					pgHighlight.endDraw();
+					drawPGHighlight(pw);
+					image(pgHighlight, 0, 0);
 					break;
-				} else {
-					pgHighlight.beginDraw();
-					pgHighlight.clear();
-					pgHighlight.endDraw();
 				}
 			}
 		}
@@ -94,6 +100,6 @@ public class PAppletWellView extends PApplet {
 				}
 			}
 		}
-		drawPG();
+		drawPGBottom();
 	}
 }
