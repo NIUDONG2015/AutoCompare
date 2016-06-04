@@ -10,7 +10,11 @@ public class MatchFactory {
 	public Match1 mMatch1;
 	public MatchFactory(Well staWell,LinkedList<Well> wList){
 		standardWell = staWell;
-		wellList = wList;
+		wellList = new LinkedList<Well>();
+		for(int i=0;i<wList.size();++i){
+			Well well = wList.get(i);
+			wellList.add(well);
+		}
 	}
 	public void doMatch(int index){
 		switch(index){
