@@ -26,6 +26,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	private PAppletSC psc; // 地层对比图
 	private static LinkedList<Well> wellList;
 	private MatchFactory matchFactory;
+
 	public FrameMain(String s, int width, int height) {
 		super(s);
 		this.setSize(width, height); // 设置大小
@@ -100,16 +101,22 @@ public class FrameMain extends JFrame implements ActionListener {
 		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "选择")) {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {
-				// 打开文件
-				wellList = Data.loadData(file.getAbsolutePath());
-				
-				matchFactory = new MatchFactory(wellList.get(1),wellList);
-				matchFactory.doMatch(1);
-				// Well to PWell
-				LinkedList<PWell> pwList = Generator.toPWells(wellList);
-				// set and draw
-				pwv.setPWells(pwList);
-				pwv.drawPGBottom();
+				String name = file.getName();
+				String ext = name.substring(name.indexOf(".") + 1);
+				if (ext.equals("xls") || ext.equals("xlsx")) {
+					// 打开文件
+					wellList = Data.loadData(file.getAbsolutePath());
+
+					matchFactory = new MatchFactory(wellList.get(1), wellList);
+					matchFactory.doMatch(1);
+					// Well to PWell
+					LinkedList<PWell> pwList = Generator.toPWells(wellList);
+					// set and draw
+					pwv.setPWells(pwList);
+					pwv.drawPGBottom();
+				} else {
+					JOptionPane.showMessageDialog(null, "请选择Excel文件", "提示", JOptionPane.INFORMATION_MESSAGE); 
+				}
 			}
 		}
 	}
