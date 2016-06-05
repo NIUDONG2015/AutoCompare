@@ -12,7 +12,7 @@ public class PSection {
 	private float px = -1, py = -1; // 图左上角位置
 	private float ph = -1; // 高度
 	private static float pw = 80; // 宽度
-	private static float offsetX = 0, offsetY = 0, zoomOut = 300; // 位移偏量及放大参数
+	private static float offsetX = 0, offsetY = 0, zoomOut = 4000; // 位移偏量及放大参数
 	private LinkedList<SmallLayer> smallLayerList = new LinkedList<>(); // 保存小层数据，方便遍历
 
 	/**
@@ -30,7 +30,7 @@ public class PSection {
 		this.px = norX;
 		this.py = offsetY + norY * zoomOut;
 		this.ph = norH * zoomOut;
-		System.out.println("(" + px + "," + py + ") | " + ph);
+		// System.out.println("(" + px + "," + py + ") | " + ph);
 		setSmallLayerList();
 	}
 
@@ -41,20 +41,16 @@ public class PSection {
 	 */
 	public void draw(PGraphics pg) {
 
+		pg.stroke(0);
 		// 画油井
 		pg.rect(px, py, pw, ph);
-
+		pg.stroke(0);
 		// 画小层
 		for (SmallLayer smallLayer : smallLayerList) {
-			try {
-				float topH = (float) (py + ph * smallLayer.getNorDepth()[0]);
-				pg.line(px, py + topH, px + pw, py + topH);
-
-				float bottomH = (float) (py + ph * smallLayer.getNorDepth()[1]);
-				pg.line(px, py + bottomH, px + pw, py + bottomH);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			float topH = ph * (float) smallLayer.getNorDepth()[0];
+			pg.line(px, py + topH, px + pw, py + topH);
+			float bottomH = ph * (float) smallLayer.getNorDepth()[1];
+			pg.line(px, py + bottomH, px + pw, py + bottomH);
 		}
 
 	}
@@ -71,7 +67,7 @@ public class PSection {
 
 			float topH0 = (float) (py + ph * smallLayer0.getNorDepth()[0]);
 			float bottomH0 = (float) (py + ph * smallLayer0.getNorDepth()[1]);
-			boolean is_connect = false;
+			boolean isConnect = false;
 			for (SmallLayer smallLayer1 : ps.getSmallLayerList()) {
 
 				// 小层不匹配
@@ -79,26 +75,23 @@ public class PSection {
 					continue;
 				}
 
-				if (!is_connect) {
-					is_connect = true;
+				if (!isConnect) {
+					isConnect = true;
 				}
-				try {
-					// 砂岩顶深连接
-					float topH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[0]);
-					pg.line(px + pw, topH0, ps.getpx(), topH1);
+				pg.stroke(255, 0, 0);
+				// 砂岩顶深连接
+				float topH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[0]);
+				pg.line(px + pw, topH0, ps.getpx(), topH1);
 
-					// 砂岩底深连接
-					float bottomH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[1]);
-					pg.line(px + pw, bottomH0, ps.getpx(), bottomH1);
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				// 砂岩底深连接
+				float bottomH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[1]);
+				pg.line(px + pw, bottomH0, ps.getpx(), bottomH1);
 
 			}
 			// 找不到同名小层
-			if (is_connect == false) {
+			if (isConnect == false) {
 				// 尖灭
+				pg.stroke(255, 0, 0);
 				pg.line(px + pw, topH0, px + pw + 20, topH0);
 				pg.line(px + pw, bottomH0, px + pw + 20, topH0);
 			}
@@ -132,15 +125,15 @@ public class PSection {
 	 * 获得高度,位置信息
 	 */
 	public float getph() {
-		return this.getph();
+		return ph;
 	}
 
 	public float getpx() {
-		return this.getpx();
+		return px;
 	}
 
 	public float getpy() {
-		return this.getpy();
+		return py;
 	}
 
 }

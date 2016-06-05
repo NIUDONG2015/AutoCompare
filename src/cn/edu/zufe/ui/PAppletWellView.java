@@ -41,6 +41,7 @@ public class PAppletWellView extends PApplet {
 	}
 
 	public void draw() {
+		background(255);
 		image(pgBottom, 0, 0);
 		highlight();
 	}
@@ -102,9 +103,11 @@ public class PAppletWellView extends PApplet {
 						pw.setClicked(true);
 						if (!compareWellList.contains(pw.getWell())) {
 							compareWellList.add(pw.getWell());
+						} else {
+							compareWellList.remove(pw.getWell());
 						}
 						LinkedList<PSection> psList = Generator.toPSection(compareWellList);
-						System.out.println("现在生成井的个数：" + psList.size());
+						// System.out.println("现在生成井的个数：" + psList.size());
 						psc.setPSList(psList);
 						psc.drawPGBottom();
 						break;

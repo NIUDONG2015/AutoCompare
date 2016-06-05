@@ -34,11 +34,12 @@ public class PAppletSC extends PApplet {
 		pgBottom.endDraw();
 		// ControlP5 สตภýปฏ
 		cp5 = new ControlP5(this);
-		
+
 	}
 
 	public void draw() {
-		image(pgBottom, 0, 0);
+		background(255);
+		image(pgBottom, 10, 10);
 	}
 
 	public void drawPGBottom() {
@@ -46,8 +47,11 @@ public class PAppletSC extends PApplet {
 			pgBottom.beginDraw();
 			pgBottom.clear();
 			pgBottom.background(255);
-			for (PSection ps : psList) {
-				ps.draw(pgBottom);
+			for (int i = 0; i < psList.size(); i++) {
+				psList.get(i).draw(pgBottom);
+				if (i + 1 < psList.size()) {
+					psList.get(i).connect(pgBottom, psList.get(i + 1));
+				}
 			}
 			pgBottom.endDraw();
 		}

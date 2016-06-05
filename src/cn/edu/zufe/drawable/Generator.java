@@ -55,8 +55,8 @@ public class Generator {
 		}
 		System.arraycopy(btms, 0, all, tops.length, btms.length);
 		
-		for(int i = 0; i < all.length; ++i)
-			System.out.println(all[i]);
+//		for(int i = 0; i < all.length; ++i)
+//			System.out.println(all[i]);
 		
 		double max = getMaxValue(all);
 		double min = getMinValue(all);
@@ -68,7 +68,7 @@ public class Generator {
 		for (int i = 0; i < wellList.size(); ++i) {
 			float norY = (float) norTops[i];
 			float norH = (float) (norBtms[i] - norTops[i]);
-			System.out.println(wellList.get(i).getName() + "   µ×£¨1£©£º" + norBtms[i] + "¶¥£¨1£©£º" + norTops[i]);
+			// System.out.println(wellList.get(i).getName() + "   µ×£º" + norBtms[i] + "   ¶¥£º" + norTops[i]);
 			psList.add(new PSection(wellList.get(i), (float) i * 100, norY, norH));
 		}
 		return psList;

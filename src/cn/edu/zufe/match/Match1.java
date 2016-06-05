@@ -101,20 +101,20 @@ public class Match1 {
 		
 		// out
 		
-		for (int i = 0; i < wellList.size(); ++i) {
-			Well well = wellList.get(i);
-			System.out.println("井号:" + well.getName());
-			for (int j = 0; j < well.getBigLayers().size(); ++j) {
-				BigLayer bigLayer = well.getBigLayers().get(j);
-				System.out.println("	层位:" + bigLayer.getName());
-			    for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-		}
+//		for (int i = 0; i < wellList.size(); ++i) {
+//			Well well = wellList.get(i);
+//			System.out.println("井号:" + well.getName());
+//			for (int j = 0; j < well.getBigLayers().size(); ++j) {
+//				BigLayer bigLayer = well.getBigLayers().get(j);
+//				System.out.println("	层位:" + bigLayer.getName());
+//			    for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+//					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+//					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
+//				}
+//				System.out.println("");
+//			}
+//			System.out.println("");
+//		}
 
 	}
 	
