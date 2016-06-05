@@ -30,20 +30,20 @@ public class Generator {
 	}
 	
 	public static LinkedList<PSection> toPSection(LinkedList<Well> wellList) {
-		double[] x = new double[wellList.size()];
-		double[] y = new double[wellList.size()];
+		double[] tops = new double[wellList.size()];
+		double[] btms = new double[wellList.size()];
 		for (int i = 0; i < wellList.size(); ++i) {
-			x[i] = wellList.get(i).getX();
-			y[i] = wellList.get(i).getY();
+			tops[i] = wellList.get(i).getDepth()[0];
+			btms[i] = wellList.get(i).getDepth()[1];
 		}
 
-		double maxX = getMaxValue(x);
-		double minX = getMinValue(x);
-		double[] norX = normalization(x, maxX, minX);
+		double maxTop = getMaxValue(tops);
+		double minTop = getMinValue(tops);
+		double[] norTops = normalization(tops, maxTop, minTop);
 
-		double maxY = getMaxValue(y);
-		double minY = getMinValue(y);
-		double[] norY = normalization(y, maxY, minY);
+		double maxBtm = getMaxValue(btms);
+		double minBtm = getMinValue(btms);
+		double[] norBtms = normalization(btms, maxBtm, minBtm);
 
 		LinkedList<PSection> pwList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {

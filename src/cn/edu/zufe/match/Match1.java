@@ -171,7 +171,7 @@ public class Match1 {
 //				System.out.println("	层位:" + bigLayer.getName());
 //				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 //					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-//					System.out.println("			层位:" + smallLayer.getName() + "  归一化层顶:" + smallLayer.getNorDepth()[0] + "  归一化层底:" + smallLayer.getNorDepth()[0]);
+//					System.out.println("			层位:" + smallLayer.getName() + "  归一化层顶:" + smallLayer.getNorDepth()[0] + "  归一化层底:" + smallLayer.getNorDepth()[1]);
 //				}
 //				System.out.println("");
 //			}
