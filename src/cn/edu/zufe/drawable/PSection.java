@@ -100,7 +100,7 @@ public class PSection {
 			if (is_connect == false) {
 				// ¼âÃð
 				pg.line(px + pw, topH0, px + pw + 20, topH0);
-				pg.line(px + pw, bottomH0, px + pw + 20, bottomH0);
+				pg.line(px + pw, bottomH0, px + pw + 20, topH0);
 			}
 
 		}
