@@ -55,8 +55,8 @@ public class FrameMain extends JFrame implements ActionListener {
 		this.setJMenuBar(menubar);
 
 		// 添加两个 PApplet 窗口
-		pwv = new PAppletWellView(height - 75, height - 75, psc);
 		psc = new PAppletSC(width - height + 30, height - 75);
+		pwv = new PAppletWellView(height - 75, height - 75, psc);
 		addPApplet(this, pwv);
 		addPApplet(this, psc);
 	}

@@ -90,20 +90,20 @@ public class Match1 {
 		
 		// out
 
-		for (int i = 0; i < wellList.size(); ++i) {
-			Well well = wellList.get(i);
-			System.out.println("井号:" + well.getName());
-			for (int j = 0; j < well.getBigLayers().size(); ++j) {
-				BigLayer bigLayer = well.getBigLayers().get(j);
-				System.out.println("	层位:" + bigLayer.getName());
-				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-		}
+//		for (int i = 0; i < wellList.size(); ++i) {
+//			Well well = wellList.get(i);
+//			System.out.println("井号:" + well.getName());
+//			for (int j = 0; j < well.getBigLayers().size(); ++j) {
+//				BigLayer bigLayer = well.getBigLayers().get(j);
+//				System.out.println("	层位:" + bigLayer.getName());
+//				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+//					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+//					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
+//				}
+//				System.out.println("");
+//			}
+//			System.out.println("");
+//		}
 
 	}
 	
@@ -115,16 +115,32 @@ public class Match1 {
 			Well well = wellList.get(i);
 			// 寻找顶部和底部
 			double top = -1, btm = -1;
-			// 先寻找底部（以大层最深处为底）
+			// 寻找底部（以大层最深处为底）
+//			for (int j = well.getBigLayers().size() - 1; j > 0; --j) {
+//				double bigLayerDepth = well.getBigLayers().get(j).getDepth()[0];
+//				if (bigLayerDepth != 0) {
+//					btm = bigLayerDepth;
+//					break;
+//				}
+//			}
+			
+			// 寻找底部（以最深小层为底）
+			Outer1: // 跳出多层循环
 			for (int j = well.getBigLayers().size() - 1; j > 0; --j) {
-				double bigLayerDepth = well.getBigLayers().get(j).getDepth()[0];
-				if (bigLayerDepth != 0) {
-					btm = bigLayerDepth;
-					break;
+				BigLayer bigLayer = well.getBigLayers().get(j);
+				for (int k = bigLayer.getSmallLayers().size() - 1; k > 0 ; --k) {
+					// 砂岩底深
+					double smallLayerBtmDepth = bigLayer.getSmallLayers().get(k).getDepth()[1];
+					if (smallLayerBtmDepth != 0) {
+						// 砂岩底深无数据，砂岩顶深有数据的情况未作辨别
+						btm = smallLayerBtmDepth;
+						break Outer1;
+					}
 				}
 			}
-			// 再寻找顶部（以最浅的小层为顶部）
-			Outer: // 跳出多层循环
+			
+			// 寻找顶部（以最浅的小层为顶部）
+			Outer2: // 跳出多层循环
 			for (int j = 0; j < well.getBigLayers().size(); ++j) {
 				BigLayer bigLayer = well.getBigLayers().get(j);
 				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
@@ -133,7 +149,7 @@ public class Match1 {
 					if (smallLayerTopDepth != 0) {
 						// 砂岩顶深无数据，砂岩底深有数据的情况未作辨别
 						top = smallLayerTopDepth;
-						break Outer;
+						break Outer2;
 					}
 				}
 			}

@@ -26,7 +26,7 @@ public class PAppletWellView extends PApplet {
 	}
 
 	public void setup() {
-		this.size(width, height);
+		size(width, height);
 		// 最底端缓存图初始化
 		pgBottom = createGraphics(width, height);
 		pgBottom.beginDraw();
@@ -100,9 +100,13 @@ public class PAppletWellView extends PApplet {
 				for (PWell pw : pwList) {
 					if (pw.collisionDetection(mouseX, mouseY)) {
 						pw.setClicked(true);
-						compareWellList.add(pw.getWell());
+						if (!compareWellList.contains(pw.getWell())) {
+							compareWellList.add(pw.getWell());
+						}
 						LinkedList<PSection> psList = Generator.toPSection(compareWellList);
+						System.out.println("现在生成井的个数：" + psList.size());
 						psc.setPSList(psList);
+						psc.drawPGBottom();
 						break;
 					}
 				}

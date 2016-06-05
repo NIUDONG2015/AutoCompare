@@ -1,5 +1,6 @@
 package cn.edu.zufe.drawable;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import cn.edu.zufe.model.*;
@@ -7,6 +8,13 @@ import cn.edu.zufe.model.*;
 public class Generator {
 
 	public static LinkedList<PWell> toPWells(LinkedList<Well> wellList) {
+		if (wellList == null) {
+			return null;
+		}
+		if (wellList.size() == 0) {
+			return null;
+		}
+		
 		double[] x = new double[wellList.size()];
 		double[] y = new double[wellList.size()];
 		for (int i = 0; i < wellList.size(); ++i) {
@@ -24,36 +32,51 @@ public class Generator {
 
 		LinkedList<PWell> pwList = new LinkedList<PWell>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			pwList.add(new PWell(wellList.get(i), (float)norX[i], (float)norY[i]));
+			pwList.add(new PWell(wellList.get(i), (float) norX[i], (float) norY[i]));
 		}
 		return pwList;
 	}
-	
+
 	public static LinkedList<PSection> toPSection(LinkedList<Well> wellList) {
+		if (wellList == null) {
+			return null;
+		}
+		if (wellList.size() == 0) {
+			return null;
+		}
+		
 		double[] tops = new double[wellList.size()];
 		double[] btms = new double[wellList.size()];
+		double[] all = new double[wellList.size() * 2];
 		for (int i = 0; i < wellList.size(); ++i) {
 			tops[i] = wellList.get(i).getDepth()[0];
 			btms[i] = wellList.get(i).getDepth()[1];
+			all[i] = tops[i];
 		}
+		System.arraycopy(btms, 0, all, tops.length, btms.length);
+		
+		for(int i = 0; i < all.length; ++i)
+			System.out.println(all[i]);
+		
+		double max = getMaxValue(all);
+		double min = getMinValue(all);
+		double[] norTops = normalization(tops, max, min);
+		double[] norBtms = normalization(btms, max, min);
 
-		double maxTop = getMaxValue(tops);
-		double minTop = getMinValue(tops);
-		double[] norTops = normalization(tops, maxTop, minTop);
 
-		double maxBtm = getMaxValue(btms);
-		double minBtm = getMinValue(btms);
-		double[] norBtms = normalization(btms, maxBtm, minBtm);
-
-		LinkedList<PSection> pwList = new LinkedList<PSection>();
+		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			//pwList.add(new PSection(wellList.get(i));
+			float norY = (float) norTops[i];
+			float norH = (float) (norBtms[i] - norTops[i]);
+			System.out.println(wellList.get(i).getName() + "   底（1）：" + norBtms[i] + "顶（1）：" + norTops[i]);
+			psList.add(new PSection(wellList.get(i), (float) i * 100, norY, norH));
 		}
-		return pwList;
+		return psList;
 	}
 
 	/**
 	 * 获取最大值
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -67,6 +90,7 @@ public class Generator {
 
 	/**
 	 * 获取最小值
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -80,6 +104,7 @@ public class Generator {
 
 	/**
 	 * 归一化
+	 * 
 	 * @param value
 	 * @param max
 	 * @param min

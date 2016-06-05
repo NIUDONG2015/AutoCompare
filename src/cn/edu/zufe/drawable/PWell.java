@@ -18,9 +18,9 @@ public class PWell {
 	 * @param well
 	 *            油井
 	 * @param norX
-	 *            归一化前的X坐标值
+	 *            归一化后的X坐标值
 	 * @param norY
-	 *            归一化前的Y坐标值
+	 *            归一化后的Y坐标值
 	 */
 	public PWell(Well well, float norX, float norY) {
 		this.well = well;

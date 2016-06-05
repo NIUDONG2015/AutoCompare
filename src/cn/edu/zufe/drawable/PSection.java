@@ -12,7 +12,7 @@ public class PSection {
 	private float px = -1, py = -1; // 图左上角位置
 	private float ph = -1; // 高度
 	private static float pw = 80; // 宽度
-	private static float offsetX = 50, offsetY = 20, zoomOut = 200; // 位移偏量及放大参数
+	private static float offsetX = 0, offsetY = 0, zoomOut = 300; // 位移偏量及放大参数
 	private LinkedList<SmallLayer> smallLayerList = new LinkedList<>(); // 保存小层数据，方便遍历
 
 	/**
@@ -21,16 +21,16 @@ public class PSection {
 	 * @param well
 	 *            油井
 	 * @param norX
-	 *            归一化前X坐标值
+	 *            归一化后X坐标值
 	 * @param norY
-	 *            归一化前的Y坐标值
+	 *            归一化后的Y坐标值
 	 */
-	public PSection(Well well, float norX, float norY, float height) {
+	public PSection(Well well, float norX, float norY, float norH) {
 		this.well = well;
-		this.px = offsetX + norX * zoomOut;
+		this.px = norX;
 		this.py = offsetY + norY * zoomOut;
-		this.ph = height;
-
+		this.ph = norH * zoomOut;
+		System.out.println("(" + px + "," + py + ") | " + ph);
 		setSmallLayerList();
 	}
 
@@ -120,15 +120,12 @@ public class PSection {
 		for (BigLayer bigLayer : well.getBigLayers()) {
 
 			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
-
-				if (smallLayer.getMatchResName().equals("尖灭") || smallLayer.getMatchResName() == null
-						|| smallLayer.getMatchResName() == "") {
+				if (smallLayer.getMatchResName().equals("尖灭") || smallLayer.getMatchResName() == null || smallLayer.getMatchResName() == "") {
 					continue;
 				}
-				this.smallLayerList.add(smallLayer);
+				smallLayerList.add(smallLayer);
 			}
 		}
-		this.smallLayerList = smallLayerList;
 	}
 
 	/**
