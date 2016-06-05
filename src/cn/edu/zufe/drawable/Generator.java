@@ -28,6 +28,29 @@ public class Generator {
 		}
 		return pwList;
 	}
+	
+	public static LinkedList<PSection> toPSection(LinkedList<Well> wellList) {
+		double[] x = new double[wellList.size()];
+		double[] y = new double[wellList.size()];
+		for (int i = 0; i < wellList.size(); ++i) {
+			x[i] = wellList.get(i).getX();
+			y[i] = wellList.get(i).getY();
+		}
+
+		double maxX = getMaxValue(x);
+		double minX = getMinValue(x);
+		double[] norX = normalization(x, maxX, minX);
+
+		double maxY = getMaxValue(y);
+		double minY = getMinValue(y);
+		double[] norY = normalization(y, maxY, minY);
+
+		LinkedList<PSection> pwList = new LinkedList<PSection>();
+		for (int i = 0; i < wellList.size(); ++i) {
+			//pwList.add(new PSection(wellList.get(i));
+		}
+		return pwList;
+	}
 
 	/**
 	 * 获取最大值

@@ -2,11 +2,13 @@ package cn.edu.zufe.model;
 
 public class SmallLayer {
 
-	private String name = null;		//小层位
+	private String name = null; // 小层位
 	private double[] depth;
-	private double nor;			
-	private String eleResult = null;	//电测解释结果
-	private String matchResName = null;	
+	private double[] norDepth;
+
+	private double nor;
+	private String eleResult = null; // 电测解释结果
+	private String matchResName = null;
 
 	public String getName() {
 		return name;
@@ -22,6 +24,14 @@ public class SmallLayer {
 
 	public void setDepth(double[] depth) {
 		this.depth = depth;
+	}
+
+	public double[] getNorDepth() {
+		return norDepth;
+	}
+
+	public void setNorDepth(double[] norDepth) {
+		this.norDepth = norDepth;
 	}
 
 	public double getNor() {

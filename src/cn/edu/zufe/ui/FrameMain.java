@@ -97,7 +97,7 @@ public class FrameMain extends JFrame implements ActionListener {
 	private void openFile() throws IOException {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		jfc.setCurrentDirectory(new File("."));
+		jfc.setCurrentDirectory(new File("./Data"));
 		if (JFileChooser.APPROVE_OPTION == jfc.showDialog(new JLabel(), "Ñ¡Ôñ")) {
 			File file = jfc.getSelectedFile();
 			if (file != null && file.isFile()) {

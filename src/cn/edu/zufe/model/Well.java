@@ -4,9 +4,11 @@ import java.util.LinkedList;
 
 public class Well {
 
-	private String name = null;	//¾®ºÅ
+	private String name = null; // ¾®ºÅ
 	private double x;
 	private double y;
+	private double[] depth;
+
 	private LinkedList<BigLayer> bigLayers = new LinkedList<BigLayer>();
 
 	public String getName() {
@@ -33,6 +35,14 @@ public class Well {
 		this.y = y;
 	}
 
+	public double[] getDepth() {
+		return depth;
+	}
+
+	public void setDepth(double[] depth) {
+		this.depth = depth;
+	}
+
 	public LinkedList<BigLayer> getBigLayers() {
 		return bigLayers;
 	}
@@ -40,6 +50,5 @@ public class Well {
 	public void setBigLayers(LinkedList<BigLayer> bigLayers) {
 		this.bigLayers = bigLayers;
 	}
-	
-	
+
 }
