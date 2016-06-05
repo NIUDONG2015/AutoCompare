@@ -27,6 +27,10 @@ public class PWell {
 		this.px = offsetX + norX * zoomOut;
 		this.py = offsetY + norY * zoomOut;
 	}
+	
+	public Well getWell() {
+		return well;
+	}
 
 	/**
 	 * »­³ö

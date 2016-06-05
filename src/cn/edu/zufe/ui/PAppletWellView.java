@@ -3,7 +3,8 @@ package cn.edu.zufe.ui;
 import java.util.LinkedList;
 
 import processing.core.*;
-import cn.edu.zufe.drawable.PWell;
+import cn.edu.zufe.drawable.*;
+import cn.edu.zufe.model.*;
 
 public class PAppletWellView extends PApplet {
 
@@ -11,6 +12,7 @@ public class PAppletWellView extends PApplet {
 	private PGraphics pgBottom, pgHighlight;
 	private int width, height;
 	private LinkedList<PWell> pwList = null;
+	private LinkedList<Well> compareWellList = new LinkedList<Well>();
 	private PShape iconOrigin, iconClicked; // ”ÕÃÔÕº±Í
 
 	public PAppletWellView(int width, int height, PApplet psc) {
@@ -98,6 +100,9 @@ public class PAppletWellView extends PApplet {
 				for (PWell pw : pwList) {
 					if (pw.collisionDetection(mouseX, mouseY)) {
 						pw.setClicked(true);
+						compareWellList.add(pw.getWell());
+						LinkedList<PSection> psList = Generator.toPSection(compareWellList);
+						psc.setPSList(psList);
 						break;
 					}
 				}
