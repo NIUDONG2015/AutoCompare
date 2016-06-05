@@ -8,10 +8,7 @@ public class Match1 {
 	private LinkedList<Well> wellList;
 	public Match1(Well staWell,LinkedList<Well> wList){
 		standardWell = staWell;
-		wellList = new LinkedList<Well>();
-		for(int i=0;i<wList.size();++i){
-			wellList.add(wList.get(i));
-		}
+		wellList = wList;
 	}
 	
 	public void doMatch(){

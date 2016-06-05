@@ -1,11 +1,8 @@
 package cn.edu.zufe.drawable;
 
 import java.text.DecimalFormat;
-
 import processing.core.*;
 import cn.edu.zufe.model.*;
-
-;
 
 public class PWell {
 
