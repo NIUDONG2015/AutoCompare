@@ -48,7 +48,18 @@ public class Match1 {
 							top = well.getBigLayers().get(j - 1).getDepth()[0];
 						else
 							top = bigLayer.getSmallLayers().get(0).getDepth()[0];
-						double btn = bigLayer.getDepth()[0];
+						double btn =0;
+						if(bigLayer.getDepth()[0] != 0)
+							btn = bigLayer.getDepth()[0];
+						else{
+							int l=bigLayer.getSmallLayers().size()-1;
+							while(btn ==0){
+								btn = bigLayer.getSmallLayers().get(l).getDepth()[1];
+								--l;
+								if(l == 0)
+									break;
+							}
+						}
 						for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 							SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
 							double nor = ((smallLayer.getDepth()[0] + smallLayer.getDepth()[1]) / 2 - top) / (btn - top);
@@ -89,21 +100,21 @@ public class Match1 {
 		norDepths();
 		
 		// out
-
-//		for (int i = 0; i < wellList.size(); ++i) {
-//			Well well = wellList.get(i);
-//			System.out.println("井号:" + well.getName());
-//			for (int j = 0; j < well.getBigLayers().size(); ++j) {
-//				BigLayer bigLayer = well.getBigLayers().get(j);
-//				System.out.println("	层位:" + bigLayer.getName());
-//				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-//					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-//					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
-//				}
-//				System.out.println("");
-//			}
-//			System.out.println("");
-//		}
+		
+		for (int i = 0; i < wellList.size(); ++i) {
+			Well well = wellList.get(i);
+			System.out.println("井号:" + well.getName());
+			for (int j = 0; j < well.getBigLayers().size(); ++j) {
+				BigLayer bigLayer = well.getBigLayers().get(j);
+				System.out.println("	层位:" + bigLayer.getName());
+			    for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+					System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:" + smallLayer.getMatchResName());
+				}
+				System.out.println("");
+			}
+			System.out.println("");
+		}
 
 	}
 	
