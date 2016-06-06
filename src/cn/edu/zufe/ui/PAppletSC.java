@@ -54,6 +54,11 @@ public class PAppletSC extends PApplet {
 				}
 			}
 			pgBottom.endDraw();
+		} else {
+			pgBottom.beginDraw();
+			pgBottom.clear();
+			pgBottom.background(255);
+			pgBottom.endDraw();
 		}
 	}
 

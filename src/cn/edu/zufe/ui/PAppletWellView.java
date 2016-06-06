@@ -58,6 +58,11 @@ public class PAppletWellView extends PApplet {
 				pw.draw(pgBottom, iconOrigin, iconClicked);
 			}
 			pgBottom.endDraw();
+		} else {
+			pgBottom.beginDraw();
+			pgBottom.clear();
+			pgBottom.background(255);
+			pgBottom.endDraw();
 		}
 	}
 
