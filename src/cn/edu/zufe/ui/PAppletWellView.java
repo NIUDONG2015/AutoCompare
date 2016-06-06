@@ -93,14 +93,14 @@ public class PAppletWellView extends PApplet {
 
 	public void mousePressed() {
 		if (pwList != null) {
-			for (PWell pw : pwList) {
-				pw.setClicked(false);
-			}
+//			for (PWell pw : pwList) {
+//				pw.setClicked(false);
+//			}
 
 			if (mouseButton == LEFT) {
 				for (PWell pw : pwList) {
 					if (pw.collisionDetection(mouseX, mouseY)) {
-						pw.setClicked(true);
+						pw.setClicked();
 						if (!compareWellList.contains(pw.getWell())) {
 							compareWellList.add(pw.getWell());
 						} else {

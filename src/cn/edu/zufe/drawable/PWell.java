@@ -27,7 +27,7 @@ public class PWell {
 		this.px = offsetX + norX * zoomOut;
 		this.py = offsetY + norY * zoomOut;
 	}
-	
+
 	public Well getWell() {
 		return well;
 	}
@@ -49,7 +49,7 @@ public class PWell {
 			if (clicked) {
 				pg.fill(0); // 点击时的颜色
 				shape = iconClicked;
-				drawInfo(pg, 10, 10); // 点击时显示信息
+				// drawInfo(pg, 10, 10); // 点击时显示信息
 			} else {
 				pg.fill(100); // 不点击时的颜色
 				shape = iconOrigin;
@@ -63,7 +63,7 @@ public class PWell {
 				pg.ellipse(px, py, pw, ph);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -147,5 +147,9 @@ public class PWell {
 
 	public void setClicked(boolean b) {
 		this.clicked = b;
+	}
+
+	public void setClicked() {
+		this.clicked = !clicked;
 	}
 }
