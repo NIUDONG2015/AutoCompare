@@ -69,7 +69,7 @@ public class Generator {
 			float norY = (float) norTops[i];
 			float norH = (float) (norBtms[i] - norTops[i]);
 			// System.out.println(wellList.get(i).getName() + "   µ×£º" + norBtms[i] + "   ¶¥£º" + norTops[i]);
-			psList.add(new PSection(wellList.get(i), (float) i * 160, norY, norH));
+			psList.add(new PSection(wellList.get(i), (float) i * 120, norY, norH));
 		}
 		return psList;
 	}
