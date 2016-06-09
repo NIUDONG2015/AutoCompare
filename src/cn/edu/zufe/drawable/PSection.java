@@ -12,7 +12,7 @@ public class PSection {
 	private float px = -1, py = -1; // 图左上角位置
 	private float ph = -1; // 高度
 	private static float pw = 20; // 宽度
-	private static float offsetX = 0, offsetY = 0, zoomOut = 380;// 位移偏量及放大参数
+	private static float offsetX = 0, offsetY = 0, zoomOut = 4000;// 位移偏量及放大参数
 	private LinkedList<SmallLayer> smallLayerList = new LinkedList<>(); // 保存小层数据，方便遍历
 
 	/**
