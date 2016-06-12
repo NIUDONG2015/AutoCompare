@@ -52,7 +52,7 @@ public class ScrollBar {
 		update();
 	}
 
-	public void update() {
+	private void update() {
 		if (p.mousePressed && collisionDetection()) {
 			colorGray = 96; // 点击时改变颜色
 			locked = true;
@@ -93,6 +93,23 @@ public class ScrollBar {
 			}
 		}
 		return false;
+	}
+
+	public void mouseWheel(int dir) {
+		if (dir == 1) {
+			y += 10;
+		} else if (dir == -1) {
+			y -= 10;
+		} else {
+			System.out.println("error: wrong dir value(" + dir + ")");
+		}
+		// 防止越界
+		if (y < offset) {
+			y = offset;
+		}
+		if (y > offset + length - h) {
+			y = offset + length - h;
+		}
 	}
 
 	public float getImagePos() {

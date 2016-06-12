@@ -6,6 +6,7 @@ import cn.edu.zufe.drawable.PSection;
 import cn.edu.zufe.drawable.ScrollBar;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.event.MouseEvent;
 import controlP5.*;
 
 /**
@@ -41,15 +42,19 @@ public class PAppletSC extends PApplet {
 		// ControlP5 实例化
 		cp5 = new ControlP5(this);
 		// 滚动条
-		hScrollBar = new ScrollBar(this, pgBottom, true);
-		vScrollBar = new ScrollBar(this, pgBottom, false);
+		vScrollBar = new ScrollBar(this, pgBottom, true);
+		hScrollBar = new ScrollBar(this, pgBottom, false);
 	}
 
 	public void draw() {
 		background(255);
-		image(pgBottom, vScrollBar.getImagePos(), hScrollBar.getImagePos());
+		image(pgBottom, hScrollBar.getImagePos(), vScrollBar.getImagePos());
 		drawPGScrollBar();
 		image(pgScrollBar, 0, 0);
+	}
+	
+	public void mouseWheel(MouseEvent event) {
+		vScrollBar.mouseWheel(event.getCount());
 	}
 
 	public void drawPGBottom() {
