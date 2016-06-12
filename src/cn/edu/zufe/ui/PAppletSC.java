@@ -17,7 +17,7 @@ public class PAppletSC extends PApplet {
 	private int width, height;
 	private PGraphics pgBottom, pgScrollBar;
 	ControlP5 cp5;
-	private ScrollBar hScrollBar;
+	private ScrollBar hScrollBar,vScrollBar;
 
 	public PAppletSC(int width, int height) {
 		this.width = width;
@@ -31,7 +31,7 @@ public class PAppletSC extends PApplet {
 	public void setup() {
 		size(width, height);
 		// 最底端缓存图初始化
-		pgBottom = createGraphics(width, 4000);
+		pgBottom = createGraphics(1000, 4001);
 		pgBottom.beginDraw();
 		pgBottom.endDraw();
 		// 最底端缓存图初始化
@@ -42,12 +42,12 @@ public class PAppletSC extends PApplet {
 		cp5 = new ControlP5(this);
 		// 滚动条
 		hScrollBar = new ScrollBar(this, pgBottom, true);
-
+		vScrollBar = new ScrollBar(this, pgBottom, false);
 	}
 
 	public void draw() {
 		background(255);
-		image(pgBottom, 0, hScrollBar.getImagePos());
+		image(pgBottom, vScrollBar.getImagePos(), hScrollBar.getImagePos());
 		drawPGScrollBar();
 		image(pgScrollBar, 0, 0);
 	}
@@ -57,6 +57,8 @@ public class PAppletSC extends PApplet {
 			pgBottom.beginDraw();
 			pgBottom.clear();
 			pgBottom.background(255);
+			pgBottom.stroke(0);
+			pgBottom.rect(0,0,pgBottom.width-1,pgBottom.height-1); // 用于判断边界
 			for (int i = 0; i < psList.size(); i++) {
 				psList.get(i).draw(pgBottom);
 				if (i + 1 < psList.size()) {
@@ -68,6 +70,8 @@ public class PAppletSC extends PApplet {
 			pgBottom.beginDraw();
 			pgBottom.clear();
 			pgBottom.background(255);
+			pgBottom.stroke(0);
+			pgBottom.rect(0,0,pgBottom.width-1,pgBottom.height-1); // 用于判断边界
 			pgBottom.endDraw();
 		}
 	}
@@ -77,6 +81,7 @@ public class PAppletSC extends PApplet {
 		pgScrollBar.beginDraw();
 		pgScrollBar.clear();
 		hScrollBar.draw(pgScrollBar);
+		vScrollBar.draw(pgScrollBar);
 		pgScrollBar.endDraw();
 	}
 }
