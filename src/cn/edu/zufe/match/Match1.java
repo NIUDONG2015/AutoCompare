@@ -42,6 +42,8 @@ public class Match1 {
 				Well well = wellList.get(i);
 				for (int j = 0; j < well.getBigLayers().size(); ++j) {
 					BigLayer bigLayer = well.getBigLayers().get(j);
+					if(bigLayer.getDepth()[0] == 0)
+						continue;
 					if (bigLayer.getSmallLayers().size() > 0) {
 						double top;
 						if (j > 0)
@@ -79,19 +81,25 @@ public class Match1 {
 					BigLayer bigLayer = well.getBigLayers().get(j);
 					BigLayer standardBigLayer = standardWell.getBigLayers().get(j);
 					int l = 0;
-					for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-						SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-						for (int m = l; m < standardBigLayer.getSmallLayers().size() - 1; ++m) {
-							double nor1 = standardBigLayer.getSmallLayers().get(m).getNor();
-							double nor2 = standardBigLayer.getSmallLayers().get(m + 1).getNor();
-							if (smallLayer.getDepth()[0] == 0.0)
-								smallLayer.setMatchResName("¼âÃð");
-							else if (m == 0 && smallLayer.getNor() < nor1)
-								smallLayer.setMatchResName(standardBigLayer.getSmallLayers().get(0).getName());
-							else if (smallLayer.getNor() > nor1 && smallLayer.getNor() < nor2)
-								smallLayer.setMatchResName(standardBigLayer.getSmallLayers().get(m).getName());
-
+					if(bigLayer.getDepth()[0] == 0){
+						for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+							SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+							smallLayer.setMatchResName("¼âÃð");
 						}
+					}else{
+						for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+							SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+							for (int m = l; m < standardBigLayer.getSmallLayers().size() - 1; ++m) {
+								double nor1 = standardBigLayer.getSmallLayers().get(m).getNor();
+								double nor2 = standardBigLayer.getSmallLayers().get(m + 1).getNor();
+								if (smallLayer.getDepth()[0] == 0.0)
+									smallLayer.setMatchResName("¼âÃð");
+								else if (m == 0 && smallLayer.getNor() < nor1)
+									smallLayer.setMatchResName(standardBigLayer.getSmallLayers().get(0).getName());
+								else if (smallLayer.getNor() > nor1 && smallLayer.getNor() < nor2)
+									smallLayer.setMatchResName(standardBigLayer.getSmallLayers().get(m).getName());
+						}
+					}
 					}
 				}
 			}
@@ -101,20 +109,20 @@ public class Match1 {
 		
 		// out
 		
-//		for (int i = 0; i < wellList.size(); ++i) {
-//			Well well = wellList.get(i);
-//			System.out.println("¾®ºÅ:" + well.getName());
-//			for (int j = 0; j < well.getBigLayers().size(); ++j) {
-//				BigLayer bigLayer = well.getBigLayers().get(j);
-//				System.out.println("	²ãÎ»:" + bigLayer.getName());
-//			    for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-//					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-//					System.out.println("			²ãÎ»:" + smallLayer.getName() + "  ¹éÒ»»¯:" + smallLayer.getNor() + "  Æ¥Åä½á¹û:" + smallLayer.getMatchResName());
-//				}
-//				System.out.println("");
-//			}
-//			System.out.println("");
-//		}
+		for (int i = 0; i < wellList.size(); ++i) {
+			Well well = wellList.get(i);
+			System.out.println("¾®ºÅ:" + well.getName());
+			for (int j = 0; j < well.getBigLayers().size(); ++j) {
+				BigLayer bigLayer = well.getBigLayers().get(j);
+				System.out.println("	²ãÎ»:" + bigLayer.getName());
+			    for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+					SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+					System.out.println("			²ãÎ»:" + smallLayer.getName() + "  ¹éÒ»»¯:" + smallLayer.getNor() + "  Æ¥Åä½á¹û:" + smallLayer.getMatchResName());
+				}
+				System.out.println("");
+			}
+			System.out.println("");
+		}
 
 	}
 	
