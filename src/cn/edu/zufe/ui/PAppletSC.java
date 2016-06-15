@@ -89,4 +89,8 @@ public class PAppletSC extends PApplet {
 		vScrollBar.draw(pgScrollBar);
 		pgScrollBar.endDraw();
 	}
+	
+	public void savePGBottom(String fileName) {
+		pgBottom.save(fileName);
+	}
 }

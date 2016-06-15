@@ -14,7 +14,7 @@ public class PSection {
 	private static float pw = 20; // 宽度
 	//位移偏量及放大参数  (!必须zoomOut<=pg.hegiht+1，rect绘制的时候比实际大小多1像素，用于绘制边界)
 	private static float offsetX = 0, offsetY = 0, zoomOut = 4000;
-	private LinkedList<SmallLayer> smallLayerList = new LinkedList<>(); // 保存小层数据，方便遍历
+	private LinkedList<SmallLayer> smallLayerList = new LinkedList<SmallLayer>(); // 保存小层数据，方便遍历
 
 	/**
 	 * 构造函数
@@ -31,7 +31,7 @@ public class PSection {
 		this.px = norX;
 		this.py = offsetY + norY * zoomOut;
 		this.ph = norH * zoomOut;
-		System.out.println("(" + px + "," + py + ") | " + ph);
+		// System.out.println("(" + px + "," + py + ") | " + ph);
 		setSmallLayerList();
 	}
 
@@ -41,7 +41,6 @@ public class PSection {
 	 * @param pg
 	 */
 	public void draw(PGraphics pg) {
-
 		pg.stroke(0);
 		// 画油井
 		pg.rect(px, py, pw, ph);
@@ -92,38 +91,38 @@ public class PSection {
 			// 找不到同名小层
 			if (isConnect == false) {
 				// 尖灭
-				pg.stroke(255, 0, 0);
-				pg.line(px + pw, topH0, px + pw + 80, topH0);
-				pg.line(px + pw, bottomH0, px + pw + 80, topH0);
+//				pg.stroke(255, 0, 0);
+//				pg.line(px + pw, topH0, px + pw + 80, topH0);
+//				pg.line(px + pw, bottomH0, px + pw + 80, topH0);
 			}
 
 		}
 
 		// 当前井右侧井的左侧尖灭
-		for (SmallLayer smallLayer1 : ps.getSmallLayerList()) {
-			float topH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[0]);
-			float bottomH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[1]);
-			boolean isConnect = false;
-
-			for (SmallLayer smallLayer0 : smallLayerList) {
-				// 小层不匹配
-				if (smallLayer1.getMatchResName().equals(smallLayer0.getMatchResName()) == false) {
-					continue;
-				}
-
-				if (!isConnect) {
-					isConnect = true;
-				}
-			}
-			// 找不到同名小层
-			if (isConnect == false) {
-				// 尖灭
-				pg.stroke(255, 0, 0);
-				pg.line(ps.getpx(), topH1, ps.getpx() - 80, topH1);
-				pg.line(ps.getpx(), bottomH1, ps.getpx() - 80, topH1);
-			}
-
-		}
+//		for (SmallLayer smallLayer1 : ps.getSmallLayerList()) {
+//			float topH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[0]);
+//			float bottomH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[1]);
+//			boolean isConnect = false;
+//
+//			for (SmallLayer smallLayer0 : smallLayerList) {
+//				// 小层不匹配
+//				if (smallLayer1.getMatchResName().equals(smallLayer0.getMatchResName()) == false) {
+//					continue;
+//				}
+//
+//				if (!isConnect) {
+//					isConnect = true;
+//				}
+//			}
+//			// 找不到同名小层
+//			if (isConnect == false) {
+//				// 尖灭
+//				pg.stroke(255, 0, 0);
+//				pg.line(ps.getpx(), topH1, ps.getpx() - 80, topH1);
+//				pg.line(ps.getpx(), bottomH1, ps.getpx() - 80, topH1);
+//			}
+//
+//		}
 	}
 
 	/**

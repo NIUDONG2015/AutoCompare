@@ -20,8 +20,8 @@ import cn.edu.zufe.drawable.*;
 public class FrameMain extends JFrame implements ActionListener {
 	// private LinkedList<Well> wellList;
 	private JMenuBar menubar;
-	private JMenu menu;
-	private JMenuItem miOpen, miSave, miExport, miExit; // 菜单项
+	private JMenu menuFile, menuTest;
+	private JMenuItem miOpen, miSave, miExport, miExit,miSaveAsImage; // 菜单项
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
 	private static LinkedList<Well> wellList;
@@ -39,19 +39,27 @@ public class FrameMain extends JFrame implements ActionListener {
 
 		// 添加菜单项
 		menubar = new JMenuBar();
-		menu = new JMenu("File");
+		// 文件菜单项
+		menuFile = new JMenu("File");
 		miOpen = new JMenuItem("Open");
 		miSave = new JMenuItem("Save");
 		miExport = new JMenuItem("Export");
 		miExit = new JMenuItem("Exit");
-		menu.add(miOpen);
-		menu.add(miSave);
-		menu.addSeparator();
-		menu.add(miExport);
-		menu.add(miExit);
-		menubar.add(menu);
+		menuFile.add(miOpen);
+		menuFile.add(miSave);
+		menuFile.addSeparator();
+		menuFile.add(miExport);
+		menuFile.add(miExit);
+		menubar.add(menuFile);
 		miOpen.addActionListener(this);
 		miSave.addActionListener(this);
+		// 测试工具菜单项
+		menuTest = new JMenu("Test Tool");
+		miSaveAsImage = new JMenuItem("Save As Image");
+		menuTest.add(miSaveAsImage);
+		menubar.add(menuTest);
+		miSaveAsImage.addActionListener(this);
+		
 		this.setJMenuBar(menubar);
 
 		// 添加两个 PApplet 窗口
@@ -91,6 +99,9 @@ public class FrameMain extends JFrame implements ActionListener {
 			}
 		} else if (e.getSource() == miSave) {
 			System.out.println("Save");
+		} else if (e.getSource() == miSaveAsImage) {
+			psc.savePGBottom("Data\\well.png");
+			JOptionPane.showMessageDialog(null, "地层对比图已经保存到“Data\\well.png”", "提示", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
