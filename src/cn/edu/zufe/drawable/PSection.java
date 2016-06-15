@@ -79,12 +79,9 @@ public class PSection {
 
 				// 小层匹配
 				if (smallLayer0.getMatchResName().equals(smallLayer1.getMatchResName()) && !smallLayer1.beFound) {
-					// 砂岩顶深连接
 					float topH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[0]);
-					pg.line(px + pw, topH0, ps.getpx(), topH1);
-
-					// 砂岩底深连接
 					float bottomH1 = (float) (ps.getpy() + ps.getph() * smallLayer1.getNorDepth()[1]);
+					pg.line(px + pw, topH0, ps.getpx(), topH1);
 					pg.line(px + pw, bottomH0, ps.getpx(), bottomH1);
 					smallLayer1.beFound = true;
 					break;
