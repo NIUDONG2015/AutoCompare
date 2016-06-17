@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import processing.core.*;
 import cn.edu.zufe.drawable.*;
 import cn.edu.zufe.model.*;
+import cn.edu.zufe.sort.SortFactory;
 
 public class PAppletWellView extends PApplet {
 
@@ -14,7 +15,8 @@ public class PAppletWellView extends PApplet {
 	private LinkedList<PWell> pwList = null;
 	private LinkedList<Well> compareWellList = new LinkedList<Well>();
 	private PShape iconOrigin, iconClicked; // 油田图标
-
+	private int sort = 0;	//排序方法
+	
 	public PAppletWellView(int width, int height, PApplet psc) {
 		this.width = width;
 		this.height = height;
@@ -65,6 +67,7 @@ public class PAppletWellView extends PApplet {
 			pgBottom.endDraw();
 		}
 	}
+	
 
 	/**
 	 * 画出 pgHighlight
@@ -95,8 +98,12 @@ public class PAppletWellView extends PApplet {
 			}
 		}
 	}
-
+	
+	
 	public void mousePressed() {
+		if(sort != 0) 
+			return ;
+		
 		if (pwList != null) {
 //			for (PWell pw : pwList) {
 //				pw.setClicked(false);
@@ -122,4 +129,26 @@ public class PAppletWellView extends PApplet {
 			drawPGBottom();
 		}
 	}
+	
+	public void setSort(int tsort){
+		sort = tsort;
+		for(PWell pw : pwList){
+			pw.setClicked(false);
+		}
+		compareWellList.clear();
+		psc.setPSList(null);
+		psc.drawPGBottom();
+		
+		if(sort != 0){
+			for(PWell pw : pwList){
+				compareWellList.add(pw.getWell());
+			}
+			SortFactory sortMethod = new SortFactory(pwList.get(1).getWell(), compareWellList);
+			sortMethod.doSort(tsort);
+			LinkedList<PSection> psList = Generator.toPSection(compareWellList);
+			psc.setPSList(psList);
+			psc.drawPGBottom();
+		}
+	}
+	
 }

@@ -20,8 +20,9 @@ import cn.edu.zufe.drawable.*;
 public class FrameMain extends JFrame implements ActionListener {
 	// private LinkedList<Well> wellList;
 	private JMenuBar menubar;
-	private JMenu menuFile, menuTest;
-	private JMenuItem miOpen, miSave, miExport, miExit,miSaveAsImage; // 菜单项
+	private JMenu menuFile, menuTest, menuSort,  menuAutoSorting;
+	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, 
+						 miSort1, miSort2; // 菜单项
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
 	private static LinkedList<Well> wellList;
@@ -53,6 +54,22 @@ public class FrameMain extends JFrame implements ActionListener {
 		menubar.add(menuFile);
 		miOpen.addActionListener(this);
 		miSave.addActionListener(this);
+		
+		//手动排序和自动排序
+		menuSort = new JMenu("Sort");
+		miManualSorting = new JMenuItem("ManualSorting");
+		menuAutoSorting = new JMenu("AutoSorting");
+		miSort1 = new JMenuItem("sort1");
+		miSort2 = new JMenuItem("sort2");
+		menuAutoSorting.add(miSort1);
+		menuAutoSorting.add(miSort2);
+		menuSort.add(miManualSorting);
+		menuSort.add(menuAutoSorting);
+		menubar.add(menuSort);
+		miManualSorting.addActionListener(this);
+		miSort1.addActionListener(this);
+		miSort2.addActionListener(this);
+		
 		// 测试工具菜单项
 		menuTest = new JMenu("Test Tool");
 		miSaveAsImage = new JMenuItem("Save As Image");
@@ -102,6 +119,18 @@ public class FrameMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == miSaveAsImage) {
 			psc.savePGBottom("Data\\well.png");
 			JOptionPane.showMessageDialog(null, "地层对比图已经保存到“Data\\well.png”", "提示", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(e.getSource() == miManualSorting){
+			pwv.setSort(0);
+			pwv.drawPGBottom();
+		}
+		else if(e.getSource() == miSort1){
+			pwv.setSort(1);
+			pwv.drawPGBottom();
+		}
+		else if(e.getSource() == miSort2){
+			pwv.setSort(2);
+			pwv.drawPGBottom();
 		}
 	}
 

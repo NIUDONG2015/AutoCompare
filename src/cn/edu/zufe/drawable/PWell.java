@@ -1,6 +1,8 @@
 package cn.edu.zufe.drawable;
 
 import java.text.DecimalFormat;
+import java.util.LinkedList;
+
 import processing.core.*;
 import cn.edu.zufe.model.*;
 
@@ -65,7 +67,30 @@ public class PWell {
 		}
 
 	}
-
+	
+	/***
+	 * 画出最小生成树路径 
+	 * 
+	 * @param pg
+	 * 		缓存图
+	 * @param pw
+	 * 		起始油井
+	 * @param pwList
+	 * 		所有油井
+	 */
+	public void drawMSTPath(PGraphics pg, PWell pw, LinkedList<PWell> pwList){
+		
+		boolean[][] mp = new boolean[pwList.size()][pwList.size()];
+		
+		for(int i=0; i<pwList.size(); ++i){
+			for(int j=0; j<pwList.size(); ++j){
+				if(mp[i][j]){
+					
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 高亮
 	 * 
