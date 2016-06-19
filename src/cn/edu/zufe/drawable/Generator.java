@@ -14,7 +14,7 @@ public class Generator {
 		if (wellList.size() == 0) {
 			return null;
 		}
-		
+
 		double[] x = new double[wellList.size()];
 		double[] y = new double[wellList.size()];
 		for (int i = 0; i < wellList.size(); ++i) {
@@ -44,7 +44,7 @@ public class Generator {
 		if (wellList.size() == 0) {
 			return null;
 		}
-		
+
 		double[] tops = new double[wellList.size()];
 		double[] btms = new double[wellList.size()];
 		double[] all = new double[wellList.size() * 2];
@@ -54,24 +54,42 @@ public class Generator {
 			all[i] = tops[i];
 		}
 		System.arraycopy(btms, 0, all, tops.length, btms.length);
-		
-//		for(int i = 0; i < all.length; ++i)
-//			System.out.println(all[i]);
-		
+
+		// for(int i = 0; i < all.length; ++i)
+		// System.out.println(all[i]);
+
 		double max = getMaxValue(all);
 		double min = getMinValue(all);
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
-
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
 			float norY = (float) norTops[i];
 			float norH = (float) (norBtms[i] - norTops[i]);
-			// System.out.println(wellList.get(i).getName() + "   µ×£º" + norBtms[i] + "   ¶¥£º" + norTops[i]);
+			// System.out.println(wellList.get(i).getName() + "   µ×£º" +
+			// norBtms[i] + "   ¶¥£º" + norTops[i]);
 			psList.add(new PSection(wellList.get(i), (float) i * 120, norY, norH));
 		}
 		return psList;
+	}
+
+	public static LinkedList<PSmallLayer> toPSmallLayer(PSection ps, LinkedList<SmallLayer> smallLayerList) {
+		if (smallLayerList == null) {
+			return null;
+		}
+		if (smallLayerList.size() == 0) {
+			return null;
+		}
+
+		LinkedList<PSmallLayer> pslList = new LinkedList<PSmallLayer>();
+		for (SmallLayer smallLayer : smallLayerList) {
+			if (smallLayer.getMatchResName().equals("¼âÃð") || smallLayer.getMatchResName() == null || smallLayer.getMatchResName() == "") {
+				continue;
+			}
+			pslList.add(new PSmallLayer(smallLayer, ps));
+		}
+		return pslList;
 	}
 
 	/**

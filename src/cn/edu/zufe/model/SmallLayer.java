@@ -9,7 +9,6 @@ public class SmallLayer {
 	private double nor;
 	private String eleResult = null; // 电测解释结果
 	private String matchResName = null;
-	public boolean beFound = false; // !!!临时Debug使用，重构时删除
 
 	public String getName() {
 		return name;
