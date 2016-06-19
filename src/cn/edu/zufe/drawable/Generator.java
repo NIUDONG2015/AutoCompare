@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import cn.edu.zufe.model.*;
+import cn.edu.zufe.ui.PAppletSC;
 
 public class Generator {
 
@@ -63,13 +64,15 @@ public class Generator {
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
+		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
 			float norY = (float) norTops[i];
 			float norH = (float) (norBtms[i] - norTops[i]);
 			// System.out.println(wellList.get(i).getName() + "   µ×£º" +
 			// norBtms[i] + "   ¶¥£º" + norTops[i]);
-			psList.add(new PSection(wellList.get(i), (float) i * 120, norY, norH));
+			float w = (float) (bigw * 0.3);
+			psList.add(new PSection(wellList.get(i), (float) 20 + i * bigw, norY, norH, w));
 		}
 		return psList;
 	}

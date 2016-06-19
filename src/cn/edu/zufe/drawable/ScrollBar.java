@@ -6,17 +6,17 @@ public class ScrollBar {
 
 	private PApplet p;
 	private PGraphics pg;
-	private float offset, length, size; // 矩形滚动条容器的参数
+	private float offset, length; // 矩形滚动条容器的参数
 	private boolean VorH; // 记录是什么类型的滚动条（垂直Or水平）
 	private float x, y, w, h; // 滚动条具体位置信息
 	private float colorGray = 205;
 	private boolean locked; // 是否已经选中滚动条
+	public static int size = 20;
 
 	public ScrollBar(PApplet p, PGraphics pg, boolean VorH) {
 		this.p = p;
 		this.pg = pg;
 		this.VorH = VorH;
-		size = 20;
 		offset = 0;
 		// 水平滚动条和垂直滚动条的参数有些区别
 		// 初始化滚动条参数

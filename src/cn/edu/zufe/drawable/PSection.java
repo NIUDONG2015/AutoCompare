@@ -11,9 +11,10 @@ public class PSection {
 	private Well well;
 	private float px = -1, py = -1; // 图左上角位置
 	private float ph = -1; // 高度
-	public static float pw = 20; // 宽度
+	private float pw = 20; // 宽度
+
 	// 位移偏量及放大参数 (!必须zoomOut<=pg.hegiht+1，rect绘制的时候比实际大小多1像素，用于绘制边界)
-	private static float offsetX = 0, offsetY = 0, zoomOut = 4000;
+	private static float offsetX = 0, offsetY = 100, zoomOut = 3800;
 	private LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>(); // 小层绘图类
 
 	/**
@@ -26,11 +27,13 @@ public class PSection {
 	 * @param norY
 	 *            归一化后的Y坐标值
 	 */
-	public PSection(Well well, float norX, float norY, float norH) {
+	public PSection(Well well, float norX, float norY, float norH, float w) {
 		this.well = well;
 		this.px = norX;
 		this.py = offsetY + norY * zoomOut;
+		this.pw = w;
 		this.ph = norH * zoomOut;
+
 		// System.out.println("(" + px + "," + py + ") | " + ph);
 		// 转化小层数据为绘图类
 		for (BigLayer bigLayer : well.getBigLayers()) {
@@ -46,11 +49,14 @@ public class PSection {
 	 * @param pg
 	 */
 	public void draw(PGraphics pg) {
+		// 油井名
+		pg.fill(0);
+		pg.text(well.getName(), px, py - 20);
 		pg.stroke(0);
 		// 画油井
 		pg.fill(255);
 		pg.rect(px, py, pw, ph);
-		// 画小层		
+		// 画小层
 		for (PSmallLayer psl : pSmallLayerList) {
 			psl.draw(pg);
 		}
@@ -100,6 +106,10 @@ public class PSection {
 
 	public float getpy() {
 		return py;
+	}
+
+	public float getpw() {
+		return pw;
 	}
 
 }

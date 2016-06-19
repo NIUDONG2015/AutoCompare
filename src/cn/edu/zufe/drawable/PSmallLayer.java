@@ -9,8 +9,7 @@ public class PSmallLayer {
 	private PSection ps;
 	private boolean found;
 	private SmallLayer data;
-	public static float pw = PSection.pw; // ¿í¶È
-	private float px, py, ph;
+	private float px, py, ph, pw;
 
 	public float getPx() {
 		return px;
@@ -45,13 +44,14 @@ public class PSmallLayer {
 		this.ps = ps;
 		this.px = ps.getpx();
 		this.py = ps.getpy() + ps.getph() * (float) data.getNorDepth()[0];
+		this.pw = ps.getpw();
 		this.ph = ps.getph() * (float) (data.getNorDepth()[1] - data.getNorDepth()[0]);
 	}
 
 	public void draw(PGraphics pg) {
 		pg.fill(100);
 		pg.rect(px, py, pw, ph);
-		pg.fill(255,0,0);
+		pg.fill(255, 0, 0);
 		pg.text(data.getName() + "£º" + data.getMatchResName(), px + pw + 3, py + ph / 2);
 		pg.fill(255);
 	}

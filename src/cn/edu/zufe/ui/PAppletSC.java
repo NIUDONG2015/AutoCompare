@@ -15,14 +15,14 @@ import controlP5.*;
 public class PAppletSC extends PApplet {
 
 	private LinkedList<PSection> psList = null;
-	private int width, height;
+	public static int width, height;
 	private PGraphics pgBottom, pgScrollBar;
 	ControlP5 cp5;
-	private ScrollBar hScrollBar,vScrollBar;
+	private ScrollBar hScrollBar, vScrollBar;
 
-	public PAppletSC(int width, int height) {
-		this.width = width;
-		this.height = height;
+	public PAppletSC(int w, int h) {
+		width = w;
+		height = h;
 	}
 
 	public void setPSList(LinkedList<PSection> psList) {
@@ -32,7 +32,7 @@ public class PAppletSC extends PApplet {
 	public void setup() {
 		size(width, height);
 		// 最底端缓存图初始化
-		pgBottom = createGraphics(1000, 4001);
+		pgBottom = createGraphics(width - ScrollBar.size, 4001);
 		pgBottom.beginDraw();
 		pgBottom.endDraw();
 		// 最底端缓存图初始化
@@ -52,7 +52,7 @@ public class PAppletSC extends PApplet {
 		drawPGScrollBar();
 		image(pgScrollBar, 0, 0);
 	}
-	
+
 	public void mouseWheel(MouseEvent event) {
 		vScrollBar.mouseWheel(event.getCount());
 	}
@@ -63,7 +63,7 @@ public class PAppletSC extends PApplet {
 			pgBottom.clear();
 			pgBottom.background(255);
 			pgBottom.stroke(0);
-			pgBottom.rect(0,0,pgBottom.width-1,pgBottom.height-1); // 用于判断边界
+			pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
 			for (int i = 0; i < psList.size(); i++) {
 				psList.get(i).draw(pgBottom);
 				if (i + 1 < psList.size()) {
@@ -76,12 +76,11 @@ public class PAppletSC extends PApplet {
 			pgBottom.clear();
 			pgBottom.background(255);
 			pgBottom.stroke(0);
-			pgBottom.rect(0,0,pgBottom.width-1,pgBottom.height-1); // 用于判断边界
+			pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
 			pgBottom.endDraw();
 		}
 	}
 
-	
 	private void drawPGScrollBar() {
 		pgScrollBar.beginDraw();
 		pgScrollBar.clear();
@@ -89,7 +88,7 @@ public class PAppletSC extends PApplet {
 		vScrollBar.draw(pgScrollBar);
 		pgScrollBar.endDraw();
 	}
-	
+
 	public void savePGBottom(String fileName) {
 		pgBottom.save(fileName);
 	}
