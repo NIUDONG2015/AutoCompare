@@ -118,7 +118,7 @@ public class PAppletWellView extends PApplet {
 						} else {
 							compareWellList.remove(pw.getWell());
 						}
-						LinkedList<PSection> psList = Generator.toPSection(compareWellList);
+						LinkedList<PSection> psList = Generator.wellToPSection(compareWellList);
 						// System.out.println("现在生成井的个数：" + psList.size());
 						psc.setPSList(psList);
 						psc.drawPGBottom();
@@ -143,9 +143,12 @@ public class PAppletWellView extends PApplet {
 			for(PWell pw : pwList){
 				compareWellList.add(pw.getWell());
 			}
-			SortFactory sortMethod = new SortFactory(pwList.get(1).getWell(), compareWellList);
+			LinkedList<PWell> tPWList = Generator.wellToPWells(compareWellList);
+			
+			SortFactory sortMethod = new SortFactory(pwList.get(1), tPWList);
 			sortMethod.doSort(tsort);
-			LinkedList<PSection> psList = Generator.toPSection(compareWellList);
+			
+			LinkedList<PSection> psList = Generator.pWellToPSection(tPWList);
 			psc.setPSList(psList);
 			psc.drawPGBottom();
 		}

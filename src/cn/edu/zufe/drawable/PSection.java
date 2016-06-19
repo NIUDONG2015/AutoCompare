@@ -38,7 +38,7 @@ public class PSection {
 		// 转化小层数据为绘图类
 		for (BigLayer bigLayer : well.getBigLayers()) {
 			if (bigLayer.getSmallLayers().size() > 0) {
-				pSmallLayerList.addAll(Generator.toPSmallLayer(this, bigLayer.getSmallLayers()));
+				pSmallLayerList.addAll(Generator.smallLayerToPSmallLayer(this, bigLayer.getSmallLayers()));
 			}
 		}
 	}
@@ -93,6 +93,9 @@ public class PSection {
 		return pSmallLayerList;
 	}
 
+	public Well getWell(){
+		return this.well;
+	}
 	/**
 	 * 获得高度,位置信息
 	 */

@@ -25,7 +25,7 @@ public class FrameMain extends JFrame implements ActionListener {
 						 miSort1, miSort2; // 菜单项
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
-	private static LinkedList<Well> wellList;
+	private LinkedList<Well> wellList;
 	private MatchFactory matchFactory;
 
 	public FrameMain(String s, int width, int height) {
@@ -150,7 +150,7 @@ public class FrameMain extends JFrame implements ActionListener {
 					matchFactory = new MatchFactory(wellList.get(1), wellList);
 					matchFactory.doMatch(1);
 					// Well to PWell
-					LinkedList<PWell> pwList = Generator.toPWells(wellList);
+					LinkedList<PWell> pwList = Generator.wellToPWells(wellList);
 					// set and draw
 					pwv.setPWells(pwList);
 					pwv.drawPGBottom();

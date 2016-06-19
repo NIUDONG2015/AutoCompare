@@ -8,7 +8,7 @@ public class PSmallLayer {
 	private PSmallLayer nextPSmallLayer, prevPSmallLayer;
 	private PSection ps;
 	private boolean found;
-	private SmallLayer data;
+	private SmallLayer smallLayer;
 	private float px, py, ph, pw;
 
 	public float getPx() {
@@ -35,24 +35,24 @@ public class PSmallLayer {
 		this.found = found;
 	}
 
-	public SmallLayer getData() {
-		return data;
+	public SmallLayer getSmallLayer() {
+		return smallLayer;
 	}
 
 	public PSmallLayer(SmallLayer sl, PSection ps) {
-		this.data = sl;
+		this.smallLayer = sl;
 		this.ps = ps;
 		this.px = ps.getpx();
-		this.py = ps.getpy() + ps.getph() * (float) data.getNorDepth()[0];
+		this.py = ps.getpy() + ps.getph() * (float) smallLayer.getNorDepth()[0];
 		this.pw = ps.getpw();
-		this.ph = ps.getph() * (float) (data.getNorDepth()[1] - data.getNorDepth()[0]);
+		this.ph = ps.getph() * (float) (smallLayer.getNorDepth()[1] - smallLayer.getNorDepth()[0]);
 	}
 
 	public void draw(PGraphics pg) {
 		pg.fill(100);
 		pg.rect(px, py, pw, ph);
 		pg.fill(255, 0, 0);
-		pg.text(data.getName() + "£º" + data.getMatchResName(), px + pw + 3, py + ph / 2);
+		pg.text(smallLayer.getName() + "£º" + smallLayer.getMatchResName(), px + pw + 3, py + ph / 2);
 		pg.fill(255);
 	}
 
@@ -64,7 +64,7 @@ public class PSmallLayer {
 	}
 
 	public boolean compare(PSmallLayer psl) {
-		if (data.getMatchResName().equals(psl.getData().getMatchResName())) {
+		if (smallLayer.getMatchResName().equals(psl.getSmallLayer().getMatchResName())) {
 			return true;
 		} else {
 			return false;

@@ -7,8 +7,17 @@ import cn.edu.zufe.model.*;
 import cn.edu.zufe.ui.PAppletSC;
 
 public class Generator {
-
-	public static LinkedList<PWell> toPWells(LinkedList<Well> wellList) {
+	
+	public static PSection pWellToPSection(PWell pWell, LinkedList<PSection> pSectionList){
+		PSection pSection = null;
+		for(PSection tPSection : pSectionList){
+			if(pWell.getWell().equals(tPSection.getWell())){
+				pSection = tPSection;
+			}
+		}
+		return pSection;
+	}
+	public static LinkedList<PWell> wellToPWells(LinkedList<Well> wellList) {
 		if (wellList == null) {
 			return null;
 		}
@@ -37,8 +46,47 @@ public class Generator {
 		}
 		return pwList;
 	}
+	
+	public static LinkedList<PSection> pWellToPSection(LinkedList<PWell> pWellList) {
+		if (pWellList == null) {
+			return null;
+		}
+		if (pWellList.size() == 0) {
+			return null;
+		}
 
-	public static LinkedList<PSection> toPSection(LinkedList<Well> wellList) {
+		double[] tops = new double[pWellList.size()];
+		double[] btms = new double[pWellList.size()];
+		double[] all = new double[pWellList.size() * 2];
+		for (int i = 0; i < pWellList.size(); ++i) {
+			tops[i] = pWellList.get(i).getWell().getDepth()[0];
+			btms[i] = pWellList.get(i).getWell().getDepth()[1];
+			all[i] = tops[i];
+		}
+		System.arraycopy(btms, 0, all, tops.length, btms.length);
+
+		// for(int i = 0; i < all.length; ++i)
+		// System.out.println(all[i]);
+
+		double max = getMaxValue(all);
+		double min = getMinValue(all);
+		double[] norTops = normalization(tops, max, min);
+		double[] norBtms = normalization(btms, max, min);
+
+		float bigw = (PAppletSC.width - ScrollBar.size) / pWellList.size();
+		LinkedList<PSection> psList = new LinkedList<PSection>();
+		for (int i = 0; i < pWellList.size(); ++i) {
+			float norY = (float) norTops[i];
+			float norH = (float) (norBtms[i] - norTops[i]);
+			// System.out.println(wellList.get(i).getName() + "   µ×£º" +
+			// norBtms[i] + "   ¶¥£º" + norTops[i]);
+			float w = (float) (bigw * 0.3);
+			psList.add(new PSection(pWellList.get(i).getWell(), (float) 20 + i * bigw, norY, norH, w));
+		}
+		return psList;
+	}
+	
+	public static LinkedList<PSection> wellToPSection(LinkedList<Well> wellList) {
 		if (wellList == null) {
 			return null;
 		}
@@ -77,7 +125,7 @@ public class Generator {
 		return psList;
 	}
 
-	public static LinkedList<PSmallLayer> toPSmallLayer(PSection ps, LinkedList<SmallLayer> smallLayerList) {
+	public static LinkedList<PSmallLayer> smallLayerToPSmallLayer(PSection ps, LinkedList<SmallLayer> smallLayerList) {
 		if (smallLayerList == null) {
 			return null;
 		}

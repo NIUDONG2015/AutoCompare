@@ -177,4 +177,12 @@ public class PWell {
 	public void setClicked() {
 		this.clicked = !clicked;
 	}
+	
+	public double getPX(){
+		return this.px;
+	}
+	
+	public double getPY(){
+		return this.py;
+	}
 }

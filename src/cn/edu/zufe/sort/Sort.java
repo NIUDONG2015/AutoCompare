@@ -5,19 +5,25 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import cn.edu.zufe.drawable.PSection;
+import cn.edu.zufe.drawable.PSmallLayer;
+import cn.edu.zufe.drawable.PWell;
+import cn.edu.zufe.drawable.Generator;
 import cn.edu.zufe.model.BigLayer;
 import cn.edu.zufe.model.SmallLayer;
 import cn.edu.zufe.model.Well;
 
 public class Sort {
-	private Well standardWell;
-	private LinkedList<Well> wellList;
-	private LinkedList<Well> cloneWellList;
-
-	public Sort(Well standardWell, LinkedList<Well> wellList) {
-		this.standardWell = standardWell;
-		this.wellList = wellList;
-		cloneWellList = (LinkedList<Well>) wellList.clone();
+	private PWell pStandardWell;
+	private LinkedList<PWell> pWellList;
+	private LinkedList<PWell> pCloneWellList;
+	private LinkedList<PSection> pSectionList;
+	
+	public Sort(PWell pStandardWell, LinkedList<PWell> pWellList) {
+		this.pStandardWell = pStandardWell;
+		this.pWellList = pWellList;
+		this.pCloneWellList = (LinkedList<PWell>) pWellList.clone();
+		this.pSectionList = Generator.pWellToPSection(this.pCloneWellList);
 	}
 
 	/***
@@ -27,11 +33,11 @@ public class Sort {
 	 * @param wellB
 	 * @return
 	 */
-	public int getSmallLayerMatchNum(Well wellA, Well wellB) {
+	public  int getSmallLayerMatchNum(PWell pWellA, PWell pWellB) {
 		int smallLayerMatchNum = 0;
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 
-		for (BigLayer bigLayer : wellA.getBigLayers()) {
+		for (BigLayer bigLayer : pWellA.getWell().getBigLayers()) {
 			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				String matchName = smallLayer.getMatchResName();
 
@@ -43,7 +49,7 @@ public class Sort {
 			}
 		}
 
-		for (BigLayer bigLayer : wellB.getBigLayers()) {
+		for (BigLayer bigLayer : pWellB.getWell().getBigLayers()) {
 			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				String matchName = smallLayer.getMatchResName();
 
@@ -68,11 +74,11 @@ public class Sort {
 	 * @param well
 	 * @return 获得标准井的小层个数
 	 */
-	public int getStandardWellSmallLayerNum(Well standardWell) {
+	public  int getStandardWellSmallLayerNum(PWell pStandardWell) {
 		int standardWellSmallLayerNum = 0;
 
-		for (int i = 0; i < standardWell.getBigLayers().size(); ++i) {
-			standardWellSmallLayerNum += standardWell.getBigLayers().get(i).getSmallLayers().size();
+		for (int i = 0; i < pStandardWell.getWell().getBigLayers().size(); ++i) {
+			standardWellSmallLayerNum += pStandardWell.getWell().getBigLayers().get(i).getSmallLayers().size();
 
 		}
 		return standardWellSmallLayerNum;
@@ -81,9 +87,9 @@ public class Sort {
 	/***
 	 * 获得两个井之间的距离
 	 */
-	public double getDis(Well wellA, Well wellB) {
-		return Math.sqrt((wellA.getX() - wellB.getX()) * (wellA.getX() - wellB.getX())
-				+ (wellB.getY() - wellB.getY() * (wellB.getY() - wellB.getY())));
+	public static double getDis(PWell pWellA, PWell pWellB) {
+		return Math.sqrt((pWellA.getPX() - pWellB.getPX()) * (pWellA.getPX() - pWellB.getPX())
+				+ (pWellA.getPY() - pWellB.getPY()) * (pWellA.getPY() - pWellB.getPY()));
 	}
 
 	/***
@@ -91,11 +97,11 @@ public class Sort {
 	 * 
 	 * @return
 	 */
-	public double getMaxDis() {
+	public  double getMaxDis() {
 		double maxDis = 0;
-		for (int i = 0; i < cloneWellList.size(); ++i) {
-			for (int j = i + 1; j < cloneWellList.size(); ++j) {
-				maxDis = Math.max(maxDis, getDis(cloneWellList.get(i), cloneWellList.get(j)));
+		for (int i = 0; i < pCloneWellList.size(); ++i) {
+			for (int j = i + 1; j < pCloneWellList.size(); ++j) {
+				maxDis = Math.max(maxDis, getDis(pCloneWellList.get(i), pCloneWellList.get(j)));
 			}
 		}
 		return maxDis;
@@ -108,33 +114,36 @@ public class Sort {
 	 * @param wellB
 	 * @return
 	 */
-	public double getGradient(Well wellA, Well wellB) {
+	public static double getGradient(PSection pSectionA, PSection pSectionB) {
 		double gradientSum = 0;
-		ArrayList<SmallLayer> listA = new ArrayList<SmallLayer>();
-		for (BigLayer bigLayer : wellA.getBigLayers()) {
+		LinkedList<SmallLayer> listA = new LinkedList<SmallLayer>();
+		for (BigLayer bigLayer : pSectionA.getWell().getBigLayers()) {
 			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				if (checkMatchNameExist(smallLayer.getMatchResName()) == true)
 					listA.add(smallLayer);
 			}
 		}
-		ArrayList<SmallLayer> listB = new ArrayList<SmallLayer>();
-		for (BigLayer bigLayer : wellB.getBigLayers()) {
+		LinkedList<PSmallLayer> pListA = Generator.smallLayerToPSmallLayer(pSectionA, listA);
+		
+		LinkedList<SmallLayer> listB = new LinkedList<SmallLayer>();
+		for (BigLayer bigLayer : pSectionB.getWell().getBigLayers()) {
 			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				if (checkMatchNameExist(smallLayer.getMatchResName()) == true)
 					listB.add(smallLayer);
 			}
 		}
-
-		//梯度和匹配...要结合画法
+		LinkedList<PSmallLayer> pListB = Generator.smallLayerToPSmallLayer(pSectionB, listB);
+		
+		//梯度和匹配...结合画法
 		int k = 0;
-		for (int i = 0; i < listA.size(); ++i) {
-			SmallLayer smallLayerA = listA.get(i);
-			for (int j = k; j < listB.size(); ++j) {
-				SmallLayer smallLayerB = listB.get(j);
-				if (smallLayerA.getMatchResName().equals(smallLayerB.getMatchResName())) {
+		for (int i = 0; i < pListA.size(); ++i) {
+			PSmallLayer pSmallLayerA = pListA.get(i);
+			for (int j = k; j < pListB.size(); ++j) {
+				PSmallLayer pSmallLayerB = pListB.get(j);
+				if (pSmallLayerA.getSmallLayer().getMatchResName().equals(pSmallLayerB.getSmallLayer().getMatchResName())) {
 					k = j + 1;
-					gradientSum += Math.abs(smallLayerA.getDepth()[0] - smallLayerB.getDepth()[0]);
-					gradientSum += Math.abs(smallLayerA.getDepth()[1] - smallLayerB.getDepth()[1]);
+					gradientSum += Math.abs(pSmallLayerA.getPy() - pSmallLayerB.getPy());
+					gradientSum += Math.abs(pSmallLayerA.getPy() - pSmallLayerB.getPy() + pSmallLayerA.getPh() - pSmallLayerB.getPh());
 					break;
 				}
 			}
@@ -146,12 +155,12 @@ public class Sort {
 	 * 获得所有油井之间最大梯度和
 	 * @return
 	 */
-	public double getMaxGradient(){
+	public  double getMaxGradient(){
 		double maxGradient = 0;
 		
-		for (int i = 0; i < cloneWellList.size(); ++i) {
-			for (int j = i + 1; j < cloneWellList.size(); ++j) {
-				maxGradient = Math.max(maxGradient, getGradient(cloneWellList.get(i), cloneWellList.get(j)));
+		for (int i = 0; i < pSectionList.size(); ++i) {
+			for (int j = i + 1; j < pSectionList.size(); ++j) {
+				maxGradient = Math.max(maxGradient, getGradient(pSectionList.get(i), pSectionList.get(j)));
 			}
 		}
 		return maxGradient;
@@ -163,7 +172,7 @@ public class Sort {
 	 * @param matchName
 	 * @return
 	 */
-	public boolean checkMatchNameExist(String matchName) {
+	public static boolean checkMatchNameExist(String matchName) {
 		if (matchName == null || matchName.equals("") || matchName.equals("尖灭"))
 			return false;
 		return true;
