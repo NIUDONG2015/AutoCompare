@@ -1,5 +1,7 @@
 package cn.edu.zufe.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.LinkedList;
 
 import cn.edu.zufe.drawable.PSection;
@@ -35,8 +37,9 @@ public class PAppletSC extends PApplet {
 		pgBottom = createGraphics(width - ScrollBar.size, 4001);
 		pgBottom.beginDraw();
 		pgBottom.endDraw();
-		// 最底端缓存图初始化
-		pgScrollBar = createGraphics(width, height);
+		// 滚动条缓存图初始化
+		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+		pgScrollBar = createGraphics((int) screensize.getWidth(), (int) screensize.getHeight());
 		pgScrollBar.beginDraw();
 		pgScrollBar.endDraw();
 		// ControlP5 实例化
@@ -47,6 +50,9 @@ public class PAppletSC extends PApplet {
 	}
 
 	public void draw() {
+		vScrollBar.setBarPos();
+		hScrollBar.setBarPos();
+		
 		background(255);
 		image(pgBottom, hScrollBar.getImagePos(), vScrollBar.getImagePos());
 		drawPGScrollBar();
@@ -87,9 +93,14 @@ public class PAppletSC extends PApplet {
 		hScrollBar.draw(pgScrollBar);
 		vScrollBar.draw(pgScrollBar);
 		pgScrollBar.endDraw();
+		
 	}
 
 	public void savePGBottom(String fileName) {
 		pgBottom.save(fileName);
+	}
+
+	public void reSize() {
+
 	}
 }

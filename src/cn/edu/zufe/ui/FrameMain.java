@@ -20,9 +20,8 @@ import cn.edu.zufe.drawable.*;
 public class FrameMain extends JFrame implements ActionListener {
 	// private LinkedList<Well> wellList;
 	private JMenuBar menubar;
-	private JMenu menuFile, menuTest, menuSort,  menuAutoSorting;
-	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, 
-						 miSort1, miSort2; // 菜单项
+	private JMenu menuFile, menuTest, menuSort, menuAutoSorting;
+	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, miSort1, miSort2; // 菜单项
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
 	private LinkedList<Well> wellList;
@@ -54,8 +53,8 @@ public class FrameMain extends JFrame implements ActionListener {
 		menubar.add(menuFile);
 		miOpen.addActionListener(this);
 		miSave.addActionListener(this);
-		
-		//手动排序和自动排序
+
+		// 手动排序和自动排序
 		menuSort = new JMenu("Sort");
 		miManualSorting = new JMenuItem("ManualSorting");
 		menuAutoSorting = new JMenu("AutoSorting");
@@ -69,21 +68,24 @@ public class FrameMain extends JFrame implements ActionListener {
 		miManualSorting.addActionListener(this);
 		miSort1.addActionListener(this);
 		miSort2.addActionListener(this);
-		
+
 		// 测试工具菜单项
 		menuTest = new JMenu("Test Tool");
 		miSaveAsImage = new JMenuItem("Save As Image");
 		menuTest.add(miSaveAsImage);
 		menubar.add(menuTest);
 		miSaveAsImage.addActionListener(this);
-		
+
 		this.setJMenuBar(menubar);
 
 		// 添加两个 PApplet 窗口
-		psc = new PAppletSC(width - height + 30, height - 75);
+
+		psc = new PAppletSC(500, 600);
+		FrameSC fSC = new FrameSC("Stratigraphic Correlation", 516, 600, psc);
+		
 		pwv = new PAppletWellView(height - 75, height - 75, psc);
 		addPApplet(this, pwv);
-		addPApplet(this, psc);
+		// addPApplet(this, psc);
 	}
 
 	private void addPApplet(FrameMain f, PApplet p) {
@@ -101,7 +103,8 @@ public class FrameMain extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 		// 实例化主窗体
-		FrameMain fMain = new FrameMain("AutoCompare", 1200, 475);
+		FrameMain fMain = new FrameMain("AutoCompare", 475, 475);
+
 		// 刷新界面风格
 		SwingUtilities.updateComponentTreeUI(fMain);
 	}
@@ -119,16 +122,13 @@ public class FrameMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == miSaveAsImage) {
 			psc.savePGBottom("Data\\well.png");
 			JOptionPane.showMessageDialog(null, "地层对比图已经保存到“Data\\well.png”", "提示", JOptionPane.INFORMATION_MESSAGE);
-		}
-		else if(e.getSource() == miManualSorting){
+		} else if (e.getSource() == miManualSorting) {
 			pwv.setSort(0);
 			pwv.drawPGBottom();
-		}
-		else if(e.getSource() == miSort1){
+		} else if (e.getSource() == miSort1) {
 			pwv.setSort(1);
 			pwv.drawPGBottom();
-		}
-		else if(e.getSource() == miSort2){
+		} else if (e.getSource() == miSort2) {
 			pwv.setSort(2);
 			pwv.drawPGBottom();
 		}
@@ -155,7 +155,7 @@ public class FrameMain extends JFrame implements ActionListener {
 					pwv.setPWells(pwList);
 					pwv.drawPGBottom();
 				} else {
-					JOptionPane.showMessageDialog(null, "请选择Excel文件", "提示", JOptionPane.INFORMATION_MESSAGE); 
+					JOptionPane.showMessageDialog(null, "请选择Excel文件", "提示", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		}

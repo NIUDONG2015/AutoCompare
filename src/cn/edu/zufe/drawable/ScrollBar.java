@@ -11,6 +11,7 @@ public class ScrollBar {
 	private float x, y, w, h; // 滚动条具体位置信息
 	private float colorGray = 205;
 	private boolean locked; // 是否已经选中滚动条
+	private boolean visible = true; // 是否显示滚动条
 	public static int size = 20;
 
 	public ScrollBar(PApplet p, PGraphics pg, boolean VorH) {
@@ -21,30 +22,41 @@ public class ScrollBar {
 		// 水平滚动条和垂直滚动条的参数有些区别
 		// 初始化滚动条参数
 		if (VorH) {
-			length = p.height - offset * 2 - size;
-			h = length * length / pg.height;
 			w = size;
-			x = p.width - w;
 			y = offset;
 		} else {
-			length = p.width - offset * 2 - size;
 			h = size;
-			w = length * length / pg.width;
 			x = offset;
-			y = p.height - h;
 		}
+		setBarPos();
+	}
 
+	public void setBarPos() {
+		if (VorH) {
+			length = p.getHeight() - offset * 2 - size;
+			h = length * length / pg.height;
+			x = p.getWidth() - w;
+			visible = length >= pg.height ? false : true;
+		} else {
+			length = p.getWidth() - offset * 2 - size;
+			w = length * length / pg.width;
+			y = p.getHeight() - h;
+			visible = length >= pg.width ? false : true;
+		}
 	}
 
 	public void draw(PGraphics tpg) {
+		if (!visible) {
+			return;
+		}
 		tpg.noStroke();
 		// 绘制滚动条容器
 		tpg.fill(240);
 		// 此处容器矩形参数可参考上方“初始滚动条参数”
 		if (VorH) {
-			tpg.rect(p.width - w, 0, size, p.height);
+			tpg.rect(p.getWidth() - w, 0, size, p.getHeight());
 		} else {
-			tpg.rect(0, p.height - h, p.width, size);
+			tpg.rect(0, p.getHeight() - h, p.getWidth(), size);
 		}
 		// 绘制滚动条
 		tpg.fill(colorGray);
@@ -53,6 +65,9 @@ public class ScrollBar {
 	}
 
 	private void update() {
+		if (!visible) {
+			return;
+		}
 		if (p.mousePressed && collisionDetection()) {
 			colorGray = 96; // 点击时改变颜色
 			locked = true;
@@ -63,7 +78,6 @@ public class ScrollBar {
 		}
 
 		if (locked) {
-			// System.out.println(p.mouseY + " : " + p.pmouseY);
 			if (VorH) {
 				y += p.mouseY - p.pmouseY;
 				// 防止越界
@@ -113,6 +127,9 @@ public class ScrollBar {
 	}
 
 	public float getImagePos() {
+		if (!visible) {
+			return 0;
+		}
 		if (VorH) {
 			return -(y - offset) * pg.height / length;
 		} else {

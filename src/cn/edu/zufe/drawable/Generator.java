@@ -40,6 +40,7 @@ public class Generator {
 		double minY = getMinValue(y);
 		double[] norY = normalization(y, maxY, minY);
 
+		// 待修改，参数在此处计算完整
 		LinkedList<PWell> pwList = new LinkedList<PWell>();
 		for (int i = 0; i < wellList.size(); ++i) {
 			pwList.add(new PWell(wellList.get(i), (float) norX[i], (float) norY[i]));
@@ -73,6 +74,7 @@ public class Generator {
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
+		// 待修改，参数在此处计算完整
 		float bigw = (PAppletSC.width - ScrollBar.size) / pWellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < pWellList.size(); ++i) {
@@ -112,6 +114,7 @@ public class Generator {
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
+		// 待修改，参数在此处计算完整
 		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
