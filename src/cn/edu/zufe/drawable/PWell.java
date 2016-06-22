@@ -11,7 +11,7 @@ public class PWell {
 	private Well well;
 	private float px = -1, py = -1; // 绘制的中心位置
 	private float pw = 30, ph = 30; // 默认的宽和高（需要自行设置）
-	private static float offsetX = 100, offsetY = 100, zoomOut = 200; // 偏移以及放大参数
+	public final static float OFFSET_X = 100, OFFSET_Y = 100, ZOOM_OUT = 200; // 偏移以及放大参数
 	private boolean clicked = false;
 
 	/**
@@ -24,10 +24,10 @@ public class PWell {
 	 * @param norY
 	 *            归一化后的Y坐标值
 	 */
-	public PWell(Well well, float norX, float norY) {
+	public PWell(Well well, float px, float py) {
 		this.well = well;
-		this.px = offsetX + norX * zoomOut;
-		this.py = offsetY + norY * zoomOut;
+		this.px = px;
+		this.py = py;
 	}
 
 	public Well getWell() {

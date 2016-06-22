@@ -7,16 +7,20 @@ import cn.edu.zufe.model.*;
 import cn.edu.zufe.ui.PAppletSC;
 
 public class Generator {
-	
-	public static PSection pWellToPSection(PWell pWell, LinkedList<PSection> pSectionList){
+
+	// Generator类中主要存放数据类到绘图类的转换与生成的方法
+
+	// 此段代码不应该放在Generator中
+	public static PSection pWellToPSection(PWell pWell, LinkedList<PSection> pSectionList) {
 		PSection pSection = null;
-		for(PSection tPSection : pSectionList){
-			if(pWell.getWell().equals(tPSection.getWell())){
+		for (PSection tPSection : pSectionList) {
+			if (pWell.getWell().equals(tPSection.getWell())) {
 				pSection = tPSection;
 			}
 		}
 		return pSection;
 	}
+
 	public static LinkedList<PWell> wellToPWells(LinkedList<Well> wellList) {
 		if (wellList == null) {
 			return null;
@@ -40,14 +44,16 @@ public class Generator {
 		double minY = getMinValue(y);
 		double[] norY = normalization(y, maxY, minY);
 
-		// 待修改，参数在此处计算完整
+		// 计算位置并生成 PWell
 		LinkedList<PWell> pwList = new LinkedList<PWell>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			pwList.add(new PWell(wellList.get(i), (float) norX[i], (float) norY[i]));
+			float px = (float) (PWell.OFFSET_X + norX[i] * PWell.ZOOM_OUT);
+			float py = (float) (PWell.OFFSET_Y + norY[i] * PWell.ZOOM_OUT);
+			pwList.add(new PWell(wellList.get(i), px, py));
 		}
 		return pwList;
 	}
-	
+
 	public static LinkedList<PSection> pWellToPSection(LinkedList<PWell> pWellList) {
 		if (pWellList == null) {
 			return null;
@@ -56,38 +62,14 @@ public class Generator {
 			return null;
 		}
 
-		double[] tops = new double[pWellList.size()];
-		double[] btms = new double[pWellList.size()];
-		double[] all = new double[pWellList.size() * 2];
-		for (int i = 0; i < pWellList.size(); ++i) {
-			tops[i] = pWellList.get(i).getWell().getDepth()[0];
-			btms[i] = pWellList.get(i).getWell().getDepth()[1];
-			all[i] = tops[i];
+		LinkedList<Well> wellList = new LinkedList<Well>();
+		for (PWell pw : pWellList) {
+			wellList.add(pw.getWell());
 		}
-		System.arraycopy(btms, 0, all, tops.length, btms.length);
 
-		// for(int i = 0; i < all.length; ++i)
-		// System.out.println(all[i]);
-
-		double max = getMaxValue(all);
-		double min = getMinValue(all);
-		double[] norTops = normalization(tops, max, min);
-		double[] norBtms = normalization(btms, max, min);
-
-		// 待修改，参数在此处计算完整
-		float bigw = (PAppletSC.width - ScrollBar.size) / pWellList.size();
-		LinkedList<PSection> psList = new LinkedList<PSection>();
-		for (int i = 0; i < pWellList.size(); ++i) {
-			float norY = (float) norTops[i];
-			float norH = (float) (norBtms[i] - norTops[i]);
-			// System.out.println(wellList.get(i).getName() + "   底：" +
-			// norBtms[i] + "   顶：" + norTops[i]);
-			float w = (float) (bigw * 0.3);
-			psList.add(new PSection(pWellList.get(i).getWell(), (float) 20 + i * bigw, norY, norH, w));
-		}
-		return psList;
+		return wellToPSection(wellList);
 	}
-	
+
 	public static LinkedList<PSection> wellToPSection(LinkedList<Well> wellList) {
 		if (wellList == null) {
 			return null;
@@ -114,16 +96,16 @@ public class Generator {
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
-		// 待修改，参数在此处计算完整
+		// 计算位置并生成 PSection
+		// 动态生成宽度的算法需改进
 		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			float norY = (float) norTops[i];
-			float norH = (float) (norBtms[i] - norTops[i]);
-			// System.out.println(wellList.get(i).getName() + "   底：" +
-			// norBtms[i] + "   顶：" + norTops[i]);
-			float w = (float) (bigw * 0.3);
-			psList.add(new PSection(wellList.get(i), (float) 20 + i * bigw, norY, norH, w));
+			float px = (float) 20 + i * bigw;
+			float py = (float) (PSection.OFFSET_Y + norTops[i] * PSection.ZOOM_OUT);
+			float pw = (float) (bigw * 0.3);
+			float ph = (float) (norBtms[i] - norTops[i]) * PSection.ZOOM_OUT;
+			psList.add(new PSection(wellList.get(i), px, py, pw, ph));
 		}
 		return psList;
 	}
