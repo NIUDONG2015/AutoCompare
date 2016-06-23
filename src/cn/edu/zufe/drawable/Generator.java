@@ -88,15 +88,12 @@ public class Generator {
 		}
 		System.arraycopy(btms, 0, all, tops.length, btms.length);
 
-		// for(int i = 0; i < all.length; ++i)
-		// System.out.println(all[i]);
-
 		double max = getMaxValue(all);
 		double min = getMinValue(all);
 		double[] norTops = normalization(tops, max, min);
 		double[] norBtms = normalization(btms, max, min);
 
-		// 计算位置并生成 PSection
+		// 计算位置并生成 PSection（主要是为了计算y,h）
 		// 动态生成宽度的算法需改进
 		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
