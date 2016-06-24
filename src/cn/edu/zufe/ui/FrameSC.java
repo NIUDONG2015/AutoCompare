@@ -11,7 +11,7 @@ public class FrameSC extends JFrame {
 	public FrameSC(String s, int width, int height, PAppletSC psc) {
 		this.setSize(width, height); // 设置大小
 		this.setMinimumSize(new Dimension(100, 100));
-		this.setLocationRelativeTo(null); // 中央显示窗口
+		//this.setLocationRelativeTo(null); // 中央显示窗口
 		this.setVisible(true); // 可见
 		// this.setLayout(new GridLayout(1,1)); // GridLayout
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 退出时关闭后台进程

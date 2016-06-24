@@ -137,21 +137,21 @@ public class Data {
 				}
 			}
 			
-			/*for (int i = 0; i < wellList.size(); ++i) {
-				Well well = wellList.get(i);
-				System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
-				for (int j = 0; j < well.getBigLayers().size(); ++j) {
-					BigLayer bigLayer = well.getBigLayers().get(j);
-					System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
-					for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-						SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-						System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0] 
-								+ " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
-					}
-					System.out.println("");
-				}
-				System.out.println("");
-			}*/
+//			for (int i = 0; i < wellList.size(); ++i) {
+//				Well well = wellList.get(i);
+//				System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
+//				for (int j = 0; j < well.getBigLayers().size(); ++j) {
+//					BigLayer bigLayer = well.getBigLayers().get(j);
+//					System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
+//					for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+//						SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+//						System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0] 
+//								+ " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
+//					}
+//					System.out.println("");
+//				}
+//				System.out.println("");
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
