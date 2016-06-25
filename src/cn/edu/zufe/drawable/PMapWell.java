@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import processing.core.*;
 import cn.edu.zufe.model.*;
 
-public class PWell {
+public class PMapWell {
 
 	private Well well;
 	private float px = -1, py = -1; // 绘制的中心位置
@@ -24,7 +24,7 @@ public class PWell {
 	 * @param norY
 	 *            归一化后的Y坐标值
 	 */
-	public PWell(Well well, float px, float py) {
+	public PMapWell(Well well, float px, float py) {
 		this.well = well;
 		this.px = px;
 		this.py = py;
@@ -78,7 +78,7 @@ public class PWell {
 	 * @param pwList
 	 * 		所有油井
 	 */
-	public void drawMSTPath(PGraphics pg, PWell pw, LinkedList<PWell> pwList){
+	public void drawMSTPath(PGraphics pg, PMapWell pw, LinkedList<PMapWell> pwList){
 		
 		boolean[][] mp = new boolean[pwList.size()][pwList.size()];
 		

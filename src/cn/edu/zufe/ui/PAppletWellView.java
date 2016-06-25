@@ -12,7 +12,7 @@ public class PAppletWellView extends PApplet {
 	private PAppletSC psc;
 	private PGraphics pgBottom, pgHighlight;
 	private int width, height;
-	private LinkedList<PWell> pwList = null;
+	private LinkedList<PMapWell> pwList = null;
 	private LinkedList<Well> compareWellList = new LinkedList<Well>();
 	private PShape iconOrigin, iconClicked; // 油田图标
 	private int sort = 0;	//排序方法
@@ -23,7 +23,7 @@ public class PAppletWellView extends PApplet {
 		this.psc = (PAppletSC) psc;
 	}
 
-	public void setPWells(LinkedList<PWell> pwList) {
+	public void setPWells(LinkedList<PMapWell> pwList) {
 		this.pwList = pwList;
 	}
 
@@ -56,7 +56,7 @@ public class PAppletWellView extends PApplet {
 			pgBottom.beginDraw();
 			pgBottom.clear();
 			pgBottom.background(255);
-			for (PWell pw : pwList) {
+			for (PMapWell pw : pwList) {
 				pw.draw(pgBottom, iconOrigin, iconClicked);
 			}
 			pgBottom.endDraw();
@@ -74,7 +74,7 @@ public class PAppletWellView extends PApplet {
 	 * 
 	 * @param pw
 	 */
-	public void drawPGHighlight(PWell pw) {
+	public void drawPGHighlight(PMapWell pw) {
 		if (pw != null) {
 			pgHighlight.beginDraw();
 			pgHighlight.clear();
@@ -88,7 +88,7 @@ public class PAppletWellView extends PApplet {
 	 */
 	private void highlight() {
 		if (pwList != null) {
-			for (PWell pw : pwList) {
+			for (PMapWell pw : pwList) {
 				// 鼠标与图标碰撞
 				if (pw.collisionDetection(mouseX, mouseY)) {
 					drawPGHighlight(pw);
@@ -105,12 +105,12 @@ public class PAppletWellView extends PApplet {
 			return ;
 		
 		if (pwList != null) {
-//			for (PWell pw : pwList) {
+//			for (PMapWell pw : pwList) {
 //				pw.setClicked(false);
 //			}
 
 			if (mouseButton == LEFT) {
-				for (PWell pw : pwList) {
+				for (PMapWell pw : pwList) {
 					if (pw.collisionDetection(mouseX, mouseY)) {
 						pw.setClicked();
 						if (!compareWellList.contains(pw.getWell())) {
@@ -132,7 +132,7 @@ public class PAppletWellView extends PApplet {
 	
 	public void setSort(int tsort){
 		sort = tsort;
-		for(PWell pw : pwList){
+		for(PMapWell pw : pwList){
 			pw.setClicked(false);
 		}
 		compareWellList.clear();
@@ -140,10 +140,10 @@ public class PAppletWellView extends PApplet {
 		psc.drawPGBottom();
 		
 		if(sort != 0){
-			for(PWell pw : pwList){
+			for(PMapWell pw : pwList){
 				compareWellList.add(pw.getWell());
 			}
-			LinkedList<PWell> tPWList = Generator.wellToPWells(compareWellList);
+			LinkedList<PMapWell> tPWList = Generator.wellToPWells(compareWellList);
 			
 			SortFactory sortMethod = new SortFactory(pwList.get(1), tPWList);
 			sortMethod.doSort(tsort);

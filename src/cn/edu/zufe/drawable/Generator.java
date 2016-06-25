@@ -11,7 +11,7 @@ public class Generator {
 	// Generator类中主要存放数据类到绘图类的转换与生成的方法
 
 	// 此段代码不应该放在Generator中
-	public static PSection pWellToPSection(PWell pWell, LinkedList<PSection> pSectionList) {
+	public static PSection pWellToPSection(PMapWell pWell, LinkedList<PSection> pSectionList) {
 		PSection pSection = null;
 		for (PSection tPSection : pSectionList) {
 			if (pWell.getWell().equals(tPSection.getWell())) {
@@ -21,7 +21,7 @@ public class Generator {
 		return pSection;
 	}
 
-	public static LinkedList<PWell> wellToPWells(LinkedList<Well> wellList) {
+	public static LinkedList<PMapWell> wellToPWells(LinkedList<Well> wellList) {
 		if (wellList == null) {
 			return null;
 		}
@@ -44,17 +44,17 @@ public class Generator {
 		double minY = getMinValue(y);
 		double[] norY = normalization(y, maxY, minY);
 
-		// 计算位置并生成 PWell
-		LinkedList<PWell> pwList = new LinkedList<PWell>();
+		// 计算位置并生成 PMapWell
+		LinkedList<PMapWell> pwList = new LinkedList<PMapWell>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			float px = (float) (PWell.OFFSET_X + norX[i] * PWell.ZOOM_OUT);
-			float py = (float) (PWell.OFFSET_Y + norY[i] * PWell.ZOOM_OUT);
-			pwList.add(new PWell(wellList.get(i), px, py));
+			float px = (float) (PMapWell.OFFSET_X + norX[i] * PMapWell.ZOOM_OUT);
+			float py = (float) (PMapWell.OFFSET_Y + norY[i] * PMapWell.ZOOM_OUT);
+			pwList.add(new PMapWell(wellList.get(i), px, py));
 		}
 		return pwList;
 	}
 
-	public static LinkedList<PSection> pWellToPSection(LinkedList<PWell> pWellList) {
+	public static LinkedList<PSection> pWellToPSection(LinkedList<PMapWell> pWellList) {
 		if (pWellList == null) {
 			return null;
 		}
@@ -63,7 +63,7 @@ public class Generator {
 		}
 
 		LinkedList<Well> wellList = new LinkedList<Well>();
-		for (PWell pw : pWellList) {
+		for (PMapWell pw : pWellList) {
 			wellList.add(pw.getWell());
 		}
 
@@ -78,31 +78,32 @@ public class Generator {
 			return null;
 		}
 
-		double[] tops = new double[wellList.size()];
-		double[] btms = new double[wellList.size()];
-		double[] all = new double[wellList.size() * 2];
-		for (int i = 0; i < wellList.size(); ++i) {
-			tops[i] = wellList.get(i).getDepth()[0];
-			btms[i] = wellList.get(i).getDepth()[1];
-			all[i] = tops[i];
-		}
-		System.arraycopy(btms, 0, all, tops.length, btms.length);
-
-		double max = getMaxValue(all);
-		double min = getMinValue(all);
-		double[] norTops = normalization(tops, max, min);
-		double[] norBtms = normalization(btms, max, min);
+//		double[] tops = new double[wellList.size()];
+//		double[] btms = new double[wellList.size()];
+//		double[] all = new double[wellList.size() * 2];
+//		for (int i = 0; i < wellList.size(); ++i) {
+//			tops[i] = wellList.get(i).getDepth()[0];
+//			btms[i] = wellList.get(i).getDepth()[1];
+//			all[i] = tops[i];
+//		}
+//		System.arraycopy(btms, 0, all, tops.length, btms.length);
+//
+//		double max = getMaxValue(all);
+//		double min = getMinValue(all);
+//		double[] norTops = normalization(tops, max, min);
+//		double[] norBtms = normalization(btms, max, min);
 
 		// 计算位置并生成 PSection（主要是为了计算y,h）
 		// 动态生成宽度的算法需改进
-		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
+//		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
-			float px = (float) 20 + i * bigw;
-			float py = (float) (PSection.OFFSET_Y + norTops[i] * PSection.ZOOM_OUT);
-			float pw = (float) (bigw * 0.3);
-			float ph = (float) (norBtms[i] - norTops[i]) * PSection.ZOOM_OUT;
-			psList.add(new PSection(wellList.get(i), px, py, pw, ph));
+//			float px = (float) 20 + i * bigw;
+//			float py = (float) (PSection.OFFSET_Y + norTops[i] * PSection.ZOOM_OUT);
+//			float pw = (float) (bigw * 0.3);
+//			float ph = (float) (norBtms[i] - norTops[i]) * PSection.ZOOM_OUT;
+			float px = (float)i * 100;
+			psList.add(new PSection(wellList.get(i), px));
 		}
 		return psList;
 	}

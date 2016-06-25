@@ -4,20 +4,20 @@ import java.util.LinkedList;
 
 import cn.edu.zufe.drawable.Generator;
 import cn.edu.zufe.drawable.PSection;
-import cn.edu.zufe.drawable.PWell;
+import cn.edu.zufe.drawable.PMapWell;
 import cn.edu.zufe.model.Well;
 
 public class Sort1 extends Sort {
 
-	private PWell pStandardWell;
-	private LinkedList<PWell> pWellList;
+	private PMapWell pStandardWell;
+	private LinkedList<PMapWell> pWellList;
 	private LinkedList<PSection> pSectionList;
 	private double wDis = 0.7;	//Dis系数
 	private double wSim = 0.3;	//Sim系数
 	private double totalWeight = 0;	//总权重
 	
 
-	public Sort1(PWell pStandardWell, LinkedList<PWell> pWellList) {
+	public Sort1(PMapWell pStandardWell, LinkedList<PMapWell> pWellList) {
 		super(pStandardWell, pWellList);
 		// TODO Auto-generated constructor stub
 		this.pStandardWell = pStandardWell;
@@ -27,7 +27,7 @@ public class Sort1 extends Sort {
 
 	public void doSort() {
 		totalWeight = 0;
-		LinkedList<PWell> tPWellList = (LinkedList<PWell>) pWellList.clone();
+		LinkedList<PMapWell> tPWellList = (LinkedList<PMapWell>) pWellList.clone();
 		pWellList.clear(); 
 		pWellList.add(pStandardWell);
 		tPWellList.remove(pStandardWell);
@@ -40,21 +40,21 @@ public class Sort1 extends Sort {
  		
 		while (tPWellList.size() > 0) {
 
-			for (PWell pWell : pWellList) {
+			for (PMapWell pWell : pWellList) {
 				if (tPWellList.contains(pWell)) {
 					tPWellList.remove(pWell);
 				}
 			}
 
-			PWell pushPWell = null;
+			PMapWell pushPWell = null;
 			double Weight = Double.MAX_VALUE;
 			
-			for (PWell tPWell : tPWellList) {
+			for (PMapWell tPWell : tPWellList) {
 				int sz = tPWellList.size();
 				double Dis = 0;
 				double Sim = 0;
 				PSection pSectionA = Generator.pWellToPSection(tPWell, pSectionList);
-				for (PWell pWell : pWellList) {
+				for (PMapWell pWell : pWellList) {
 					Dis = Dis + getDis(tPWell, pWell)/Smax;
 					double N = (double) getSmallLayerMatchNum(tPWell, pWell);
 					PSection pSectionB = Generator.pWellToPSection(pWell, pSectionList);

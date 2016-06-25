@@ -14,7 +14,7 @@ public class PSection {
 	private float pw = 20; // 宽度
 
 	// 位移偏量及放大参数 (!必须zoomOut<=pg.hegiht+1，rect绘制的时候比实际大小多1像素，用于绘制边界)
-	public final static float OFFSET_X = 0, OFFSET_Y = 100, ZOOM_OUT = 3800;
+//	public final static float OFFSET_X = 0, OFFSET_Y = 100, ZOOM_OUT = 3800;
 	private LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>(); // 小层绘图类
 
 	/**
@@ -27,7 +27,7 @@ public class PSection {
 	 * @param norY
 	 *            归一化后的Y坐标值
 	 */
-	public PSection(Well well, float px, float py,float pw, float ph) {
+	public PSection(Well well, float px) {
 		this.well = well;
 		this.px = px;
 		this.py = py;

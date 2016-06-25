@@ -2,16 +2,16 @@ package cn.edu.zufe.sort;
 
 import java.util.LinkedList;
 
-import cn.edu.zufe.drawable.PWell;
+import cn.edu.zufe.drawable.PMapWell;
 import cn.edu.zufe.model.Well;
 
 public class Sort2 extends Sort{
 	
-	private PWell pStandardWell;
-	private LinkedList<PWell> pWellList;
-	private LinkedList<PWell> copyPWellList;
+	private PMapWell pStandardWell;
+	private LinkedList<PMapWell> pWellList;
+	private LinkedList<PMapWell> copyPWellList;
 	
-	public Sort2(PWell pStandardWell, LinkedList<PWell> pWellList) {
+	public Sort2(PMapWell pStandardWell, LinkedList<PMapWell> pWellList) {
 		super(pStandardWell, pWellList);
 		// TODO Auto-generated constructor stub
 		this.pStandardWell = pStandardWell;
@@ -24,7 +24,7 @@ public class Sort2 extends Sort{
 		double totalWeight = Double.MAX_VALUE;
 		while(wDis <= 1.0){
 
-			copyPWellList = (LinkedList<PWell>) this.pWellList.clone();
+			copyPWellList = (LinkedList<PMapWell>) this.pWellList.clone();
 			Sort1 sort1 = new Sort1(pStandardWell, copyPWellList);
 			sort1.setwDis(wDis);
 			sort1.setwSim(wSim);
@@ -36,7 +36,7 @@ public class Sort2 extends Sort{
 			System.out.println();*/
 			if(totalWeight > sort1.getTotalWeight()){
 				pWellList.clear();
-				for(PWell pWell : copyPWellList){
+				for(PMapWell pWell : copyPWellList){
 					pWellList.add(pWell);
 				}
 				totalWeight = sort1.getTotalWeight();

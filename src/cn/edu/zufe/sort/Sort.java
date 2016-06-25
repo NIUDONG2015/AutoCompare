@@ -7,22 +7,22 @@ import java.util.Map;
 
 import cn.edu.zufe.drawable.PSection;
 import cn.edu.zufe.drawable.PSmallLayer;
-import cn.edu.zufe.drawable.PWell;
+import cn.edu.zufe.drawable.PMapWell;
 import cn.edu.zufe.drawable.Generator;
 import cn.edu.zufe.model.BigLayer;
 import cn.edu.zufe.model.SmallLayer;
 import cn.edu.zufe.model.Well;
 
 public class Sort {
-	private PWell pStandardWell;
-	private LinkedList<PWell> pWellList;
-	private LinkedList<PWell> pCloneWellList;
+	private PMapWell pStandardWell;
+	private LinkedList<PMapWell> pWellList;
+	private LinkedList<PMapWell> pCloneWellList;
 	private LinkedList<PSection> pSectionList;
 	
-	public Sort(PWell pStandardWell, LinkedList<PWell> pWellList) {
+	public Sort(PMapWell pStandardWell, LinkedList<PMapWell> pWellList) {
 		this.pStandardWell = pStandardWell;
 		this.pWellList = pWellList;
-		this.pCloneWellList = (LinkedList<PWell>) pWellList.clone();
+		this.pCloneWellList = (LinkedList<PMapWell>) pWellList.clone();
 		this.pSectionList = Generator.pWellToPSection(this.pCloneWellList);
 	}
 
@@ -33,7 +33,7 @@ public class Sort {
 	 * @param wellB
 	 * @return
 	 */
-	public  int getSmallLayerMatchNum(PWell pWellA, PWell pWellB) {
+	public  int getSmallLayerMatchNum(PMapWell pWellA, PMapWell pWellB) {
 		int smallLayerMatchNum = 0;
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 
@@ -74,7 +74,7 @@ public class Sort {
 	 * @param well
 	 * @return 获得标准井的小层个数
 	 */
-	public  int getStandardWellSmallLayerNum(PWell pStandardWell) {
+	public  int getStandardWellSmallLayerNum(PMapWell pStandardWell) {
 		int standardWellSmallLayerNum = 0;
 
 		for (int i = 0; i < pStandardWell.getWell().getBigLayers().size(); ++i) {
@@ -87,7 +87,7 @@ public class Sort {
 	/***
 	 * 获得两个井之间的距离
 	 */
-	public static double getDis(PWell pWellA, PWell pWellB) {
+	public static double getDis(PMapWell pWellA, PMapWell pWellB) {
 		return Math.sqrt((pWellA.getPX() - pWellB.getPX()) * (pWellA.getPX() - pWellB.getPX())
 				+ (pWellA.getPY() - pWellB.getPY()) * (pWellA.getPY() - pWellB.getPY()));
 	}
