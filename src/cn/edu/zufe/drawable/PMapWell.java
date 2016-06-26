@@ -8,7 +8,7 @@ import cn.edu.zufe.model.*;
 
 public class PMapWell {
 
-	private Well well;
+	private DWell well;
 	private float px = -1, py = -1; // 绘制的中心位置
 	private float pw = 30, ph = 30; // 默认的宽和高（需要自行设置）
 	public final static float OFFSET_X = 100, OFFSET_Y = 100, ZOOM_OUT = 200; // 偏移以及放大参数
@@ -24,13 +24,13 @@ public class PMapWell {
 	 * @param norY
 	 *            归一化后的Y坐标值
 	 */
-	public PMapWell(Well well, float px, float py) {
+	public PMapWell(DWell well, float px, float py) {
 		this.well = well;
 		this.px = px;
 		this.py = py;
 	}
 
-	public Well getWell() {
+	public DWell getWell() {
 		return well;
 	}
 

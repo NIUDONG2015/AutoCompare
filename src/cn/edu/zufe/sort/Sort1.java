@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import cn.edu.zufe.drawable.Generator;
 import cn.edu.zufe.drawable.PSection;
 import cn.edu.zufe.drawable.PMapWell;
-import cn.edu.zufe.model.Well;
+import cn.edu.zufe.model.DWell;
 
 public class Sort1 extends Sort {
 

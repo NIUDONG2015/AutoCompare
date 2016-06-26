@@ -1,14 +1,13 @@
 package cn.edu.zufe.drawable;
 
-import java.util.Arrays;
 import java.util.LinkedList;
-
 import cn.edu.zufe.model.*;
-import cn.edu.zufe.ui.PAppletSC;
 
 public class Generator {
 
 	// Generator类中主要存放数据类到绘图类的转换与生成的方法
+
+
 
 	// 此段代码不应该放在Generator中
 	public static PSection pWellToPSection(PMapWell pWell, LinkedList<PSection> pSectionList) {
@@ -21,7 +20,13 @@ public class Generator {
 		return pSection;
 	}
 
-	public static LinkedList<PMapWell> wellToPWells(LinkedList<Well> wellList) {
+	/**
+	 * 井的数据模型转化为井的绘图模型（俯视图），涉及到归一化，只能输入List并输出List
+	 * 
+	 * @param wellList
+	 * @return
+	 */
+	public static LinkedList<PMapWell> wellToPMapWells(LinkedList<DWell> wellList) {
 		if (wellList == null) {
 			return null;
 		}
@@ -62,7 +67,7 @@ public class Generator {
 			return null;
 		}
 
-		LinkedList<Well> wellList = new LinkedList<Well>();
+		LinkedList<DWell> wellList = new LinkedList<DWell>();
 		for (PMapWell pw : pWellList) {
 			wellList.add(pw.getWell());
 		}
@@ -70,7 +75,13 @@ public class Generator {
 		return wellToPSection(wellList);
 	}
 
-	public static LinkedList<PSection> wellToPSection(LinkedList<Well> wellList) {
+	/**
+	 * 井的数据模型转化为井的绘图模型（剖面图），涉及到总体坐标的计算，只能输入List并输出List
+	 * 
+	 * @param wellList
+	 * @return
+	 */
+	public static LinkedList<PSection> wellToPSection(LinkedList<DWell> wellList) {
 		if (wellList == null) {
 			return null;
 		}
@@ -78,53 +89,96 @@ public class Generator {
 			return null;
 		}
 
-//		double[] tops = new double[wellList.size()];
-//		double[] btms = new double[wellList.size()];
-//		double[] all = new double[wellList.size() * 2];
-//		for (int i = 0; i < wellList.size(); ++i) {
-//			tops[i] = wellList.get(i).getDepth()[0];
-//			btms[i] = wellList.get(i).getDepth()[1];
-//			all[i] = tops[i];
-//		}
-//		System.arraycopy(btms, 0, all, tops.length, btms.length);
-//
-//		double max = getMaxValue(all);
-//		double min = getMinValue(all);
-//		double[] norTops = normalization(tops, max, min);
-//		double[] norBtms = normalization(btms, max, min);
 
-		// 计算位置并生成 PSection（主要是为了计算y,h）
-		// 动态生成宽度的算法需改进
-//		float bigw = (PAppletSC.width - ScrollBar.size) / wellList.size();
+
+		// 获得PSection的高度（最大）
+		float[] topHs = new float[wellList.size()]; // Ngb到最上层的高度
+		float[] btmHs = new float[wellList.size()]; // Ngb到最下层的高度
+		for (int i = 0; i < wellList.size(); ++i) {
+			float ngbY = (float) wellList.get(i).getNgbDepth();
+			topHs[i] = ngbY - (float) wellList.get(i).getDepth()[0];
+			btmHs[i] = (float) wellList.get(i).getDepth()[1] - ngbY;
+		}
+		// float maxTopH = getMaxValue(topHs);
+		float maxBtmH = getMaxValue(btmHs);
+		float pSectionH = PSection.OFFSET_Y + PSection.ngbPos + maxBtmH; // PSection的高度
+
+		// 计算位置生成 PSection，注入其所需要的类，x , y 两种参数注意要 * pixRatio
 		LinkedList<PSection> psList = new LinkedList<PSection>();
 		for (int i = 0; i < wellList.size(); ++i) {
-//			float px = (float) 20 + i * bigw;
-//			float py = (float) (PSection.OFFSET_Y + norTops[i] * PSection.ZOOM_OUT);
-//			float pw = (float) (bigw * 0.3);
-//			float ph = (float) (norBtms[i] - norTops[i]) * PSection.ZOOM_OUT;
-			float px = (float)i * 100;
-			psList.add(new PSection(wellList.get(i), px));
+			DWell well = wellList.get(i);
+
+			// 生成 PSection（就是几个同样大小但位置不同的矩形）
+			float psX = i * PSection.PS_WIDTH;
+			float psY = 0;
+			float psW = PSection.PS_WIDTH;
+			float psH = pSectionH;
+			PSection pSection = new PSection(well, psX, psY, psW, psH);
+			psList.add(pSection);
+
+			// 注入 PSectionWell
+			float pswX = psX + PSection.PS_WIDTH / 2 - PSection.wellWidth / 2;
+			float pswY = PSection.ngbPos - topHs[i];
+			float pswW = PSection.wellWidth;
+			float pswH = topHs[i] + btmHs[i];
+			PSectionWell pSectionWell = new PSectionWell(well, pswX, pswY, pswW, pswH);
+			pSection.setPSectionWell(pSectionWell);
+
+			float ngbY = (float) wellList.get(i).getNgbDepth();
+			// 注入 PBigLayers
+			// LinkedList<PBigLayer> pBigLayerList = new
+			// LinkedList<PBigLayer>();
+			// for (DBigLayer bigLayer : well.getBigLayers()) {
+			// float pblX = pswX;
+			// float pblY = ngbPos - (ngbY - (float) bigLayer.getDepth()[0]) *
+			// pixRatio;
+			// float pblW = wellWidth;
+			// float pblH = (float) (bigLayer.getDepth()[0] -
+			// bigLayer.getSmallLayers().get(0).getDepth()[0]) * pixRatio;
+			// PBigLayer pBigLayer = new PBigLayer(bigLayer, pblX, pblY, pblW,
+			// pblH);
+			// pBigLayerList.add(pBigLayer);
+			// }
+			// pSection.setPBigLayerList(pBigLayerList);
+
+			// 注入 PSmallLayers
+			LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>();
+			for (DBigLayer bigLayer : well.getBigLayers()) {
+				for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
+					float pslX = pswX;
+					float pslY = PSection.ngbPos - (ngbY - (float) smallLayer.getDepth()[0]);
+					float pslW = PSection.wellWidth;
+					float pslH = (float) (smallLayer.getDepth()[1] - smallLayer.getDepth()[0]);
+					PSmallLayer pSmallLayer = new PSmallLayer(smallLayer, pslX, pslY, pslW, pslH);
+					pSmallLayerList.add(pSmallLayer);
+				}
+			}
+			pSection.setPSmallLayerList(pSmallLayerList);
+
 		}
 		return psList;
 	}
 
-	public static LinkedList<PSmallLayer> smallLayerToPSmallLayer(PSection ps, LinkedList<SmallLayer> smallLayerList) {
-		if (smallLayerList == null) {
-			return null;
-		}
-		if (smallLayerList.size() == 0) {
-			return null;
-		}
-
-		LinkedList<PSmallLayer> pslList = new LinkedList<PSmallLayer>();
-		for (SmallLayer smallLayer : smallLayerList) {
-			if (smallLayer.getMatchResName().equals("尖灭") || smallLayer.getMatchResName() == null || smallLayer.getMatchResName() == "") {
-				continue;
-			}
-			pslList.add(new PSmallLayer(smallLayer, ps));
-		}
-		return pslList;
-	}
+	// public static LinkedList<PSmallLayer> smallLayerToPSmallLayer(PSection
+	// ps, LinkedList<DSmallLayer> smallLayerList) {
+	// if (smallLayerList == null) {
+	// return null;
+	// }
+	// if (smallLayerList.size() == 0) {
+	// return null;
+	// }
+	//
+	// LinkedList<PSmallLayer> pslList = new LinkedList<PSmallLayer>();
+	// for (DSmallLayer smallLayer : smallLayerList) {
+	// if (smallLayer.getMatchResName().equals("尖灭") ||
+	// smallLayer.getMatchResName() == null || smallLayer.getMatchResName() ==
+	// "") {
+	// continue;
+	// }
+	// pslList.add(new PSmallLayer(smallLayer, ps));
+	// }
+	// return pslList;
+	// }
 
 	/**
 	 * 获取最大值
@@ -140,6 +194,14 @@ public class Generator {
 		return max;
 	}
 
+	public static float getMaxValue(float[] value) {
+		float max = value[0];
+		for (int i = 1; i < value.length; i++) {
+			max = Math.max(value[i], max);
+		}
+		return max;
+	}
+
 	/**
 	 * 获取最小值
 	 * 
@@ -148,6 +210,14 @@ public class Generator {
 	 */
 	public static double getMinValue(double[] value) {
 		double min = value[0];
+		for (int i = 1; i < value.length; i++) {
+			min = Math.min(value[i], min);
+		}
+		return min;
+	}
+
+	public static float getMinValue(float[] value) {
+		float min = value[0];
 		for (int i = 1; i < value.length; i++) {
 			min = Math.min(value[i], min);
 		}

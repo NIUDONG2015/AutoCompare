@@ -9,9 +9,9 @@ import cn.edu.zufe.drawable.PSection;
 import cn.edu.zufe.drawable.PSmallLayer;
 import cn.edu.zufe.drawable.PMapWell;
 import cn.edu.zufe.drawable.Generator;
-import cn.edu.zufe.model.BigLayer;
-import cn.edu.zufe.model.SmallLayer;
-import cn.edu.zufe.model.Well;
+import cn.edu.zufe.model.DBigLayer;
+import cn.edu.zufe.model.DSmallLayer;
+import cn.edu.zufe.model.DWell;
 
 public class Sort {
 	private PMapWell pStandardWell;
@@ -37,8 +37,8 @@ public class Sort {
 		int smallLayerMatchNum = 0;
 		Map<String, Boolean> map = new HashMap<String, Boolean>();
 
-		for (BigLayer bigLayer : pWellA.getWell().getBigLayers()) {
-			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
+		for (DBigLayer bigLayer : pWellA.getWell().getBigLayers()) {
+			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				String matchName = smallLayer.getMatchResName();
 
 				if (checkMatchNameExist(matchName) == false)
@@ -49,8 +49,8 @@ public class Sort {
 			}
 		}
 
-		for (BigLayer bigLayer : pWellB.getWell().getBigLayers()) {
-			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
+		for (DBigLayer bigLayer : pWellB.getWell().getBigLayers()) {
+			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				String matchName = smallLayer.getMatchResName();
 
 				if (checkMatchNameExist(matchName) == false)
@@ -116,18 +116,18 @@ public class Sort {
 	 */
 	public static double getGradient(PSection pSectionA, PSection pSectionB) {
 		double gradientSum = 0;
-		LinkedList<SmallLayer> listA = new LinkedList<SmallLayer>();
-		for (BigLayer bigLayer : pSectionA.getWell().getBigLayers()) {
-			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
+		LinkedList<DSmallLayer> listA = new LinkedList<DSmallLayer>();
+		for (DBigLayer bigLayer : pSectionA.getWell().getBigLayers()) {
+			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				if (checkMatchNameExist(smallLayer.getMatchResName()) == true)
 					listA.add(smallLayer);
 			}
 		}
 		LinkedList<PSmallLayer> pListA = Generator.smallLayerToPSmallLayer(pSectionA, listA);
 		
-		LinkedList<SmallLayer> listB = new LinkedList<SmallLayer>();
-		for (BigLayer bigLayer : pSectionB.getWell().getBigLayers()) {
-			for (SmallLayer smallLayer : bigLayer.getSmallLayers()) {
+		LinkedList<DSmallLayer> listB = new LinkedList<DSmallLayer>();
+		for (DBigLayer bigLayer : pSectionB.getWell().getBigLayers()) {
+			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
 				if (checkMatchNameExist(smallLayer.getMatchResName()) == true)
 					listB.add(smallLayer);
 			}
@@ -140,7 +140,7 @@ public class Sort {
 			PSmallLayer pSmallLayerA = pListA.get(i);
 			for (int j = k; j < pListB.size(); ++j) {
 				PSmallLayer pSmallLayerB = pListB.get(j);
-				if (pSmallLayerA.getSmallLayer().getMatchResName().equals(pSmallLayerB.getSmallLayer().getMatchResName())) {
+				if (pSmallLayerA.getData().getMatchResName().equals(pSmallLayerB.getData().getMatchResName())) {
 					k = j + 1;
 					gradientSum += Math.abs(pSmallLayerA.getPy() - pSmallLayerB.getPy());
 					gradientSum += Math.abs(pSmallLayerA.getPy() - pSmallLayerB.getPy() + pSmallLayerA.getPh() - pSmallLayerB.getPh());

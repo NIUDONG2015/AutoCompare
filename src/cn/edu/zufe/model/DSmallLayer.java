@@ -1,30 +1,11 @@
 package cn.edu.zufe.model;
 
-public class SmallLayer {
+public class DSmallLayer extends DDepth {
 
-	private String name = null; // 小层位
-	private double[] depth;
 	private double[] norDepth;
-
 	private double nor;
 	private String eleResult = null; // 电测解释结果
 	private String matchResName = null;
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public double[] getDepth() {
-		return depth;
-	}
-
-	public void setDepth(double[] depth) {
-		this.depth = depth;
-	}
 
 	public double[] getNorDepth() {
 		return norDepth;

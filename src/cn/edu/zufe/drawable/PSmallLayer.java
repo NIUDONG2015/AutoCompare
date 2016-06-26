@@ -1,30 +1,16 @@
 package cn.edu.zufe.drawable;
 
 import processing.core.PGraphics;
-import cn.edu.zufe.model.SmallLayer;
+import cn.edu.zufe.model.DDepth;
+import cn.edu.zufe.model.DSmallLayer;
 
-public class PSmallLayer {
+public class PSmallLayer extends PRect {
 
-	private PSmallLayer nextPSmallLayer, prevPSmallLayer;
-	private PSection ps;
+	private DSmallLayer data;
 	private boolean found;
-	private SmallLayer smallLayer;
-	private float px, py, ph, pw;
 
-	public float getPx() {
-		return px;
-	}
-
-	public float getPy() {
-		return py;
-	}
-
-	public float getPh() {
-		return ph;
-	}
-
-	public PSection getPs() {
-		return ps;
+	public DSmallLayer getData() {
+		return data;
 	}
 
 	public boolean isFound() {
@@ -35,36 +21,28 @@ public class PSmallLayer {
 		this.found = found;
 	}
 
-	public SmallLayer getSmallLayer() {
-		return smallLayer;
-	}
-
-	public PSmallLayer(SmallLayer sl, PSection ps) {
-		this.smallLayer = sl;
-		this.ps = ps;
-		this.px = ps.getpx();
-		this.py = ps.getpy() + ps.getph() * (float) smallLayer.getNorDepth()[0];
-		this.pw = ps.getpw();
-		this.ph = ps.getph() * (float) (smallLayer.getNorDepth()[1] - smallLayer.getNorDepth()[0]);
+	public PSmallLayer(DDepth data, float px, float py, float pw, float ph) {
+		super(px, py, pw, ph);
+		this.data = (DSmallLayer) data;
 	}
 
 	public void draw(PGraphics pg) {
 		pg.fill(100);
 		pg.rect(px, py, pw, ph);
 		pg.fill(255, 0, 0);
-		pg.text(smallLayer.getName() + "£º" + smallLayer.getMatchResName(), px + pw + 3, py + ph / 2);
+		pg.text(data.getName() + "£º" + data.getMatchResName(), px + pw + 3, py + ph / 2);
 		pg.fill(255);
 	}
 
-	public void connect(PGraphics pg, PSmallLayer psl) {
+	public void connect(PGraphics pg, PSmallLayer psOther) {
 		pg.fill(255);
 		pg.stroke(0);
-		pg.line(px + pw, py, psl.getPx(), psl.getPy());
-		pg.line(px + pw, py + ph, psl.getPx(), psl.getPy() + psl.getPh());
+		pg.line(px + pw, py, psOther.getPx(), psOther.getPy());
+		pg.line(px + pw, py + ph, psOther.getPx(), psOther.getPy() + psOther.getPh());
 	}
 
-	public boolean compare(PSmallLayer psl) {
-		if (smallLayer.getMatchResName().equals(psl.getSmallLayer().getMatchResName())) {
+	public boolean compare(PSmallLayer psOther) {
+		if (!data.getMatchResName().equals("¼âÃð") && data.getMatchResName().equals(psOther.getData().getMatchResName())) {
 			return true;
 		} else {
 			return false;

@@ -12,7 +12,7 @@ public class ScrollBar {
 	private float colorGray = 205;
 	private boolean locked; // 是否已经选中滚动条
 	private boolean visible = true; // 是否显示滚动条
-	public static int size = 20;
+	public final static int SIZE = 20;
 
 	public ScrollBar(PApplet p, PGraphics pg, boolean VorH) {
 		this.p = p;
@@ -22,29 +22,34 @@ public class ScrollBar {
 		// 水平滚动条和垂直滚动条的参数有些区别
 		// 初始化滚动条参数
 		if (VorH) {
-			w = size;
+			w = SIZE;
 			y = offset;
 		} else {
-			h = size;
+			h = SIZE;
 			x = offset;
 		}
-		setBarPos();
+		setBarPos(pg);
 	}
 
-	public void setBarPos() {
+	public void setBarPos(PGraphics pg) {
+		this.pg = pg;
 		if (VorH) {
-			length = p.getHeight() - offset * 2 - size;
+			length = p.getHeight() - offset * 2 - SIZE;
 			h = length * length / pg.height;
 			x = p.getWidth() - w;
 			visible = length >= pg.height ? false : true;
 		} else {
-			length = p.getWidth() - offset * 2 - size;
+			length = p.getWidth() - offset * 2 - SIZE;
 			w = length * length / pg.width;
 			y = p.getHeight() - h;
 			visible = length >= pg.width ? false : true;
 		}
 	}
 
+	/**
+	 * 把滚动条画在缓存图上，不推荐使用
+	 * @param tpg
+	 */
 	public void draw(PGraphics tpg) {
 		if (!visible) {
 			return;
@@ -54,13 +59,36 @@ public class ScrollBar {
 		tpg.fill(240);
 		// 此处容器矩形参数可参考上方“初始滚动条参数”
 		if (VorH) {
-			tpg.rect(p.getWidth() - w, 0, size, p.getHeight());
+			tpg.rect(p.getWidth() - w, 0, SIZE, p.getHeight());
 		} else {
-			tpg.rect(0, p.getHeight() - h, p.getWidth(), size);
+			tpg.rect(0, p.getHeight() - h, p.getWidth(), SIZE);
 		}
 		// 绘制滚动条
 		tpg.fill(colorGray);
 		tpg.rect(x, y, w, h);
+		update();
+	}
+	
+	/**
+	 * 把滚动条直接画在PApplet上
+	 * @param pa
+	 */
+	public void draw(PApplet pa) {
+		if (!visible) {
+			return;
+		}
+		pa.noStroke();
+		// 绘制滚动条容器
+		pa.fill(240);
+		// 此处容器矩形参数可参考上方“初始滚动条参数”
+		if (VorH) {
+			pa.rect(p.getWidth() - w, 0, SIZE, p.getHeight());
+		} else {
+			pa.rect(0, p.getHeight() - h, p.getWidth(), SIZE);
+		}
+		// 绘制滚动条
+		pa.fill(colorGray);
+		pa.rect(x, y, w, h);
 		update();
 	}
 

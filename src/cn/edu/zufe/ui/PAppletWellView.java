@@ -13,7 +13,7 @@ public class PAppletWellView extends PApplet {
 	private PGraphics pgBottom, pgHighlight;
 	private int width, height;
 	private LinkedList<PMapWell> pwList = null;
-	private LinkedList<Well> compareWellList = new LinkedList<Well>();
+	private LinkedList<DWell> compareWellList = new LinkedList<DWell>();
 	private PShape iconOrigin, iconClicked; // 油田图标
 	private int sort = 0;	//排序方法
 	
@@ -99,16 +99,12 @@ public class PAppletWellView extends PApplet {
 		}
 	}
 	
-	
 	public void mousePressed() {
-		if(sort != 0) 
+		if(sort != 0) {
 			return ;
+		}
 		
 		if (pwList != null) {
-//			for (PMapWell pw : pwList) {
-//				pw.setClicked(false);
-//			}
-
 			if (mouseButton == LEFT) {
 				for (PMapWell pw : pwList) {
 					if (pw.collisionDetection(mouseX, mouseY)) {
@@ -119,7 +115,6 @@ public class PAppletWellView extends PApplet {
 							compareWellList.remove(pw.getWell());
 						}
 						LinkedList<PSection> psList = Generator.wellToPSection(compareWellList);
-						// System.out.println("现在生成井的个数：" + psList.size());
 						psc.setPSList(psList);
 						psc.drawPGBottom();
 						break;
@@ -143,7 +138,7 @@ public class PAppletWellView extends PApplet {
 			for(PMapWell pw : pwList){
 				compareWellList.add(pw.getWell());
 			}
-			LinkedList<PMapWell> tPWList = Generator.wellToPWells(compareWellList);
+			LinkedList<PMapWell> tPWList = Generator.wellToPMapWells(compareWellList);
 			
 			SortFactory sortMethod = new SortFactory(pwList.get(1), tPWList);
 			sortMethod.doSort(tsort);

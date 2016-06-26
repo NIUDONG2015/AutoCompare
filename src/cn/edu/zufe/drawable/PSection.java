@@ -6,59 +6,63 @@ import java.util.LinkedList;
 
 import cn.edu.zufe.model.*;
 
-public class PSection {
+public class PSection extends PRect {
 
-	private Well well;
-	private float px = -1, py = -1; // 图左上角位置
-	private float ph = -1; // 高度
-	private float pw = 20; // 宽度
+	public final static float OFFSET_Y = 100; // Y的相对偏移常量
+	public final static float PS_WIDTH = 200; // PSection的宽度
+
+	public static float wellWidth = 50; // 井的宽度
+	public static float pixRatio = 1; // 像素比
+	public static float ngbPos = 500; // Ngb 的位置
+
+	private float wellWidthNow = 50;
+	private float pixRatioNow = 1;
+	private DWell well;
 
 	// 位移偏量及放大参数 (!必须zoomOut<=pg.hegiht+1，rect绘制的时候比实际大小多1像素，用于绘制边界)
-//	public final static float OFFSET_X = 0, OFFSET_Y = 100, ZOOM_OUT = 3800;
-	private LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>(); // 小层绘图类
+	// public final static float OFFSET_X = 0, OFFSET_Y = 100, ZOOM_OUT = 3800;
+	private PSectionWell pSectionWell;
+	private LinkedList<PBigLayer> pBigLayerList; // 大层绘图类
+	private LinkedList<PSmallLayer> pSmallLayerList; // 小层绘图类
 
-	/**
-	 * 构造函数
-	 * 
-	 * @param well
-	 *            油井
-	 * @param norX
-	 *            归一化后X坐标值
-	 * @param norY
-	 *            归一化后的Y坐标值
-	 */
-	public PSection(Well well, float px) {
-		this.well = well;
-		this.px = px;
-		this.py = py;
-		this.pw = pw;
-		this.ph = ph;
-
-		// System.out.println("(" + px + "," + py + ") | " + ph);
-		// 转化小层数据为绘图类
-		for (BigLayer bigLayer : well.getBigLayers()) {
-			if (bigLayer.getSmallLayers().size() > 0) {
-				pSmallLayerList.addAll(Generator.smallLayerToPSmallLayer(this, bigLayer.getSmallLayers()));
-			}
-		}
+	public DWell getWell() {
+		return well;
 	}
 
-	/**
-	 * 缓存图 画出油井和小层
-	 * 
-	 * @param pg
-	 */
+	public LinkedList<PSmallLayer> getPSmallLayerList() {
+		return pSmallLayerList;
+	}
+
+	public void setPSectionWell(PSectionWell pSectionWell) {
+		this.pSectionWell = pSectionWell;
+	}
+
+	public void setPSmallLayerList(LinkedList<PSmallLayer> pSmallLayerList) {
+		this.pSmallLayerList = pSmallLayerList;
+	}
+
+	public void setPBigLayerList(LinkedList<PBigLayer> pBigLayerList) {
+		this.pBigLayerList = pBigLayerList;
+	}
+
+	public PSection(DWell well, float px, float py, float pw, float ph) {
+		super(px, py, pw, ph);
+		this.well = well;
+	}
+
 	public void draw(PGraphics pg) {
 		// 油井名
-		pg.fill(0);
-		pg.text(well.getName(), px, py - 20);
+		// pg.fill(0);
+		// pg.text(well.getName(), px, py - 20);
 		pg.stroke(0);
 		// 画油井
 		pg.fill(255);
-		pg.rect(px, py, pw, ph);
+		pSectionWell.draw(pg);
+		// 画大层
+
 		// 画小层
-		for (PSmallLayer psl : pSmallLayerList) {
-			psl.draw(pg);
+		for (PSmallLayer ps : pSmallLayerList) {
+			ps.draw(pg);
 		}
 	}
 
@@ -84,35 +88,39 @@ public class PSection {
 		}
 	}
 
-	/**
-	 * 小层信息链表Get Set
-	 * 
-	 * @return
-	 */
-	public LinkedList<PSmallLayer> getPSmallLayerList() {
-		return pSmallLayerList;
+	public void setWellWidth() {
+		if (wellWidthNow != wellWidth) {
+			wellWidthNow = wellWidth;
+			// 修改油井
+			float tmpX = px + PS_WIDTH / 2 - wellWidth / 2;
+			pSectionWell.setPx(tmpX);
+			pSectionWell.setPw(wellWidth);
+			// 大层
+			// for (PBigLayer pBigLayer : pBigLayerList) {
+			// pBigLayer.setPw(wellWidth);
+			// }
+			// 小层
+			for (PSmallLayer pSmallLayer : pSmallLayerList) {
+				pSmallLayer.setPx(tmpX);
+				pSmallLayer.setPw(wellWidth);
+			}
+		}
 	}
 
-	public Well getWell(){
-		return this.well;
+	public void setPixRatio() {
+		if (pixRatioNow != pixRatio) {
+			pixRatioNow = pixRatio;
+			float ngbY = (float) well.getNgbDepth();
+			// 修改油井
+			pSectionWell.setPy(ngbPos - (ngbY - (float) well.getDepth()[0]) * pixRatio);
+			pSectionWell.setPh((float) (well.getDepth()[1] - well.getDepth()[0]) * pixRatio);
+			// 大层
+			// ...
+			// 小层
+			for (PSmallLayer pSmallLayer : pSmallLayerList) {
+				pSmallLayer.setPy(ngbPos - (ngbY - (float) pSmallLayer.getData().getDepth()[0]) * pixRatio);
+				pSmallLayer.setPh((float) (pSmallLayer.getData().getDepth()[1] - pSmallLayer.getData().getDepth()[0]) * pixRatio);
+			}
+		}
 	}
-	/**
-	 * 获得高度,位置信息
-	 */
-	public float getph() {
-		return ph;
-	}
-
-	public float getpx() {
-		return px;
-	}
-
-	public float getpy() {
-		return py;
-	}
-
-	public float getpw() {
-		return pw;
-	}
-
 }

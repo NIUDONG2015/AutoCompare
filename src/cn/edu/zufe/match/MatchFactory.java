@@ -2,13 +2,13 @@ package cn.edu.zufe.match;
 
 import java.util.LinkedList;
 
-import cn.edu.zufe.model.Well;
+import cn.edu.zufe.model.DWell;
 
 public class MatchFactory {
-	private Well standardWell;
-	private LinkedList<Well> wellList;
+	private DWell standardWell;
+	private LinkedList<DWell> wellList;
 	public Match1 mMatch1;
-	public MatchFactory(Well staWell,LinkedList<Well> wList){
+	public MatchFactory(DWell staWell,LinkedList<DWell> wList){
 		standardWell = staWell;
 		wellList = wList;
 	}

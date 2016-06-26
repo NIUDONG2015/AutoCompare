@@ -9,17 +9,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import cn.edu.zufe.model.*;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Data {
-	public static LinkedList<Well> loadData(String urlFile) throws IOException {
+	public static LinkedList<DWell> loadData(String urlFile) throws IOException {
 		if (urlFile == null || urlFile == "") {
 			return null;
 		}
-		LinkedList<Well> wellList = new LinkedList<Well>();
+		LinkedList<DWell> wellList = new LinkedList<DWell>();
 		try {
 			InputStream is = new FileInputStream(urlFile);
 			XSSFWorkbook xssfWorkbook = new XSSFWorkbook(is);
@@ -43,7 +45,7 @@ public class Data {
 				double t_wellPosY = Double.valueOf(getValue(wellPosY));
 
 				// 获取油井编号和坐标
-				Well well = new Well();
+				DWell well = new DWell();
 				well.setName(t_wellName);
 				well.setX(t_wellPosX);
 				well.setY(t_wellPosY);
@@ -59,7 +61,7 @@ public class Data {
 				// 遍历油井链表
 				for (int wellNum = 0; wellNum < wellList.size(); ++wellNum) {
 
-					Well well = wellList.get(wellNum);
+					DWell well = wellList.get(wellNum);
 
 					if (well.getName().equals(getValue(bigLayerInfo.getCell(0))) == false) {
 						continue;
@@ -75,7 +77,7 @@ public class Data {
 					}
 
 					// 获取大层层位和底深
-					BigLayer bigLayer = new BigLayer();
+					DBigLayer bigLayer = new DBigLayer();
 					bigLayer.setName(getValue(bigLayerName));
 					bigLayer.setDepth(t_bigLayerDepth);
 
@@ -90,13 +92,13 @@ public class Data {
 				XSSFRow smallLayerInfo = sheetSmallLayer.getRow(sheetSmallLayerNum);
 				// 遍历油井链表
 				for (int wellNum = 0; wellNum < wellList.size(); ++wellNum) {
-					Well well = wellList.get(wellNum);
+					DWell well = wellList.get(wellNum);
 					if (well.getName().equals(getValue(smallLayerInfo.getCell(0))) == false) {
 						continue;
 					}
 
 					for (int bigLayerNum = 0; bigLayerNum < well.getBigLayers().size(); ++bigLayerNum) {
-						BigLayer bigLayer = well.getBigLayers().get(bigLayerNum);
+						DBigLayer bigLayer = well.getBigLayers().get(bigLayerNum);
 						String strBigLayer = getValue(smallLayerInfo.getCell(1));
 						// 特判(因为小层数据的层位Ng10 等价于 大层数据的层位Ngb)
 						if (strBigLayer.contains("Ng10")) {
@@ -124,7 +126,7 @@ public class Data {
 							XSSFCell smallLayerEleResult = smallLayerInfo.getCell(13);
 							String t_smallLayerEleResult = getValue(smallLayerEleResult);
 
-							SmallLayer smallLayer = new SmallLayer();
+							DSmallLayer smallLayer = new DSmallLayer();
 							smallLayer.setName(t_smallLayerName);
 							smallLayer.setDepth(t_smallLayerDepth);
 							smallLayer.setEleResult(t_smallLayerEleResult);
@@ -138,13 +140,13 @@ public class Data {
 			}
 			
 //			for (int i = 0; i < wellList.size(); ++i) {
-//				Well well = wellList.get(i);
+//				DWell well = wellList.get(i);
 //				System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
 //				for (int j = 0; j < well.getBigLayers().size(); ++j) {
-//					BigLayer bigLayer = well.getBigLayers().get(j);
+//					DBigLayer bigLayer = well.getBigLayers().get(j);
 //					System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
 //					for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-//						SmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+//						DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
 //						System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0] 
 //								+ " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
 //					}
@@ -152,6 +154,109 @@ public class Data {
 //				}
 //				System.out.println("");
 //			}
+			
+			
+			String newURLFile = urlFile + "测井曲线";
+			String encoding = "GBK";
+			File file = new File(newURLFile);
+			if (file.isDirectory()) {
+				File[] dirFile = file.listFiles();
+				if (dirFile != null) {
+					for (File f : dirFile) {
+						InputStreamReader read = new InputStreamReader(new FileInputStream(f), encoding);// 考虑到编码格式
+						BufferedReader bufferedReader = new BufferedReader(read);
+
+						String wellName = f.getName(); // 获得井号
+						int dotPos = wellName.indexOf('.');
+						wellName = wellName.substring(0, dotPos);
+
+						// System.out.println(wellName);
+						//DWell well = null; // 根据井号获得对应井
+						int id = 0;
+						for (int i=0; i<wellList.size(); ++i) {
+							if (wellList.get(i).getName().equals(wellName))
+								id = i;
+						}
+
+						DWellLogs wellLogs = new DWellLogs();
+
+						String lineTxt = null;
+						boolean flag = false;
+
+						while ((lineTxt = bufferedReader.readLine()) != null) {
+
+							if (flag == true) { // 遍历到数据部分
+
+								DWellLogsAttribute wellLogsAttribute = new DWellLogsAttribute();
+
+								String strNum[] = lineTxt.split(" ");
+								int cnt = 0;
+								for (int i = 0; i < strNum.length; ++i) {
+
+									if (strNum[i].equals("") == false) {
+										// System.out.println(i +
+										// ":"+strNum[i]);
+										double num = 0;
+										try {
+											num = Double.valueOf(strNum[i]);
+										} catch (Exception e) {
+										}
+										switch (cnt) {
+										case 0:
+											wellLogsAttribute.setDEPTH(num);
+											break;
+										case 1:
+											wellLogsAttribute.setAC(num);
+											break;
+										case 2:
+											wellLogsAttribute.setCAL1(num);
+											break;
+										case 3:
+											wellLogsAttribute.setCAL2(num);
+											break;
+										case 4:
+											wellLogsAttribute.setCOND(num);
+											break;
+										case 5:
+											wellLogsAttribute.setRLML(num);
+											break;
+										case 6:
+											wellLogsAttribute.setRNML(num);
+											break;
+										case 7:
+											wellLogsAttribute.setR04(num);
+											break;
+										case 8:
+											wellLogsAttribute.setR25(num);
+											break;
+										case 9:
+											wellLogsAttribute.setR4(num);
+											break;
+										case 10:
+											wellLogsAttribute.setSP1(num);
+											break;
+										case 11:
+											wellLogsAttribute.setSP2(num);
+											break;
+										default:
+											break;
+										}
+										++cnt;
+									}
+								}
+								wellLogs.getmpWellLogs().put(wellLogsAttribute.getDEPTH(), wellLogsAttribute);
+							}
+
+							if (lineTxt.contains("~A")) {
+								flag = true;
+							}
+
+						}
+						read.close();
+						wellList.get(id).setWellLogs(wellLogs);
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

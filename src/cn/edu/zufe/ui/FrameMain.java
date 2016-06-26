@@ -25,7 +25,7 @@ import cn.edu.zufe.match.MatchFactory;
 import cn.edu.zufe.model.*;
 import cn.edu.zufe.drawable.*;
 
-public class FrameMain extends JFrame implements ActionListener, ChangeListener, TextListener, FocusListener {
+public class FrameMain extends JFrame implements ActionListener, ChangeListener, FocusListener {
 
 	private JMenuBar menubar;
 	private JMenu menuFile, menuTest, menuSort, menuAutoSorting;
@@ -37,7 +37,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 
 	private PAppletWellView pwv; // 油井视图
 	private PAppletSC psc; // 地层对比图
-	private LinkedList<Well> wellList;
+	private LinkedList<DWell> wellList;
 	private MatchFactory matchFactory;
 
 	private final static int MENU_WIDTH = 40, MENU_HEIGHT = 20;
@@ -61,7 +61,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 
 		// 添加两个 PApplet 窗口 // 必须放最后不然报错
 		psc = new PAppletSC(PSC_WIDTH, PSC_HEIGHT);
-		FrameSC fSC = new FrameSC("Stratigraphic Correlation", PSC_WIDTH + 16, PSC_HEIGHT, psc); // 16是用来放ScrollBar的
+		FrameSC fSC = new FrameSC("Stratigraphic Correlation", PSC_WIDTH + 16, PSC_HEIGHT + 40, psc); // 16是用来放ScrollBar的
 		pwv = new PAppletWellView(PWV_WIDTH, PWV_HEIGHT, psc);
 		addPApplet(pwv);
 		// addPApplet(this, psc);
@@ -123,7 +123,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 
 		// 地层对比图井宽设置
-		labelSCWellWidth = new JLabel("Well Width");
+		labelSCWellWidth = new JLabel("DWell Width");
 		gbc.gridwidth = 1;
 		gbc.weightx = 0;
 		gbc.insets = new Insets(0, 0, 10, 10);
@@ -153,7 +153,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		gb.setConstraints(labelPixelRatio, gbc);
 		paramPanel.add(labelPixelRatio);
 
-		sliderPixelRatio = new JSlider(JSlider.HORIZONTAL, 1, 200, 100);
+		sliderPixelRatio = new JSlider(JSlider.HORIZONTAL, 1, 100, 10);
 		sliderPixelRatio.addChangeListener(this);
 		gbc.gridwidth = 1;
 		gbc.weightx = 1;
@@ -207,8 +207,8 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 
 					matchFactory = new MatchFactory(wellList.get(1), wellList);
 					matchFactory.doMatch(1);
-					// Well to PMapWell
-					LinkedList<PMapWell> pwList = Generator.wellToPWells(wellList);
+					// DWell to PMapWell
+					LinkedList<PMapWell> pwList = Generator.wellToPMapWells(wellList);
 					// set and draw
 					pwv.setPWells(pwList);
 					pwv.drawPGBottom();
@@ -248,18 +248,12 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == sliderSCWellWidth) {
 			txtSCWellWidth.setText(String.valueOf(sliderSCWellWidth.getValue()));
+			PSection.wellWidth = sliderSCWellWidth.getValue();
+			psc.drawPGBottom();
 		} else if (e.getSource() == sliderPixelRatio) {
-			txtPixelRatio.setText(String.format("%.2f", sliderPixelRatio.getValue() * 0.01));
-		}
-	}
-
-	@Override
-	public void textValueChanged(TextEvent e) {
-		if (e.getSource() == txtSCWellWidth) {
-			sliderSCWellWidth.setValue(Integer.parseInt(txtSCWellWidth.getText()));
-			System.out.println(txtSCWellWidth.getText());
-		} else if (e.getSource() == txtPixelRatio) {
-			sliderPixelRatio.setValue(Integer.parseInt(txtPixelRatio.getText()) * 100);
+			txtPixelRatio.setText(String.format("%.1f", sliderPixelRatio.getValue() * 0.1));
+			PSection.pixRatio = (float) (sliderPixelRatio.getValue()* 0.1);
+			psc.drawPGBottom();
 		}
 	}
 
@@ -282,7 +276,8 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 			}
 			sliderSCWellWidth.setValue(t);
 		} else if (e.getSource() == txtPixelRatio) {
-			int t = (int)(Double.parseDouble(txtPixelRatio.getText()) * 100);
+			txtPixelRatio.setText(String.format("%.1f", Double.parseDouble(txtPixelRatio.getText())));
+			int t = (int) (Double.parseDouble(txtPixelRatio.getText()) * 10);
 			// 限制范围
 			if (t > sliderPixelRatio.getMaximum()) {
 				t = sliderPixelRatio.getMaximum();
@@ -290,7 +285,6 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 			if (t < sliderPixelRatio.getMinimum()) {
 				t = sliderPixelRatio.getMinimum();
 			}
-			System.out.println(t);
 			sliderPixelRatio.setValue(t);
 		}
 	}
