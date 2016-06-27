@@ -160,7 +160,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		gb.setConstraints(sliderPixelRatio, gbc);
 		paramPanel.add(sliderPixelRatio);
 
-		txtPixelRatio = new JTextField(String.valueOf(sliderPixelRatio.getValue() * 0.01), 10);
+		txtPixelRatio = new JTextField(String.valueOf(sliderPixelRatio.getValue() * 0.1), 10);
 		txtPixelRatio.setHorizontalAlignment(JTextField.CENTER);
 		txtPixelRatio.addFocusListener(this);
 		gbc.gridwidth = 0;

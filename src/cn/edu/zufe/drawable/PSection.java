@@ -8,12 +8,12 @@ import cn.edu.zufe.model.*;
 
 public class PSection extends PRect {
 
-	public final static float OFFSET_Y = 100; // Y的相对偏移常量
+	public final static float OFFSET_Y = 800; // Y的相对偏移常量
 	public final static float PS_WIDTH = 200; // PSection的宽度
 
 	public static float wellWidth = 50; // 井的宽度
 	public static float pixRatio = 1; // 像素比
-	public static float ngbPos = 500; // Ngb 的位置
+	public static float ngbPos = 600; // Ngb 的位置
 
 	private float wellWidthNow = 50;
 	private float pixRatioNow = 1;
@@ -114,6 +114,7 @@ public class PSection extends PRect {
 			// 修改油井
 			pSectionWell.setPy(ngbPos - (ngbY - (float) well.getDepth()[0]) * pixRatio);
 			pSectionWell.setPh((float) (well.getDepth()[1] - well.getDepth()[0]) * pixRatio);
+			pSectionWell.setScale();
 			// 大层
 			// ...
 			// 小层

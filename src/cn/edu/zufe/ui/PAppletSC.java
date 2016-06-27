@@ -43,7 +43,9 @@ public class PAppletSC extends PApplet implements ComponentListener {
 
 	public void draw() {
 		background(255);
-		image(pgBottom, hScrollBar.getImagePos(), vScrollBar.getImagePos());
+		if (pgBottom != null) {
+			image(pgBottom, hScrollBar.getImagePos(), vScrollBar.getImagePos());
+		}
 		// 滚动条绘出
 		drawPGScrollBar();
 	}
@@ -68,16 +70,16 @@ public class PAppletSC extends PApplet implements ComponentListener {
 			int newHeight = (int) (lastPSection.getPh());
 			pgBottom.dispose();
 			pgBottom = createGraphics(newWidth, newHeight);
-			pgBottom.beginDraw();
-			pgBottom.endDraw();
 		}
+
+		pgBottom.beginDraw();
+		pgBottom.clear();
+		pgBottom.background(255);
+		pgBottom.stroke(0);
+		pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
 		// PSection 绘出
 		if (psList != null) {
-			pgBottom.beginDraw();
-			pgBottom.clear();
-			pgBottom.background(255);
-			pgBottom.stroke(0);
-			pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
+
 			for (int i = 0; i < psList.size(); i++) {
 				psList.get(i).draw(pgBottom);
 				if (i + 1 < psList.size()) {
@@ -85,14 +87,9 @@ public class PAppletSC extends PApplet implements ComponentListener {
 				}
 			}
 			pgBottom.endDraw();
-		} else {
-			pgBottom.beginDraw();
-			pgBottom.clear();
-			pgBottom.background(255);
-			pgBottom.stroke(0);
-			pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
-			pgBottom.endDraw();
 		}
+		pgBottom.endDraw();
+
 		// 改变pgBottom大小时重新设置滚动条大小
 		if (vScrollBar != null) {
 			vScrollBar.setBarPos(pgBottom);
