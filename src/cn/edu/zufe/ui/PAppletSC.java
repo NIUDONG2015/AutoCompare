@@ -19,6 +19,7 @@ public class PAppletSC extends PApplet implements ComponentListener {
 	public static int width, height;
 	private PGraphics pgBottom;
 	private ScrollBar hScrollBar, vScrollBar;
+	private int psListSizeNow = -1; // 用于判断psList.Size()有没有变化，变化则重建pg
 
 	public PAppletSC(int w, int h) {
 		width = w;
@@ -64,7 +65,8 @@ public class PAppletSC extends PApplet implements ComponentListener {
 			}
 		}
 		// 根据 PSection 重新设置还存图大小
-		if (psList != null && psList.size() > 0) {
+		if (psList != null && psList.size() > 0 && psList.size() != psListSizeNow) {
+			psListSizeNow = psList.size();
 			PSection lastPSection = psList.getLast();
 			int newWidth = (int) (lastPSection.getPx() + lastPSection.getPw());
 			int newHeight = (int) (lastPSection.getPh());
