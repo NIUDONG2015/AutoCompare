@@ -27,11 +27,39 @@ public class PSmallLayer extends PRect {
 	}
 
 	public void draw(PGraphics pg) {
-		pg.fill(100);
-		pg.rect(px, py, pw, ph);
-		pg.fill(255, 0, 0);
-		pg.text(data.getName() + "：" + data.getMatchResName(), px + pw + 3, py + ph / 2);
-		pg.fill(255);
+
+		if (data.getEleResult().equals("水层")) {
+			pg.fill(1, 176, 241);
+			pg.rect(px, py, pw, ph);
+		} else if (data.getEleResult().equals("油水同层")) {
+			pg.fill(250, 0, 0);
+			pg.triangle(px, py, px + pw, py, px, py + ph);
+			pg.fill(1, 176, 241);
+			pg.triangle(px + pw, py + ph, px + pw, py, px, py + ph);
+		} else if (data.getEleResult().equals("油层")) {
+			pg.fill(250, 0, 0);
+			pg.rect(px, py, pw, ph);
+		} else if (data.getEleResult().equals("干层")) {
+			pg.noFill();
+			pg.rect(px, py, pw, ph);
+			int count = (int) (pw / 4);
+			for (int i = 1; i < count; i++) {
+				pg.line(px + i * 4, py, px + i * 4, py + ph);
+			}
+		} else if (data.getEleResult().equals("含油水层")) {
+			pg.fill(250, 0, 0);
+			pg.triangle(px, py, px + pw, py, px, py + ph);
+			pg.fill(1, 176, 241);
+			pg.triangle(px + pw, py + ph, px + pw, py, px, py + ph);
+		} else {
+			pg.noFill();
+			pg.rect(px, py, pw, ph);
+		}
+		// 显示匹配结果
+		// pg.fill(255, 0, 0);
+		// pg.text(data.getName() + "：" + data.getMatchResName(), px + pw + 3,
+		// py + ph / 2);
+		// pg.fill(255);
 	}
 
 	public void connect(PGraphics pg, PSmallLayer psOther) {
