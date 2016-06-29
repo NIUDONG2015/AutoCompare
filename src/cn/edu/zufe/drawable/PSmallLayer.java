@@ -63,6 +63,11 @@ public class PSmallLayer extends PRect {
 		// pg.fill(255);
 	}
 
+	/**
+	 * 向右连接小层
+	 * @param pg
+	 * @param psOther
+	 */
 	public void connect(PGraphics pg, PSmallLayer psOther) {
 		pg.fill(255);
 		pg.stroke(0);
@@ -70,6 +75,28 @@ public class PSmallLayer extends PRect {
 		pg.line(px + pw, py + ph, psOther.getPx(), psOther.getPy() + psOther.getPh());
 	}
 
+	/**
+	 * 连接边缘
+	 * @param pg
+	 * @param leftOrRight
+	 */
+	public void connectNull(PGraphics pg, boolean leftOrRight) {
+		pg.fill(255);
+		pg.stroke(0);
+		if (leftOrRight) {
+			pg.line(px, py, 0, py);
+			pg.line(px, py + ph, 0, py + ph);
+		} else {
+			pg.line(px, py, pg.width, py);
+			pg.line(px, py + ph, pg.width, py + ph);
+		}
+	}
+
+	/**
+	 * 比较小层匹配结果
+	 * @param psOther
+	 * @return
+	 */
 	public boolean compare(PSmallLayer psOther) {
 		if (!data.getMatchResName().equals("尖灭") && data.getMatchResName().equals(psOther.getData().getMatchResName())) {
 			return true;

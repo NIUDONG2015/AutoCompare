@@ -81,14 +81,14 @@ public class PAppletSC extends PApplet implements ComponentListener {
 		pgBottom.rect(0, 0, pgBottom.width - 1, pgBottom.height - 1); // 用于判断边界
 		// PSection 绘出
 		if (psList != null) {
-
 			for (int i = 0; i < psList.size(); i++) {
 				psList.get(i).draw(pgBottom);
 				if (i + 1 < psList.size()) {
 					psList.get(i).connect(pgBottom, psList.get(i + 1));
 				}
 			}
-			pgBottom.endDraw();
+			psList.get(0).connectNull(pgBottom, true);
+			psList.get(psList.size() - 1).connectNull(pgBottom, false);
 		}
 		pgBottom.endDraw();
 
