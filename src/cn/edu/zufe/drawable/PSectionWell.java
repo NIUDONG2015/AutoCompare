@@ -43,7 +43,6 @@ public class PSectionWell extends PRect {
 		nearlyAliquotTen = (int) (Math.rint(data.getDepth()[0] / sScale) * sScale); // 最近的能被10整除的数
 		int decade = (int) (nearlyAliquotTen / 10) % 10;
 		cnt = decade > 5 ? 10 - decade : 5 - decade;
-		System.out.println(nearlyAliquotTen + " - " + decade + " - " + cnt);
 
 		float ngbY = (float) data.getNgbDepth();
 		firstY = PSection.ngbPos - (ngbY - nearlyAliquotTen) * PSection.pixRatio;

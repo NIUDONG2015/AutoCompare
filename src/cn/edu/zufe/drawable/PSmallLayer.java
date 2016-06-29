@@ -27,7 +27,7 @@ public class PSmallLayer extends PRect {
 	}
 
 	public void draw(PGraphics pg) {
-
+		// 此处可以优化为枚举类型
 		if (data.getEleResult().equals("水层")) {
 			pg.fill(1, 176, 241);
 			pg.rect(px, py, pw, ph);
@@ -47,10 +47,11 @@ public class PSmallLayer extends PRect {
 				pg.line(px + i * 4, py, px + i * 4, py + ph);
 			}
 		} else if (data.getEleResult().equals("含油水层")) {
-			pg.fill(250, 0, 0);
-			pg.triangle(px, py, px + pw, py, px, py + ph);
 			pg.fill(1, 176, 241);
-			pg.triangle(px + pw, py + ph, px + pw, py, px, py + ph);
+			pg.rect(px, py, pw, ph);
+			pg.fill(250, 0, 0);
+			pg.quad(px + pw / 7 * 2, py, px + pw / 7 * 3, py, px + pw / 7 * 2, py + ph, px + pw / 7, py + ph);
+			pg.quad(px + pw / 7 * 5, py, px + pw / 7 * 6, py, px + pw / 7 * 5, py + ph, px + pw / 7 * 4, py + ph);
 		} else {
 			pg.noFill();
 			pg.rect(px, py, pw, ph);
