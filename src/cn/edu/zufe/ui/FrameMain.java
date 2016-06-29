@@ -130,7 +130,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		gb.setConstraints(labelSCWellWidth, gbc);
 		paramPanel.add(labelSCWellWidth);
 
-		sliderSCWellWidth = new JSlider(JSlider.HORIZONTAL, 20, 100, 30);
+		sliderSCWellWidth = new JSlider(JSlider.HORIZONTAL, 20, 100, 25);
 		sliderSCWellWidth.addChangeListener(this);
 		gbc.gridwidth = 1;
 		gbc.weightx = 1;

@@ -7,8 +7,6 @@ public class Generator {
 
 	// Generator类中主要存放数据类到绘图类的转换与生成的方法
 
-
-
 	// 此段代码不应该放在Generator中
 	public static PSection pWellToPSection(PMapWell pWell, LinkedList<PSection> pSectionList) {
 		PSection pSection = null;
@@ -89,8 +87,6 @@ public class Generator {
 			return null;
 		}
 
-
-
 		// 获得PSection的高度（最大）
 		float[] topHs = new float[wellList.size()]; // Ngb到最上层的高度
 		float[] btmHs = new float[wellList.size()]; // Ngb到最下层的高度
@@ -145,6 +141,11 @@ public class Generator {
 			LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>();
 			for (DBigLayer bigLayer : well.getBigLayers()) {
 				for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
+					// 跳过没有数据的小层绘制
+					if (smallLayer.getDepth()[0] == 0 || smallLayer.getDepth()[1] == 0) {
+						continue;
+					}
+
 					float pslX = pswX;
 					float pslY = PSection.ngbPos - (ngbY - (float) smallLayer.getDepth()[0]);
 					float pslW = PSection.wellWidth;

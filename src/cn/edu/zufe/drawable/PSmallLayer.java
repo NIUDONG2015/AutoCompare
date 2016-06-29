@@ -65,6 +65,7 @@ public class PSmallLayer extends PRect {
 
 	/**
 	 * 向右连接小层
+	 * 
 	 * @param pg
 	 * @param psOther
 	 */
@@ -77,6 +78,7 @@ public class PSmallLayer extends PRect {
 
 	/**
 	 * 连接边缘
+	 * 
 	 * @param pg
 	 * @param leftOrRight
 	 */
@@ -94,6 +96,7 @@ public class PSmallLayer extends PRect {
 
 	/**
 	 * 比较小层匹配结果
+	 * 
 	 * @param psOther
 	 * @return
 	 */
