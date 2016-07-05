@@ -13,7 +13,7 @@ public class PSection extends PRect {
 
 	public static float wellWidth = 50; // 井的宽度
 
-	public static float pixRatio = 1; // 像素比
+	public static float pixRatio = 2; // 像素比
 
 	public static float ngbPos = 600; // Ngb 的位置
 

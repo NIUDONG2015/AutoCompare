@@ -9,39 +9,59 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import processing.core.PApplet;
-import cn.edu.zufe.io.*;
+import cn.edu.zufe.drawable.Generator;
+import cn.edu.zufe.drawable.PMapWell;
+import cn.edu.zufe.drawable.PSection;
+import cn.edu.zufe.io.Data;
 import cn.edu.zufe.match.MatchFactory;
-import cn.edu.zufe.model.*;
-import cn.edu.zufe.drawable.*;
+import cn.edu.zufe.model.DWell;
 
 public class FrameMain extends JFrame implements ActionListener, ChangeListener, FocusListener {
 
 	private JMenuBar menubar;
+
 	private JMenu menuFile, menuTest, menuSort, menuAutoSorting;
+
 	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, miSort1, miSort2; // 菜单项
 
 	private JLabel labelSCWellWidth, labelPixelRatio;
+
 	private JSlider sliderSCWellWidth, sliderPixelRatio;
+
 	private JTextField txtSCWellWidth, txtPixelRatio;
 
 	private PAppletWellView pwv; // 油井视图
+
 	private PAppletSC psc; // 地层对比图
+
 	private LinkedList<DWell> wellList;
+
 	private MatchFactory matchFactory;
 
 	private final static int MENU_WIDTH = 40, MENU_HEIGHT = 20;
+
 	private final static int PWV_WIDTH = 460, PWV_HEIGHT = 410;
+
 	private final static int PSC_WIDTH = 500, PSC_HEIGHT = 600;
 
 	public FrameMain(String s, int width, int height) {
@@ -153,7 +173,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		gb.setConstraints(labelPixelRatio, gbc);
 		paramPanel.add(labelPixelRatio);
 
-		sliderPixelRatio = new JSlider(JSlider.HORIZONTAL, 1, 100, 10);
+		sliderPixelRatio = new JSlider(JSlider.HORIZONTAL, 1, 100, (int) (10 * PSection.pixRatio));
 		sliderPixelRatio.addChangeListener(this);
 		gbc.gridwidth = 1;
 		gbc.weightx = 1;
@@ -252,7 +272,7 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 			psc.drawPGBottom();
 		} else if (e.getSource() == sliderPixelRatio) {
 			txtPixelRatio.setText(String.format("%.1f", sliderPixelRatio.getValue() * 0.1));
-			PSection.pixRatio = (float) (sliderPixelRatio.getValue()* 0.1);
+			PSection.pixRatio = (float) (sliderPixelRatio.getValue() * 0.1);
 			psc.drawPGBottom();
 		}
 	}
