@@ -166,7 +166,6 @@ public class Generator {
 	}
 
 	/**
-	 * 
 	 * 从 DDepth 数据模型中计算 y 在画布上对应的位置
 	 * 
 	 * @param ngbY
@@ -178,7 +177,17 @@ public class Generator {
 	}
 
 	/**
+	 * 计算 y 在画布上对应的位置
 	 * 
+	 * @param ngbY
+	 * @param depth
+	 * @return
+	 */
+	public static float toPixelY(float ngbY, float depth) {
+		return PSection.ngbPos - (ngbY - depth) * PSection.pixRatio;
+	}
+
+	/**
 	 * 从 DDepth 数据模型中计算 h 在画布上对应的长度
 	 * 
 	 * @param data
