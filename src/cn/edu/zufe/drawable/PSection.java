@@ -1,28 +1,34 @@
 package cn.edu.zufe.drawable;
 
-import processing.core.*;
-
 import java.util.LinkedList;
 
-import cn.edu.zufe.model.*;
+import processing.core.PGraphics;
+import cn.edu.zufe.model.DWell;
 
 public class PSection extends PRect {
 
 	public final static float OFFSET_Y = 800; // Y的相对偏移常量
+
 	public final static float PS_WIDTH = 200; // PSection的宽度
 
 	public static float wellWidth = 50; // 井的宽度
+
 	public static float pixRatio = 1; // 像素比
+
 	public static float ngbPos = 600; // Ngb 的位置
 
 	private float wellWidthNow = 50;
+
 	private float pixRatioNow = 1;
+
 	private DWell well;
 
 	// 位移偏量及放大参数 (!必须zoomOut<=pg.hegiht+1，rect绘制的时候比实际大小多1像素，用于绘制边界)
 	// public final static float OFFSET_X = 0, OFFSET_Y = 100, ZOOM_OUT = 3800;
 	private PSectionWell pSectionWell;
+
 	private LinkedList<PBigLayer> pBigLayerList; // 大层绘图类
+
 	private LinkedList<PSmallLayer> pSmallLayerList; // 小层绘图类
 
 	public DWell getWell() {
@@ -118,15 +124,15 @@ public class PSection extends PRect {
 			pixRatioNow = pixRatio;
 			float ngbY = (float) well.getNgbDepth();
 			// 修改油井
-			pSectionWell.setPy(ngbPos - (ngbY - (float) well.getDepth()[0]) * pixRatio);
-			pSectionWell.setPh((float) (well.getDepth()[1] - well.getDepth()[0]) * pixRatio);
+			pSectionWell.setPy(Generator.toPixelY(ngbY, well));
+			pSectionWell.setPh(Generator.toPixelH(well));
 			pSectionWell.setScale();
 			// 大层
 			// ...
 			// 小层
 			for (PSmallLayer pSmallLayer : pSmallLayerList) {
-				pSmallLayer.setPy(ngbPos - (ngbY - (float) pSmallLayer.getData().getDepth()[0]) * pixRatio);
-				pSmallLayer.setPh((float) (pSmallLayer.getData().getDepth()[1] - pSmallLayer.getData().getDepth()[0]) * pixRatio);
+				pSmallLayer.setPy(Generator.toPixelY(ngbY, pSmallLayer.getData()));
+				pSmallLayer.setPh(Generator.toPixelH(pSmallLayer.getData()));
 			}
 		}
 	}

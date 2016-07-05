@@ -1,7 +1,11 @@
 package cn.edu.zufe.drawable;
 
 import java.util.LinkedList;
-import cn.edu.zufe.model.*;
+
+import cn.edu.zufe.model.DBigLayer;
+import cn.edu.zufe.model.DDepth;
+import cn.edu.zufe.model.DSmallLayer;
+import cn.edu.zufe.model.DWell;
 
 public class Generator {
 
@@ -112,15 +116,16 @@ public class Generator {
 			PSection pSection = new PSection(well, psX, psY, psW, psH);
 			psList.add(pSection);
 
+			float ngbY = (float) wellList.get(i).getNgbDepth(); // 用于定位
+
 			// 注入 PSectionWell
 			float pswX = psX + PSection.PS_WIDTH / 2 - PSection.wellWidth / 2;
-			float pswY = PSection.ngbPos - topHs[i];
+			float pswY = toPixelY(ngbY, well);
 			float pswW = PSection.wellWidth;
-			float pswH = topHs[i] + btmHs[i];
+			float pswH = toPixelH(well);
 			PSectionWell pSectionWell = new PSectionWell(well, pswX, pswY, pswW, pswH);
 			pSection.setPSectionWell(pSectionWell);
 
-			float ngbY = (float) wellList.get(i).getNgbDepth();
 			// 注入 PBigLayers
 			// LinkedList<PBigLayer> pBigLayerList = new
 			// LinkedList<PBigLayer>();
@@ -147,9 +152,9 @@ public class Generator {
 					}
 
 					float pslX = pswX;
-					float pslY = PSection.ngbPos - (ngbY - (float) smallLayer.getDepth()[0]);
+					float pslY = toPixelY(ngbY, smallLayer);
 					float pslW = PSection.wellWidth;
-					float pslH = (float) (smallLayer.getDepth()[1] - smallLayer.getDepth()[0]);
+					float pslH = toPixelH(smallLayer);
 					PSmallLayer pSmallLayer = new PSmallLayer(smallLayer, pslX, pslY, pslW, pslH);
 					pSmallLayerList.add(pSmallLayer);
 				}
@@ -158,6 +163,29 @@ public class Generator {
 
 		}
 		return psList;
+	}
+
+	/**
+	 * 
+	 * 从 DDepth 数据模型中计算 y 在画布上对应的位置
+	 * 
+	 * @param ngbY
+	 * @param data
+	 * @return
+	 */
+	public static float toPixelY(float ngbY, DDepth data) {
+		return PSection.ngbPos - (ngbY - (float) data.getDepth()[0]) * PSection.pixRatio;
+	}
+
+	/**
+	 * 
+	 * 从 DDepth 数据模型中计算 h 在画布上对应的长度
+	 * 
+	 * @param data
+	 * @return
+	 */
+	public static float toPixelH(DDepth data) {
+		return (float) (data.getDepth()[1] - data.getDepth()[0]) * PSection.pixRatio;
 	}
 
 	// public static LinkedList<PSmallLayer> smallLayerToPSmallLayer(PSection
