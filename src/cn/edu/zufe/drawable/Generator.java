@@ -6,6 +6,8 @@ import cn.edu.zufe.model.DBigLayer;
 import cn.edu.zufe.model.DDepth;
 import cn.edu.zufe.model.DSmallLayer;
 import cn.edu.zufe.model.DWell;
+import cn.edu.zufe.model.DWellLogs;
+import cn.edu.zufe.model.DWellLogsAttribute;
 
 public class Generator {
 
@@ -125,6 +127,12 @@ public class Generator {
 			float pswH = toPixelH(well);
 			PSectionWell pSectionWell = new PSectionWell(well, pswX, pswY, pswW, pswH);
 			pSection.setPSectionWell(pSectionWell);
+
+			// 注入PWellLogs
+			DWellLogsAttribute wlaMax = getMaxLogsValue(well);
+			DWellLogsAttribute wlaMin = getMinLogsValue(well);
+			System.out.println(well.getName() + ":");
+			wlaPrintMaxAndMin(wlaMax, wlaMin);
 
 			// 注入 PBigLayers
 			// LinkedList<PBigLayer> pBigLayerList = new
@@ -282,5 +290,116 @@ public class Generator {
 			value[i] = (value[i] - min) / (max - min);
 		}
 		return value;
+	}
+
+	public static DWellLogsAttribute getMaxLogsValue(DWell well) {
+		DWellLogs dwl = well.getWellLogs();
+		if (dwl == null) {
+			return null;
+		}
+
+		DWellLogsAttribute max = new DWellLogsAttribute();
+
+		max.setAC(-1000);
+		max.setCAL1(-1000);
+		max.setCAL2(-1000);
+		max.setCOND(-1000);
+		max.setR04(-1000);
+		max.setR25(-1000);
+		max.setR4(-1000);
+		max.setRLML(-1000);
+		max.setRNML(-1000);
+		max.setSP1(-1000);
+		max.setSP2(-1000);
+
+		double top = (int) well.getDepth()[0] - 1;
+		double btm = (int) well.getDepth()[1] + 1;
+		// 在井的深度范围内 以 0.125的大小步进
+		for (double i = top; i < btm; i += 0.125) {
+			// 写这些还是要靠sublime3
+			DWellLogsAttribute wla = dwl.getLogsAttribute(i);
+			if (wla != null) {
+				max.setAC(Math.max(max.getAC(), wla.getAC()));
+				max.setCAL1(Math.max(max.getCAL1(), wla.getCAL1()));
+				max.setCAL2(Math.max(max.getCAL2(), wla.getCAL2()));
+				max.setCOND(Math.max(max.getCOND(), wla.getCOND()));
+				max.setR04(Math.max(max.getR04(), wla.getR04()));
+				max.setR25(Math.max(max.getR25(), wla.getR25()));
+				max.setR4(Math.max(max.getR4(), wla.getR4()));
+				max.setRLML(Math.max(max.getRLML(), wla.getRLML()));
+				max.setRNML(Math.max(max.getRNML(), wla.getRNML()));
+				max.setSP1(Math.max(max.getSP1(), wla.getSP1()));
+				max.setSP2(Math.max(max.getSP2(), wla.getSP2()));
+			} else {
+				System.out.println(i + ":null");
+			}
+		}
+		return max;
+	}
+
+	public static DWellLogsAttribute getMinLogsValue(DWell well) {
+		DWellLogs dwl = well.getWellLogs();
+		if (dwl == null) {
+			return null;
+		}
+
+		DWellLogsAttribute min = new DWellLogsAttribute();
+
+		min.setAC(10000);
+		min.setCAL1(10000);
+		min.setCAL2(10000);
+		min.setCOND(10000);
+		min.setR04(10000);
+		min.setR25(10000);
+		min.setR4(10000);
+		min.setRLML(10000);
+		min.setRNML(10000);
+		min.setSP1(10000);
+		min.setSP2(10000);
+
+		double top = (int) well.getDepth()[0] - 1;
+		double btm = (int) well.getDepth()[1] + 1;
+		// 在井的深度范围内 以 0.125的大小步进
+		for (double i = top; i < btm; i += 0.125) {
+			// 写这些还是要靠sublime3
+			DWellLogsAttribute wla = dwl.getLogsAttribute(i);
+			if (wla != null) {
+				min.setAC(Math.min(min.getAC(), wla.getAC()));
+				min.setCAL1(Math.min(min.getCAL1(), wla.getCAL1()));
+				min.setCAL2(Math.min(min.getCAL2(), wla.getCAL2()));
+				min.setCOND(Math.min(min.getCOND(), wla.getCOND()));
+				min.setR04(Math.min(min.getR04(), wla.getR04()));
+				min.setR25(Math.min(min.getR25(), wla.getR25()));
+				min.setR4(Math.min(min.getR4(), wla.getR4()));
+				min.setRLML(Math.min(min.getRLML(), wla.getRLML()));
+				min.setRNML(Math.min(min.getRNML(), wla.getRNML()));
+				min.setSP1(Math.min(min.getSP1(), wla.getSP1()));
+				min.setSP2(Math.min(min.getSP2(), wla.getSP2()));
+			} else {
+				System.out.println(i + ":null");
+			}
+		}
+		return min;
+	}
+
+	// test syso
+	public static void wlaPrintMaxAndMin(DWellLogsAttribute max, DWellLogsAttribute min) {
+		if (max == null || min == null) {
+			System.out.println("~null");
+			return;
+		}
+
+		System.out.println("max     \t     min");
+		System.out.println(max.getAC() + "     \t     " + min.getAC());
+		System.out.println(max.getCAL1() + "     \t     " + min.getCAL1());
+		System.out.println(max.getCAL2() + "     \t     " + min.getCAL2());
+		System.out.println(max.getCOND() + "     \t     " + min.getCOND());
+		System.out.println(max.getR04() + "     \t     " + min.getR04());
+		System.out.println(max.getR25() + "     \t     " + min.getR25());
+		System.out.println(max.getR4() + "     \t     " + min.getR4());
+		System.out.println(max.getRLML() + "     \t     " + min.getRLML());
+		System.out.println(max.getRNML() + "     \t     " + min.getRNML());
+		System.out.println(max.getSP1() + "     \t     " + min.getSP1());
+		System.out.println(max.getSP2() + "     \t     " + min.getSP2());
 	}
 }
