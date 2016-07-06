@@ -1,5 +1,11 @@
 package cn.edu.zufe.io;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -7,16 +13,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import cn.edu.zufe.model.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import cn.edu.zufe.model.DBigLayer;
+import cn.edu.zufe.model.DSmallLayer;
+import cn.edu.zufe.model.DWell;
+import cn.edu.zufe.model.DWellLogs;
+import cn.edu.zufe.model.DWellLogsAttribute;
 
 public class Data {
+
 	public static LinkedList<DWell> loadData(String urlFile) throws IOException {
 		if (urlFile == null || urlFile == "") {
 			return null;
@@ -31,8 +35,7 @@ public class Data {
 			XSSFSheet sheetSmallLayer = xssfWorkbook.getSheetAt(3); // 小层数据表
 
 			// 读钻井数据表
-			for (int sheetWellRowsNum = sheetWell.getFirstRowNum() + 2; sheetWellRowsNum <= sheetWell
-					.getLastRowNum(); ++sheetWellRowsNum) {
+			for (int sheetWellRowsNum = sheetWell.getFirstRowNum() + 2; sheetWellRowsNum <= sheetWell.getLastRowNum(); ++sheetWellRowsNum) {
 
 				XSSFRow wellInfo = sheetWell.getRow(sheetWellRowsNum);
 				XSSFCell wellName = wellInfo.getCell(0);
@@ -53,8 +56,7 @@ public class Data {
 			}
 
 			// 获取油井大层信息
-			for (int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2; sheetBigLayerNum <= sheetBigLayer
-					.getLastRowNum(); ++sheetBigLayerNum) {
+			for (int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2; sheetBigLayerNum <= sheetBigLayer.getLastRowNum(); ++sheetBigLayerNum) {
 				// 获得当前行
 				XSSFRow bigLayerInfo = sheetBigLayer.getRow(sheetBigLayerNum);
 
@@ -86,8 +88,7 @@ public class Data {
 			}
 
 			// 获取小层信息
-			for (int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2; sheetSmallLayerNum <= sheetSmallLayer
-					.getLastRowNum(); ++sheetSmallLayerNum) {
+			for (int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2; sheetSmallLayerNum <= sheetSmallLayer.getLastRowNum(); ++sheetSmallLayerNum) {
 				// 获得当前行
 				XSSFRow smallLayerInfo = sheetSmallLayer.getRow(sheetSmallLayerNum);
 				// 遍历油井链表
@@ -138,25 +139,25 @@ public class Data {
 					// XSSFCell small
 				}
 			}
-			
-//			for (int i = 0; i < wellList.size(); ++i) {
-//				DWell well = wellList.get(i);
-//				System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
-//				for (int j = 0; j < well.getBigLayers().size(); ++j) {
-//					DBigLayer bigLayer = well.getBigLayers().get(j);
-//					System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
-//					for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-//						DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-//						System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0] 
-//								+ " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
-//					}
-//					System.out.println("");
-//				}
-//				System.out.println("");
-//			}
-			
-			
-			String newURLFile = urlFile + "测井曲线";
+
+			// for (int i = 0; i < wellList.size(); ++i) {
+			// DWell well = wellList.get(i);
+			// System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
+			// for (int j = 0; j < well.getBigLayers().size(); ++j) {
+			// DBigLayer bigLayer = well.getBigLayers().get(j);
+			// System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
+			// for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+			// DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+			// System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0]
+			// + " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
+			// }
+			// System.out.println("");
+			// }
+			// System.out.println("");
+			// }
+
+			String xlsfolderPath = urlFile.substring(0, urlFile.lastIndexOf("\\"));
+			String newURLFile = xlsfolderPath + "\\测井曲线";
 			String encoding = "GBK";
 			File file = new File(newURLFile);
 			if (file.isDirectory()) {
@@ -171,9 +172,9 @@ public class Data {
 						wellName = wellName.substring(0, dotPos);
 
 						// System.out.println(wellName);
-						//DWell well = null; // 根据井号获得对应井
+						// DWell well = null; // 根据井号获得对应井
 						int id = 0;
-						for (int i=0; i<wellList.size(); ++i) {
+						for (int i = 0; i < wellList.size(); ++i) {
 							if (wellList.get(i).getName().equals(wellName))
 								id = i;
 						}
@@ -256,7 +257,25 @@ public class Data {
 						wellList.get(id).setWellLogs(wellLogs);
 					}
 				}
+			} else {
+				System.out.println(file.getPath() + " 没有找到");
 			}
+
+			// for (DWell tWell : wellList) {
+			// if (tWell.getWellLogs() == null) {
+			// continue;
+			// }
+			//
+			// for (Map.Entry<Double, DWellLogsAttribute> entry : tWell.getWellLogs().getmpWellLogs().entrySet()) {
+			// DWellLogsAttribute tDWA = entry.getValue();
+			// System.out.println(tDWA.getDEPTH() + "   " + tDWA.getAC() + "   " + tDWA.getCAL1() + "   " +
+			// tDWA.getCAL2() + "   "
+			// + tDWA.getCOND() + "   " + tDWA.getRLML() + "   " + tDWA.getRNML() + "   " + tDWA.getR04() + "   " +
+			// tDWA.getR25()
+			// + "   " + tDWA.getR4() + "   " + tDWA.getSP1() + "   " + tDWA.getSP2());
+			// }
+			// }
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
