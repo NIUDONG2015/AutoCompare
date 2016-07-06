@@ -331,7 +331,7 @@ public class Generator {
 				max.setSP1(Math.max(max.getSP1(), wla.getSP1()));
 				max.setSP2(Math.max(max.getSP2(), wla.getSP2()));
 			} else {
-				System.out.println(i + ":null");
+				// System.out.println(i + ":null");
 			}
 		}
 		return max;
@@ -376,7 +376,7 @@ public class Generator {
 				min.setSP1(Math.min(min.getSP1(), wla.getSP1()));
 				min.setSP2(Math.min(min.getSP2(), wla.getSP2()));
 			} else {
-				System.out.println(i + ":null");
+				// System.out.println(i + ":null");
 			}
 		}
 		return min;
@@ -389,17 +389,17 @@ public class Generator {
 			return;
 		}
 
-		System.out.println("max     \t     min");
-		System.out.println(max.getAC() + "     \t     " + min.getAC());
-		System.out.println(max.getCAL1() + "     \t     " + min.getCAL1());
-		System.out.println(max.getCAL2() + "     \t     " + min.getCAL2());
-		System.out.println(max.getCOND() + "     \t     " + min.getCOND());
-		System.out.println(max.getR04() + "     \t     " + min.getR04());
-		System.out.println(max.getR25() + "     \t     " + min.getR25());
-		System.out.println(max.getR4() + "     \t     " + min.getR4());
-		System.out.println(max.getRLML() + "     \t     " + min.getRLML());
-		System.out.println(max.getRNML() + "     \t     " + min.getRNML());
-		System.out.println(max.getSP1() + "     \t     " + min.getSP1());
-		System.out.println(max.getSP2() + "     \t     " + min.getSP2());
+		System.out.println("max\t\tmin");
+		System.out.println(max.getAC() + "\t\t" + min.getAC());
+		System.out.println(max.getCAL1() + "\t\t" + min.getCAL1());
+		System.out.println(max.getCAL2() + "\t\t" + min.getCAL2());
+		System.out.println(max.getCOND() + "\t\t" + min.getCOND());
+		System.out.println(max.getR04() + "\t\t" + min.getR04());
+		System.out.println(max.getR25() + "\t\t" + min.getR25());
+		System.out.println(max.getR4() + "\t\t" + min.getR4());
+		System.out.println(max.getRLML() + "\t\t" + min.getRLML());
+		System.out.println(max.getRNML() + "\t\t" + min.getRNML());
+		System.out.println(max.getSP1() + "\t\t" + min.getSP1());
+		System.out.println(max.getSP2() + "\t\t" + min.getSP2());
 	}
 }
