@@ -40,9 +40,9 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 
 	private JMenuBar menubar;
 
-	private JMenu menuFile, menuTest, menuSort, menuAutoSorting;
+	private JMenu menuFile, menuTest, menuSort, menuAutoSorting, menuSaveExcel;
 
-	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, miSort1, miSort2; // 菜单项
+	private JMenuItem miOpen, miSave, miExport, miExit, miSaveAsImage, miManualSorting, miSort1, miSort2, miSmallLayerExcel, miAnotherExcel; // 菜单项
 
 	private JLabel labelSCWellWidth, labelPixelRatio;
 
@@ -129,7 +129,15 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		menuTest.add(miSaveAsImage);
 		menubar.add(menuTest);
 		miSaveAsImage.addActionListener(this);
-
+		
+		//输出两张Excle表
+		menuSaveExcel = new JMenu("SaveExcle");
+		miSmallLayerExcel = new JMenuItem("SmallLayerExcel");
+		miAnotherExcel = new JMenuItem("AnotherExcel");
+		menuSaveExcel.add(miSmallLayerExcel);
+		menuSaveExcel.add(miAnotherExcel);
+		menubar.add(menuSaveExcel);
+		
 		this.setJMenuBar(menubar);
 	}
 
@@ -261,6 +269,10 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 		} else if (e.getSource() == miSort2) {
 			pwv.setSort(2);
 			pwv.drawPGBottom();
+		} else if (e.getSource() == miSmallLayerExcel){
+			
+		} else if (e.getSource() == miAnotherExcel){
+			
 		}
 	}
 

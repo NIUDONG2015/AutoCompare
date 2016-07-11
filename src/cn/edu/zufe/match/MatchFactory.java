@@ -17,6 +17,7 @@ public class MatchFactory {
 		case 1: mMatch1 = new Match1(standardWell,wellList);
 				mMatch1.doMatch();
 				break;
+
 		default:System.out.println("Can't select a match function");
 				break;
 		}
