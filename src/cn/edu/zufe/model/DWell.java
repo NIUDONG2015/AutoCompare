@@ -7,9 +7,12 @@ public class DWell extends DDepth {
 	private double x;
 	private double y;
 	private double ngbDepth = -1;
+	private double highBushing;
+	private double wellDepth;
 	private DWellLogs wellLogs;
+	private boolean isTrue = true;
 	private LinkedList<DBigLayer> bigLayers = new LinkedList<DBigLayer>();
-
+	
 	public double getX() {
 		return x;
 	}
@@ -56,4 +59,24 @@ public class DWell extends DDepth {
 			return ngbDepth;
 		}
 	}
+
+	public double getHighBushing() {
+		return highBushing;
+	}
+
+	public void setHighBushing(double highBushing) {
+		this.highBushing = highBushing;
+	}
+
+	public double getWellDepth() {
+		return wellDepth;
+	}
+
+	public void setWellDepth(double wellDepth) {
+		this.wellDepth = wellDepth;
+	}
+
+	
+
+	
 }

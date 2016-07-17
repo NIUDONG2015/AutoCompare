@@ -1,12 +1,12 @@
 package cn.edu.zufe.model;
 
-public class DSmallLayer extends DDepth {
+public class DSmallLayer extends DDepth implements Cloneable {
 
 	private double[] norDepth;
 	private double nor;
 	private String eleResult = null; // 电测解释结果
 	private String matchResName = null;
-
+	private boolean isTrue = true;	//标记是否为虚拟小层
 	public double[] getNorDepth() {
 		return norDepth;
 	}
@@ -39,4 +39,22 @@ public class DSmallLayer extends DDepth {
 		this.matchResName = matchResName;
 	}
 
+	public boolean getIsTrue() {
+		return isTrue;
+	}
+
+	public void setTrue(boolean isTrue) {
+		this.isTrue = isTrue;
+	}
+	
+	public Object clone(){
+		Object o =null;
+		try{
+			o = super.clone();
+		}catch(CloneNotSupportedException e){
+			
+		}
+		return o;
+	}
+	
 }

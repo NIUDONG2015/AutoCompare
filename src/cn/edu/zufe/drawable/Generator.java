@@ -98,7 +98,9 @@ public class Generator {
 		float[] btmHs = new float[wellList.size()]; // Ngb到最下层的高度
 		for (int i = 0; i < wellList.size(); ++i) {
 			float ngbY = (float) wellList.get(i).getNgbDepth();
+			
 			topHs[i] = ngbY - (float) wellList.get(i).getDepth()[0];
+
 			btmHs[i] = (float) wellList.get(i).getDepth()[1] - ngbY;
 		}
 		// float maxTopH = getMaxValue(topHs);
@@ -154,8 +156,8 @@ public class Generator {
 			LinkedList<PSmallLayer> pSmallLayerList = new LinkedList<PSmallLayer>();
 			for (DBigLayer bigLayer : well.getBigLayers()) {
 				for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
-					// 跳过没有数据的小层绘制
-					if (smallLayer.getDepth()[0] == 0 || smallLayer.getDepth()[1] == 0) {
+					// 跳过没有数据或是虚拟的小层绘制
+					if (smallLayer.getDepth()[0] == 0 || smallLayer.getDepth()[1] == 0 || smallLayer.getIsTrue() == false) {
 						continue;
 					}
 

@@ -35,7 +35,8 @@ public class Data {
 			XSSFSheet sheetSmallLayer = xssfWorkbook.getSheetAt(3); // 小层数据表
 
 			// 读钻井数据表
-			for (int sheetWellRowsNum = sheetWell.getFirstRowNum() + 2; sheetWellRowsNum <= sheetWell.getLastRowNum(); ++sheetWellRowsNum) {
+			for (int sheetWellRowsNum = sheetWell.getFirstRowNum() + 2; sheetWellRowsNum <= sheetWell
+					.getLastRowNum(); ++sheetWellRowsNum) {
 
 				XSSFRow wellInfo = sheetWell.getRow(sheetWellRowsNum);
 				XSSFCell wellName = wellInfo.getCell(0);
@@ -47,16 +48,25 @@ public class Data {
 				XSSFCell wellPosY = wellInfo.getCell(2);
 				double t_wellPosY = Double.valueOf(getValue(wellPosY));
 
-				// 获取油井编号和坐标
+				XSSFCell highBushing = wellInfo.getCell(3);
+				double t_highBushing = Double.valueOf(getValue(highBushing));
+
+				XSSFCell wellDepth = wellInfo.getCell(4);
+				double t_wellDepth = t_wellDepth = Double.valueOf(getValue(wellDepth));
+
+				// 获取油井编号,坐标,补心高和井深
 				DWell well = new DWell();
 				well.setName(t_wellName);
 				well.setX(t_wellPosX);
 				well.setY(t_wellPosY);
+				well.setHighBushing(t_highBushing);
+				well.setWellDepth(t_wellDepth);
 				wellList.add(well);
 			}
 
 			// 获取油井大层信息
-			for (int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2; sheetBigLayerNum <= sheetBigLayer.getLastRowNum(); ++sheetBigLayerNum) {
+			for (int sheetBigLayerNum = sheetBigLayer.getFirstRowNum() + 2; sheetBigLayerNum <= sheetBigLayer
+					.getLastRowNum(); ++sheetBigLayerNum) {
 				// 获得当前行
 				XSSFRow bigLayerInfo = sheetBigLayer.getRow(sheetBigLayerNum);
 
@@ -88,7 +98,8 @@ public class Data {
 			}
 
 			// 获取小层信息
-			for (int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2; sheetSmallLayerNum <= sheetSmallLayer.getLastRowNum(); ++sheetSmallLayerNum) {
+			for (int sheetSmallLayerNum = sheetSmallLayer.getFirstRowNum() + 2; sheetSmallLayerNum <= sheetSmallLayer
+					.getLastRowNum(); ++sheetSmallLayerNum) {
 				// 获得当前行
 				XSSFRow smallLayerInfo = sheetSmallLayer.getRow(sheetSmallLayerNum);
 				// 遍历油井链表
@@ -142,14 +153,18 @@ public class Data {
 
 			// for (int i = 0; i < wellList.size(); ++i) {
 			// DWell well = wellList.get(i);
-			// System.out.println("井号:" + well.getName() + "  X:" + well.getX() + "  Y:" + well.getY());
+			// System.out.println("井号:" + well.getName() + " X:" + well.getX() +
+			// " Y:" + well.getY());
 			// for (int j = 0; j < well.getBigLayers().size(); ++j) {
 			// DBigLayer bigLayer = well.getBigLayers().get(j);
-			// System.out.println("	层位:" + bigLayer.getName() + "  底深(MD):" + bigLayer.getDepth()[0]);
+			// System.out.println(" 层位:" + bigLayer.getName() + " 底深(MD):" +
+			// bigLayer.getDepth()[0]);
 			// for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 			// DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-			// System.out.println("			层位:" + smallLayer.getName() + " 砂岩顶深:" + smallLayer.getDepth()[0]
-			// + " 砂岩底深:"+smallLayer.getDepth()[1] + "  电解结果:"+smallLayer.getEleResult());
+			// System.out.println(" 层位:" + smallLayer.getName() + " 砂岩顶深:" +
+			// smallLayer.getDepth()[0]
+			// + " 砂岩底深:"+smallLayer.getDepth()[1] + "
+			// 电解结果:"+smallLayer.getEleResult());
 			// }
 			// System.out.println("");
 			// }
@@ -266,13 +281,17 @@ public class Data {
 			// continue;
 			// }
 			//
-			// for (Map.Entry<Double, DWellLogsAttribute> entry : tWell.getWellLogs().getmpWellLogs().entrySet()) {
+			// for (Map.Entry<Double, DWellLogsAttribute> entry :
+			// tWell.getWellLogs().getmpWellLogs().entrySet()) {
 			// DWellLogsAttribute tDWA = entry.getValue();
-			// System.out.println(tDWA.getDEPTH() + "   " + tDWA.getAC() + "   " + tDWA.getCAL1() + "   " +
-			// tDWA.getCAL2() + "   "
-			// + tDWA.getCOND() + "   " + tDWA.getRLML() + "   " + tDWA.getRNML() + "   " + tDWA.getR04() + "   " +
+			// System.out.println(tDWA.getDEPTH() + " " + tDWA.getAC() + " " +
+			// tDWA.getCAL1() + " " +
+			// tDWA.getCAL2() + " "
+			// + tDWA.getCOND() + " " + tDWA.getRLML() + " " + tDWA.getRNML() +
+			// " " + tDWA.getR04() + " " +
 			// tDWA.getR25()
-			// + "   " + tDWA.getR4() + "   " + tDWA.getSP1() + "   " + tDWA.getSP2());
+			// + " " + tDWA.getR4() + " " + tDWA.getSP1() + " " +
+			// tDWA.getSP2());
 			// }
 			// }
 

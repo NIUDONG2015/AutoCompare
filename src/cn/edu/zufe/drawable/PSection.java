@@ -96,6 +96,7 @@ public class PSection extends PRect {
 
 	public void connectNull(PGraphics pg, boolean leftOrRight) {
 		for (PSmallLayer psl : pSmallLayerList) {
+			
 			psl.connectNull(pg, leftOrRight);
 		}
 	}

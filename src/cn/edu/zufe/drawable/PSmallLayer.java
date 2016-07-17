@@ -101,7 +101,7 @@ public class PSmallLayer extends PRect {
 	 * @return
 	 */
 	public boolean compare(PSmallLayer psOther) {
-		if (!data.getMatchResName().equals("¼âÃð") && data.getMatchResName().equals(psOther.getData().getMatchResName())) {
+		if (data.getMatchResName()!=null && !data.getMatchResName().equals("¼âÃð") && data.getMatchResName().equals(psOther.getData().getMatchResName())) {
 			return true;
 		} else {
 			return false;

@@ -233,9 +233,12 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 					// 打开文件
 					wellList = Data.loadData(file.getAbsolutePath());
 
-					matchFactory = new MatchFactory(wellList.get(1), wellList);
-					matchFactory.doMatch(1);
+					matchFactory = new MatchFactory( wellList);
+					matchFactory.doMatch(0);
 					// DWell to PMapWell
+					matchFactory = new MatchFactory(wellList.get(1), wellList.get(1), true);
+					matchFactory.doMatch(2);
+					
 					LinkedList<PMapWell> pwList = Generator.wellToPMapWells(wellList);
 					// set and draw
 					pwv.setPWells(pwList);
