@@ -145,7 +145,14 @@ public class Match2 implements Cloneable {
 		for (int i = 0; i < lastSmallLayerList.size(); ++i) {
 			DSmallLayer smallLayer = (DSmallLayer) lastSmallLayerList.get(i).clone();
 			smallLayer.setTrue(false);
-			doWell.getBigLayers().getLast().getSmallLayers().add(smallLayer);
+			for(int j = 0;j<doWell.getBigLayers().size();++j){
+				DBigLayer bigLayer = doWell.getBigLayers().get(j);
+				for(int k =0; k<bigLayer.getSmallLayers().size(); ++k){
+					DSmallLayer dsLayer = bigLayer.getSmallLayers().get(k);
+					if(!(dsLayer.getMatchResName().equals(smallLayer.getName())) &&dsLayer.getName().equals(smallLayer.getName()))
+						bigLayer.getSmallLayers().add(smallLayer);
+				}
+			}
 		}
 		// out test
 		DWell well = doWell;
