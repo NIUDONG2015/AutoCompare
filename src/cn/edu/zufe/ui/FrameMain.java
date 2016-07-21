@@ -236,9 +236,11 @@ public class FrameMain extends JFrame implements ActionListener, ChangeListener,
 					matchFactory = new MatchFactory( wellList);
 					matchFactory.doMatch(0);
 					// DWell to PMapWell
-					matchFactory = new MatchFactory(wellList.get(1), wellList.get(1), true);
-					matchFactory.doMatch(2);
-					
+					//for(int i = 0;i<wellList.size();++i){
+						matchFactory = new MatchFactory(wellList.get(1), wellList.get(0), true);
+						matchFactory.doMatch(2);
+						matchFactory = new MatchFactory(wellList.get(0), wellList.get(2), true);
+						matchFactory.doMatch(2);
 					LinkedList<PMapWell> pwList = Generator.wellToPMapWells(wellList);
 					// set and draw
 					pwv.setPWells(pwList);
