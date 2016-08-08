@@ -160,19 +160,19 @@ public class Match2 implements Cloneable {
 			}
 		}
 		// out test
-		DWell well = doWell;
-		System.out.println("井号:" + well.getName());
-		for (int j = 0; j < well.getBigLayers().size(); ++j) {
-			DBigLayer bigLayer = well.getBigLayers().get(j);
-			System.out.println("	层位:" + bigLayer.getName());
-			for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-				DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-				System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:"
-						+ smallLayer.getMatchResName());
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+//		DWell well = doWell;
+//		System.out.println("井号:" + well.getName());
+//		for (int j = 0; j < well.getBigLayers().size(); ++j) {
+//			DBigLayer bigLayer = well.getBigLayers().get(j);
+//			System.out.println("	层位:" + bigLayer.getName());
+//			for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
+//				DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
+//				System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:"
+//						+ smallLayer.getMatchResName());
+//			}
+//			System.out.println("");
+//		}
+//		System.out.println("");
 	}
 
 	// 清除虚拟小层

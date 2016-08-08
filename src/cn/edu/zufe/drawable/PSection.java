@@ -10,6 +10,8 @@ public class PSection extends PRect {
 	public final static float OFFSET_Y = 800; // Y的相对偏移常量
 
 	public final static float PS_WIDTH = 200; // PSection的宽度
+	
+	public final static float PWL_WIDTH = 70; // PWellLogs的宽度
 
 	public static float wellWidth = 50; // 井的宽度
 
@@ -30,6 +32,8 @@ public class PSection extends PRect {
 	private LinkedList<PBigLayer> pBigLayerList; // 大层绘图类
 
 	private LinkedList<PSmallLayer> pSmallLayerList; // 小层绘图类
+	
+	private PWellLogs[] pWellLogs; 
 
 	public DWell getWell() {
 		return well;
@@ -51,6 +55,10 @@ public class PSection extends PRect {
 		this.pBigLayerList = pBigLayerList;
 	}
 
+	public void setPWellLogs(PWellLogs[] pWellLogs) {
+		this.pWellLogs = pWellLogs;
+	}
+
 	public PSection(DWell well, float px, float py, float pw, float ph) {
 		super(px, py, pw, ph);
 		this.well = well;
@@ -70,6 +78,9 @@ public class PSection extends PRect {
 		for (PSmallLayer ps : pSmallLayerList) {
 			ps.draw(pg);
 		}
+		// 画测井曲线
+		pWellLogs[0].draw(pg);
+		pWellLogs[1].draw(pg);
 	}
 
 	/**
