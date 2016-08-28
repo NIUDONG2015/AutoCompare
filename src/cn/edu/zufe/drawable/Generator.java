@@ -98,7 +98,7 @@ public class Generator {
 		float[] btmHs = new float[wellList.size()]; // Ngb到最下层的高度
 		for (int i = 0; i < wellList.size(); ++i) {
 			float ngbY = (float) wellList.get(i).getNgbDepth();
-			
+
 			topHs[i] = ngbY - (float) wellList.get(i).getDepth()[0];
 
 			btmHs[i] = (float) wellList.get(i).getDepth()[1] - ngbY;
@@ -135,6 +135,19 @@ public class Generator {
 			DWellLogsAttribute wlaMin = getMinLogsValue(well);
 			System.out.println(well.getName() + ":");
 			wlaPrintMaxAndMin(wlaMax, wlaMin);
+
+			PWellLogs[] pWellLogs = new PWellLogs[2];
+			pWellLogs[0] = new PWellLogs(well.getWellLogs(), pswX - PSection.PWL_WIDTH, pswY, PSection.PWL_WIDTH, pswH);
+			pWellLogs[0].setWell(well);
+			pWellLogs[0].setWlaMax(wlaMax);
+			pWellLogs[0].setWlaMin(wlaMin);
+
+			pWellLogs[1]= new PWellLogs(well.getWellLogs(), pswX + PSection.wellWidth, pswY, PSection.PWL_WIDTH, pswH);
+			pWellLogs[1].setWell(well);
+			pWellLogs[1].setWlaMax(wlaMax);
+			pWellLogs[1].setWlaMin(wlaMin);
+			pSection.setPWellLogs(pWellLogs);
+			// 左SP1 - 右R04
 
 			// 注入 PBigLayers
 			// LinkedList<PBigLayer> pBigLayerList = new

@@ -123,7 +123,7 @@ public class Sort {
 					listA.add(smallLayer);
 			}
 		}
-		LinkedList<PSmallLayer> pListA = Generator.smallLayerToPSmallLayer(pSectionA, listA);
+		/*LinkedList<PSmallLayer> pListA = Generator.smallLayerToPSmallLayer(pSectionA, listA);
 		
 		LinkedList<DSmallLayer> listB = new LinkedList<DSmallLayer>();
 		for (DBigLayer bigLayer : pSectionB.getWell().getBigLayers()) {
@@ -147,7 +147,7 @@ public class Sort {
 					break;
 				}
 			}
-		}
+		}*/
 		return gradientSum;
 	}
 
