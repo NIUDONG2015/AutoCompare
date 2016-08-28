@@ -302,7 +302,7 @@ public class Generator {
 
 		DWellLogsAttribute max = new DWellLogsAttribute();
 
-		max.setAC(-1000);
+		/*max.setAC(-1000);
 		max.setCAL1(-1000);
 		max.setCAL2(-1000);
 		max.setCOND(-1000);
@@ -312,7 +312,7 @@ public class Generator {
 		max.setRLML(-1000);
 		max.setRNML(-1000);
 		max.setSP1(-1000);
-		max.setSP2(-1000);
+		max.setSP2(-1000);*/
 
 		double top = (int) well.getDepth()[0] - 1;
 		double btm = (int) well.getDepth()[1] + 1;
@@ -321,7 +321,7 @@ public class Generator {
 			// 写这些还是要靠sublime3
 			DWellLogsAttribute wla = dwl.getLogsAttribute(i);
 			if (wla != null) {
-				max.setAC(Math.max(max.getAC(), wla.getAC()));
+				/*max.setAC(Math.max(max.getAC(), wla.getAC()));
 				max.setCAL1(Math.max(max.getCAL1(), wla.getCAL1()));
 				max.setCAL2(Math.max(max.getCAL2(), wla.getCAL2()));
 				max.setCOND(Math.max(max.getCOND(), wla.getCOND()));
@@ -331,7 +331,7 @@ public class Generator {
 				max.setRLML(Math.max(max.getRLML(), wla.getRLML()));
 				max.setRNML(Math.max(max.getRNML(), wla.getRNML()));
 				max.setSP1(Math.max(max.getSP1(), wla.getSP1()));
-				max.setSP2(Math.max(max.getSP2(), wla.getSP2()));
+				max.setSP2(Math.max(max.getSP2(), wla.getSP2()));*/
 			} else {
 				// System.out.println(i + ":null");
 			}
@@ -347,7 +347,7 @@ public class Generator {
 
 		DWellLogsAttribute min = new DWellLogsAttribute();
 
-		min.setAC(10000);
+	/*	min.setAC(10000);
 		min.setCAL1(10000);
 		min.setCAL2(10000);
 		min.setCOND(10000);
@@ -357,7 +357,7 @@ public class Generator {
 		min.setRLML(10000);
 		min.setRNML(10000);
 		min.setSP1(10000);
-		min.setSP2(10000);
+		min.setSP2(10000);*/
 
 		double top = (int) well.getDepth()[0] - 1;
 		double btm = (int) well.getDepth()[1] + 1;
@@ -366,7 +366,7 @@ public class Generator {
 			// 写这些还是要靠sublime3
 			DWellLogsAttribute wla = dwl.getLogsAttribute(i);
 			if (wla != null) {
-				min.setAC(Math.min(min.getAC(), wla.getAC()));
+			/*	min.setAC(Math.min(min.getAC(), wla.getAC()));
 				min.setCAL1(Math.min(min.getCAL1(), wla.getCAL1()));
 				min.setCAL2(Math.min(min.getCAL2(), wla.getCAL2()));
 				min.setCOND(Math.min(min.getCOND(), wla.getCOND()));
@@ -376,7 +376,7 @@ public class Generator {
 				min.setRLML(Math.min(min.getRLML(), wla.getRLML()));
 				min.setRNML(Math.min(min.getRNML(), wla.getRNML()));
 				min.setSP1(Math.min(min.getSP1(), wla.getSP1()));
-				min.setSP2(Math.min(min.getSP2(), wla.getSP2()));
+				min.setSP2(Math.min(min.getSP2(), wla.getSP2()));*/
 			} else {
 				// System.out.println(i + ":null");
 			}
@@ -391,7 +391,7 @@ public class Generator {
 			return;
 		}
 
-		System.out.println("max\t\tmin");
+		/*System.out.println("max\t\tmin");
 		System.out.println(max.getAC() + "\t\t" + min.getAC());
 		System.out.println(max.getCAL1() + "\t\t" + min.getCAL1());
 		System.out.println(max.getCAL2() + "\t\t" + min.getCAL2());
@@ -402,6 +402,6 @@ public class Generator {
 		System.out.println(max.getRLML() + "\t\t" + min.getRLML());
 		System.out.println(max.getRNML() + "\t\t" + min.getRNML());
 		System.out.println(max.getSP1() + "\t\t" + min.getSP1());
-		System.out.println(max.getSP2() + "\t\t" + min.getSP2());
+		System.out.println(max.getSP2() + "\t\t" + min.getSP2());*/
 	}
 }

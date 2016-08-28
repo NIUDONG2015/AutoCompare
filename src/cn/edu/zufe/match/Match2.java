@@ -89,12 +89,17 @@ public class Match2 implements Cloneable {
 			DBigLayer bigLayer = doWell.getBigLayers().get(j);
 			DBigLayer standardBigLayer = standardWell.getBigLayers().get(j);
 			int l = 0;
-			if (bigLayer.getDepth()[0] == 0) {
+			if (bigLayer.getDepth()[0] == 0.0) {
 				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 					DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
 					smallLayer.setMatchResName("尖灭");
 				}
 			} else {
+
+				// 补全带匹配井虚拟小层，添加到最后就好了
+				// 在井数据中添加一个Istrue字段 区分虚拟的与真实存在的
+				LinkedList<String> doWellMatchResName = new LinkedList<String>();
+				
 				for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 					DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
 					for (int m = l; m < standardBigLayer.getSmallLayers().size() - 1; ++m) {
@@ -108,45 +113,44 @@ public class Match2 implements Cloneable {
 							smallLayer.setMatchResName(standardBigLayer.getSmallLayers().get(m).getName());
 					}
 				}
-			}
-		}
-		// 补全带匹配井虚拟小层，添加到最后就好了
-		// 在井数据中添加一个Istrue字段 区分虚拟的与真实存在的
-		LinkedList<String> doWellMatchResName = new LinkedList<String>();
-		// 获得匹配层的所有匹配结果
-		for (DBigLayer bigLayer : doWell.getBigLayers()) {
-			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
-				if (smallLayer.getMatchResName() == null || smallLayer.getMatchResName().equals("")
-						|| smallLayer.getMatchResName().equals("尖灭")
-						|| doWellMatchResName.contains(smallLayer.getMatchResName())) {
-					continue;
+
+				// 获得匹配层的所有匹配结果
+				for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
+					if (smallLayer.getMatchResName() == null || smallLayer.getMatchResName().equals("")
+							|| smallLayer.getMatchResName().equals("尖灭")
+							|| doWellMatchResName.contains(smallLayer.getMatchResName())) {
+						continue;
+					}
+					doWellMatchResName.add(smallLayer.getMatchResName());
 				}
-				doWellMatchResName.add(smallLayer.getMatchResName());
-			}
-		}
+				
+				// 将标准井中未匹配到结果的小层加入到链表中
+				LinkedList<DSmallLayer> lastSmallLayerList = new LinkedList<DSmallLayer>();
+				
+				for (DSmallLayer smallLayer : standardBigLayer.getSmallLayers()) {
+					if (smallLayer.getName() == null || smallLayer.getName().equals("") || smallLayer.getName().equals("尖灭")
+							|| doWellMatchResName.contains(smallLayer.getName())) {
+						continue;
+					}
+					DSmallLayer tsmallLayer = (DSmallLayer) smallLayer.clone();
 
-		// 将标准井中未匹配到结果的小层加入到链表中
-		LinkedList<DSmallLayer> lastSmallLayerList = new LinkedList<DSmallLayer>();
-		for (DBigLayer bigLayer : standardWell.getBigLayers()) {
-			for (DSmallLayer smallLayer : bigLayer.getSmallLayers()) {
-				if (smallLayer.getName() == null || smallLayer.getName().equals("") || smallLayer.getName().equals("尖灭")
-						|| doWellMatchResName.contains(smallLayer.getName())) {
-					continue;
+					lastSmallLayerList.add(tsmallLayer);
+					// doWell.getBigLayers().getLast().getSmallLayers().add(tsmallLayer);
+					// lastSmallLayerList.add(tsmallLayer);
+
 				}
-				DSmallLayer tsmallLayer = (DSmallLayer) smallLayer.clone();
-
-				lastSmallLayerList.add(tsmallLayer);
-				// doWell.getBigLayers().getLast().getSmallLayers().add(tsmallLayer);
-				// lastSmallLayerList.add(tsmallLayer);
-
+				
+				// 把标准井中获得的虚拟小层加入到待匹配井最后的小层链表中
+				for (int i = 0; i < lastSmallLayerList.size(); ++i) {
+					DSmallLayer smallLayer = (DSmallLayer) lastSmallLayerList.get(i).clone();
+					smallLayer.setTrue(false);
+					bigLayer.getSmallLayers().add(smallLayer);
+				}
 			}
 		}
-		// 把标准井中获得的虚拟小层加入到待匹配井最后的小层链表中
-		for (int i = 0; i < lastSmallLayerList.size(); ++i) {
-			DSmallLayer smallLayer = (DSmallLayer) lastSmallLayerList.get(i).clone();
-			smallLayer.setTrue(false);
-			doWell.getBigLayers().getLast().getSmallLayers().add(smallLayer);
-		}
+
+
+	
 		// out test
 		DWell well = doWell;
 		System.out.println("井号:" + well.getName());
@@ -156,7 +160,7 @@ public class Match2 implements Cloneable {
 			for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
 				DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
 				System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:"
-						+ smallLayer.getMatchResName());
+						+ smallLayer.getMatchResName() + " IsTrue:"+smallLayer.getIsTrue());
 			}
 			System.out.println("");
 		}

@@ -20,7 +20,11 @@ import cn.edu.zufe.model.DWellLogs;
 import cn.edu.zufe.model.DWellLogsAttribute;
 
 public class Data {
-
+	//测井曲线的枚举类型
+	enum Menu{
+		DEPTH, AC, CAL, GR, COND, RLML, 
+		RNML,R04, R25 ,R4, SP , RFOC, RILD, RILM;
+	}
 	public static LinkedList<DWell> loadData(String urlFile) throws IOException {
 		if (urlFile == null || urlFile == "") {
 			return null;
@@ -183,11 +187,16 @@ public class Data {
 						BufferedReader bufferedReader = new BufferedReader(read);
 
 						String wellName = f.getName(); // 获得井号
+						
+						System.out.println();
+						System.out.println(wellName);
+						
 						int dotPos = wellName.indexOf('.');
 						wellName = wellName.substring(0, dotPos);
 
 						// System.out.println(wellName);
 						// DWell well = null; // 根据井号获得对应井
+						int itCnt = 0;	//#MNEM.UNIT
 						int id = 0;
 						for (int i = 0; i < wellList.size(); ++i) {
 							if (wellList.get(i).getName().equals(wellName))
@@ -195,76 +204,142 @@ public class Data {
 						}
 
 						DWellLogs wellLogs = new DWellLogs();
-
+						Menu menuArray[] = new Menu[99];
 						String lineTxt = null;
 						boolean flag = false;
 
+						int testRow = -1;
 						while ((lineTxt = bufferedReader.readLine()) != null) {
-
+							lineTxt.replaceAll(" +"," ");
 							if (flag == true) { // 遍历到数据部分
-
 								DWellLogsAttribute wellLogsAttribute = new DWellLogsAttribute();
 
 								String strNum[] = lineTxt.split(" ");
 								int cnt = 0;
+								
+								
 								for (int i = 0; i < strNum.length; ++i) {
 
 									if (strNum[i].equals("") == false) {
-										// System.out.println(i +
-										// ":"+strNum[i]);
+										
 										double num = 0;
 										try {
 											num = Double.valueOf(strNum[i]);
+											if(testRow < 10){
+												System.out.print(num+" ");
+												}
 										} catch (Exception e) {
+											continue;
 										}
-										switch (cnt) {
-										case 0:
-											wellLogsAttribute.setDEPTH(num);
+										
+										switch (menuArray[cnt]) {
+										case DEPTH:
+											wellLogsAttribute.getDEPTH().add(num);
 											break;
-										case 1:
-											wellLogsAttribute.setAC(num);
+										case AC:
+											wellLogsAttribute.getAC().add(num);
 											break;
-										case 2:
-											wellLogsAttribute.setCAL1(num);
+										case CAL:
+											wellLogsAttribute.getCAL().add(num);
 											break;
-										case 3:
-											wellLogsAttribute.setCAL2(num);
+										case GR:
+											wellLogsAttribute.getGR().add(num);
 											break;
-										case 4:
-											wellLogsAttribute.setCOND(num);
+										case COND:
+											wellLogsAttribute.getCOND().add(num);
 											break;
-										case 5:
-											wellLogsAttribute.setRLML(num);
+										case RLML:
+											wellLogsAttribute.getRLML().add(num);
 											break;
-										case 6:
-											wellLogsAttribute.setRNML(num);
+
+											//RNML,R04, R25 ,R4, SP , RFOC, RILD, RILM;
+										case RNML:
+											wellLogsAttribute.getRNML().add(num);
 											break;
-										case 7:
-											wellLogsAttribute.setR04(num);
+										case R04:
+											wellLogsAttribute.getR04().add(num);
 											break;
-										case 8:
-											wellLogsAttribute.setR25(num);
+										case R25:
+											wellLogsAttribute.getR25().add(num);
 											break;
-										case 9:
-											wellLogsAttribute.setR4(num);
+										case R4:
+											wellLogsAttribute.getR4().add(num);
 											break;
-										case 10:
-											wellLogsAttribute.setSP1(num);
+										case SP:
+											wellLogsAttribute.getSP().add(num);
 											break;
-										case 11:
-											wellLogsAttribute.setSP2(num);
+										case RFOC:
+											wellLogsAttribute.getRFOC().add(num);
 											break;
+										case RILD:
+											wellLogsAttribute.getRILD().add(num);
+										case RILM:
+											wellLogsAttribute.getRILM().add(num);
 										default:
 											break;
 										}
 										++cnt;
 									}
 								}
+								testRow++;
+								if(testRow <= 10)
+								System.out.println();
 								wellLogs.getmpWellLogs().put(wellLogsAttribute.getDEPTH(), wellLogsAttribute);
 							}
 
 							if (lineTxt.contains("~A")) {
 								flag = true;
+								String strName[] = lineTxt.split(" ");
+								//记录文件中测井曲线的类型
+								for (int i = 0; i < strName.length; ++i) {
+									if (strName[i].equals("DEPTH") == true) {
+										menuArray[itCnt++] = Menu.DEPTH;
+									}
+									else if(strName[i].equals("AC") == true){
+										menuArray[itCnt++] = Menu.AC;
+									}
+									else if(strName[i].equals("CAL") == true){
+										menuArray[itCnt++] = Menu.CAL;
+									}
+									else if(strName[i].equals("GR") == true){
+										menuArray[itCnt++] = Menu.GR;
+									}
+									else if(strName[i].equals("COND") == true){
+										menuArray[itCnt++] = Menu.COND;
+									}
+									else if(strName[i].equals("RLML") == true){
+										menuArray[itCnt++] = Menu.RLML;
+									}
+									else if(strName[i].equals("RNML") == true){
+										menuArray[itCnt++] = Menu.RNML;
+									}
+									else if(strName[i].equals("R04") == true){
+										menuArray[itCnt++] = Menu.R04;
+									}
+									else if(strName[i].equals("R25") == true){
+										menuArray[itCnt++] = Menu.R25;
+									}
+									else if(strName[i].equals("R4") == true){
+										menuArray[itCnt++] = Menu.R4;
+									}
+									else if(strName[i].equals("SP") == true){
+										menuArray[itCnt++] = Menu.SP;
+									}
+									else if(strName[i].equals("RFOC") == true){
+										menuArray[itCnt++] = Menu.RFOC;
+									}
+									else if(strName[i].equals("RILD") == true){
+										menuArray[itCnt++] = Menu.RILD;
+									}
+									else if(strName[i].equals("RILM") == true){
+										menuArray[itCnt++] = Menu.RILM;
+									}
+								}
+								
+								for(int i=0; i<itCnt; ++i){
+									System.out.print(menuArray[i]+" ");
+								}
+								System.out.println();
 							}
 
 						}

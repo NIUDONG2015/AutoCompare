@@ -1,17 +1,18 @@
 package cn.edu.zufe.model;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class DWellLogs {
 
-	private Map<Double, DWellLogsAttribute> mpWellLogs = new LinkedHashMap<Double, DWellLogsAttribute>();
+	private Map<LinkedList<Double>, DWellLogsAttribute> mpWellLogs = new LinkedHashMap<LinkedList<Double>, DWellLogsAttribute>();
 
-	public Map<Double, DWellLogsAttribute> getmpWellLogs() {
+	public Map<LinkedList<Double>, DWellLogsAttribute> getmpWellLogs() {
 		return mpWellLogs;
 	}
 
-	public void setmpWellLogs(Map<Double, DWellLogsAttribute> wellLogs) {
+	public void setmpWellLogs(Map<LinkedList<Double>, DWellLogsAttribute> wellLogs) {
 		this.mpWellLogs = wellLogs;
 	}
 

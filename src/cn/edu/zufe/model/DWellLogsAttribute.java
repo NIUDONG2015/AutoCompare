@@ -1,5 +1,7 @@
 package cn.edu.zufe.model;
 
+import java.util.LinkedList;
+
 /*#
  ~Curve Information Block
  #MNEM.UNIT       API CODE      Curve Description
@@ -17,112 +19,103 @@ package cn.edu.zufe.model;
  SP  .ºÁ·ü                      :   SP
  SP  .ºÁ·ü                      :   SP*/
 public class DWellLogsAttribute {
-	private double DEPTH;
-	private double AC;
-	private double CAL1;
-	private double CAL2;
-	private double COND;
-	private double RLML;
-	private double RNML;
-	private double R04;
-	private double R25;
-	private double R4;
-	private double SP1;
-	private double SP2;
-
-	public double getDEPTH() {
+	private LinkedList<Double> DEPTH = new LinkedList<Double>();
+	private LinkedList<Double> AC = new LinkedList<Double>();
+	private LinkedList<Double> CAL = new LinkedList<Double>();
+	private LinkedList<Double> GR = new LinkedList<Double>();
+	private LinkedList<Double> COND = new LinkedList<Double>();
+	private LinkedList<Double> RLML = new LinkedList<Double>();
+	private LinkedList<Double> RNML = new LinkedList<Double>();
+	private LinkedList<Double> R04 = new LinkedList<Double>();
+	private LinkedList<Double> R25 = new LinkedList<Double>();
+	private LinkedList<Double> R4 = new LinkedList<Double>();
+	private LinkedList<Double> SP = new LinkedList<Double>();
+	private LinkedList<Double> RFOC = new LinkedList<Double>();
+	private LinkedList<Double> RILD = new LinkedList<Double>();
+	private LinkedList<Double> RILM = new LinkedList<Double>();
+	public LinkedList<Double> getDEPTH() {
 		return DEPTH;
 	}
-
-	public void setDEPTH(double dEPTH) {
+	public void setDEPTH(LinkedList<Double> dEPTH) {
 		DEPTH = dEPTH;
 	}
-
-	public double getAC() {
+	public LinkedList<Double> getAC() {
 		return AC;
 	}
-
-	public void setAC(double aC) {
+	public void setAC(LinkedList<Double> aC) {
 		AC = aC;
 	}
-
-	public double getCAL1() {
-		return CAL1;
+	public LinkedList<Double> getCAL() {
+		return CAL;
 	}
-
-	public void setCAL1(double cAL1) {
-		CAL1 = cAL1;
+	public void setCAL(LinkedList<Double> cAL) {
+		CAL = cAL;
 	}
-
-	public double getCAL2() {
-		return CAL2;
+	public LinkedList<Double> getGR() {
+		return GR;
 	}
-
-	public void setCAL2(double cAL2) {
-		CAL2 = cAL2;
+	public void setGR(LinkedList<Double> gR) {
+		GR = gR;
 	}
-
-	public double getCOND() {
+	public LinkedList<Double> getCOND() {
 		return COND;
 	}
-
-	public void setCOND(double cOND) {
+	public void setCOND(LinkedList<Double> cOND) {
 		COND = cOND;
 	}
-
-	public double getRLML() {
+	public LinkedList<Double> getRLML() {
 		return RLML;
 	}
-
-	public void setRLML(double rLML) {
+	public void setRLML(LinkedList<Double> rLML) {
 		RLML = rLML;
 	}
-
-	public double getRNML() {
+	public LinkedList<Double> getRNML() {
 		return RNML;
 	}
-
-	public void setRNML(double rNML) {
+	public void setRNML(LinkedList<Double> rNML) {
 		RNML = rNML;
 	}
-
-	public double getR04() {
+	public LinkedList<Double> getR04() {
 		return R04;
 	}
-
-	public void setR04(double r04) {
+	public void setR04(LinkedList<Double> r04) {
 		R04 = r04;
 	}
-
-	public double getR25() {
+	public LinkedList<Double> getR25() {
 		return R25;
 	}
-
-	public void setR25(double r25) {
+	public void setR25(LinkedList<Double> r25) {
 		R25 = r25;
 	}
-
-	public double getR4() {
+	public LinkedList<Double> getR4() {
 		return R4;
 	}
-
-	public void setR4(double r4) {
+	public void setR4(LinkedList<Double> r4) {
 		R4 = r4;
 	}
-
-	public double getSP1() {
-		return SP1;
+	public LinkedList<Double> getSP() {
+		return SP;
 	}
-
-	public void setSP1(double sP1) {
-		SP1 = sP1;
+	public void setSP(LinkedList<Double> sP) {
+		SP = sP;
 	}
-
-	public double getSP2() {
-		return SP2;
+	public LinkedList<Double> getRFOC() {
+		return RFOC;
 	}
-
-	public void setSP2(double sP2) {
-		SP2 = sP2;
+	public void setRFOC(LinkedList<Double> rFOC) {
+		RFOC = rFOC;
 	}
+	public LinkedList<Double> getRILD() {
+		return RILD;
+	}
+	public void setRILD(LinkedList<Double> rILD) {
+		RILD = rILD;
+	}
+	public LinkedList<Double> getRILM() {
+		return RILM;
+	}
+	public void setRILM(LinkedList<Double> rILM) {
+		RILM = rILM;
+	}
+	
 }
