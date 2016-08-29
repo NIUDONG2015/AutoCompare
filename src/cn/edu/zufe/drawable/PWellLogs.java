@@ -40,7 +40,9 @@ public class PWellLogs extends PRect {
 		for (double i = top; i < btm; i += 0.125) {
 			wla1 = data.getLogsAttribute(i);
 			wla2 = data.getLogsAttribute(i + 1);
-			pg.line(px + (float) wla1.getSP1(), Generator.toPixelY(ngbY, (float) i), px + (float) wla2.getSP1(), Generator.toPixelY(ngbY, (float) (i + 0.125)));
+			//pg.line(px + (float) wla1.getSP1(), Generator.toPixelY(ngbY, (float) i), px + (float) wla2.getSP1(), Generator.toPixelY(ngbY, (float) (i + 0.125)));
+			pg.line((float) (px + wla1.getSP().getFirst()), Generator.toPixelY(ngbY, (float) i), (float) (px +  wla2.getSP().get(0)), Generator.toPixelY(ngbY, (float) (i + 0.125)));
+			
 		}
 	}
 
