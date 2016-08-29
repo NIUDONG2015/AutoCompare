@@ -19,7 +19,7 @@ import java.util.LinkedList;
  SP  .ºÁ·ü                      :   SP
  SP  .ºÁ·ü                      :   SP*/
 public class DWellLogsAttribute {
-	private LinkedList<Double> DEPTH = new LinkedList<Double>();
+	private double DEPTH;
 	private LinkedList<Double> AC = new LinkedList<Double>();
 	private LinkedList<Double> CAL = new LinkedList<Double>();
 	private LinkedList<Double> GR = new LinkedList<Double>();
@@ -33,10 +33,10 @@ public class DWellLogsAttribute {
 	private LinkedList<Double> RFOC = new LinkedList<Double>();
 	private LinkedList<Double> RILD = new LinkedList<Double>();
 	private LinkedList<Double> RILM = new LinkedList<Double>();
-	public LinkedList<Double> getDEPTH() {
+	public double getDEPTH() {
 		return DEPTH;
 	}
-	public void setDEPTH(LinkedList<Double> dEPTH) {
+	public void setDEPTH(double dEPTH) {
 		DEPTH = dEPTH;
 	}
 	public LinkedList<Double> getAC() {

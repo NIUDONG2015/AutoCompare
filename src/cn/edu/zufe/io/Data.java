@@ -233,7 +233,7 @@ public class Data {
 										
 										switch (menuArray[cnt]) {
 										case DEPTH:
-											wellLogsAttribute.getDEPTH().add(num);
+											wellLogsAttribute.setDEPTH(num);;
 											break;
 										case AC:
 											wellLogsAttribute.getAC().add(num);

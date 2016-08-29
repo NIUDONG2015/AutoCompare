@@ -148,40 +148,7 @@ public class Match2 implements Cloneable {
 				}
 			}
 		}
-<<<<<<< HEAD
 
-
-	
-		// out test
-		DWell well = doWell;
-		System.out.println("井号:" + well.getName());
-		for (int j = 0; j < well.getBigLayers().size(); ++j) {
-			DBigLayer bigLayer = well.getBigLayers().get(j);
-			System.out.println("	层位:" + bigLayer.getName());
-			for (int k = 0; k < bigLayer.getSmallLayers().size(); ++k) {
-				DSmallLayer smallLayer = bigLayer.getSmallLayers().get(k);
-				System.out.println("			层位:" + smallLayer.getName() + "  归一化:" + smallLayer.getNor() + "  匹配结果:"
-						+ smallLayer.getMatchResName() + " IsTrue:"+smallLayer.getIsTrue());
-=======
-		// 把标准井中获得的虚拟小层加入到待匹配井最后的小层链表中
-		for (int i = 0; i < lastSmallLayerList.size(); ++i) {
-			DSmallLayer smallLayer = (DSmallLayer) lastSmallLayerList.get(i).clone();
-			smallLayer.setTrue(false);
-			for(int j = 0;j<doWell.getBigLayers().size();++j){
-				DBigLayer bigLayer = doWell.getBigLayers().get(j);
-				for(int k =0; k<bigLayer.getSmallLayers().size(); k++){
-					DSmallLayer dsLayer = bigLayer.getSmallLayers().get(k);
-					if(dsLayer.getName().equals(smallLayer.getName())&&!(dsLayer.getMatchResName().equals(smallLayer.getName())))
-					{
-						bigLayer.getSmallLayers().add(k, smallLayer);
-						k++;
-						//bigLayer.getSmallLayers().add(smallLayer);
-					}
-					
-				}
->>>>>>> e16482f2287b6fcc516a18479946e59587ec7942
-			}
-		}
 		// out test
 //		DWell well = doWell;
 //		System.out.println("井号:" + well.getName());
